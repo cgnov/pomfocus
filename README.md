@@ -56,6 +56,7 @@ Pomodoro Focus combines the pomodoro method and gamification to make productivit
     * When sending reminder for beginning of day, say something like "Start out your day by ____" (ex: "Start out your day by clearing your floor of food and clothing")
     * Allow user to put tasks into categories and only be reminded of those categories on certain days/times (weekdays could be Work, weekends could be Leisure)
 * Allow user to enable calming focus music during 25-minute timer
+* Focus mode (break timer when close app, send warning notification)
 
 
 ### 2. Screen Archetypes
