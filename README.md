@@ -49,7 +49,7 @@ Pomodoro Focus combines the pomodoro method and gamification to make productivit
         * Restarted streak achievement (discourage missing two days in a row)
         * 30 days since first pomodoro (push notif reminder to attract users who still have app downloaded but haven't been using recently)
     * Leaderboard achievements
-        * Get to top 5 in last 24 hours, etc
+        * Get to top 5, etc
 * Break recommendations (drink some water, walk around a bit)
 * Task-based reminders
     * Allow user to put in tasks that are attainable in half an hour (ask what they want to work on, then what they can get done in less than half an hour)
@@ -79,7 +79,7 @@ Pomodoro Focus combines the pomodoro method and gamification to make productivit
 **Tab Navigation** (Tab to Screen)
 
 * Timer - Home Page
-* Weekly Leaderboard
+* Leaderboard
     * All
     * Friends
 * Profile
@@ -95,6 +95,7 @@ Pomodoro Focus combines the pomodoro method and gamification to make productivit
 * Profile
     * => Friends list (stream) (optional)
         * =>Profile of users
+    * => History (stream) (optional)
 
 ## Wireframe
 <img src="PomFocus Wireframe.jpg" width=600>
@@ -104,10 +105,87 @@ Pomodoro Focus combines the pomodoro method and gamification to make productivit
 ### [BONUS] Interactive Prototype
 
 ## Schema 
-[This section will be completed in Unit 9]
+
 ### Models
-[Add table of models]
+#### Focus Time
+| Name       | Type            | Description                                                                     |
+| ---------- | --------------- | ------------------------------------------------------------------------------- |
+| objectId   | String          | required, unique id for focus session (default field)                           |
+| creator    | Pointer to User | required, user that completed said focus session                                |
+| createdAt  | DateTime        | required, date and time of when user completed session (default field)          |
+| length     | Number          | length of focus session in minutes (useful for implementing non-25-min options) |
+| category   | String          | User-selected category describing session                                       |
+
+#### User
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| objectId | String | required, unique id for focus session (default field) |
+| username | String | required, user's handle (unique to user) (default field) |
+| firstName | String | required, user's first name |
+| password | String | required, self explanatory (default field) |
+| avatar | File | image avatar for user |
+| streak | Number | length of current streak |
+| lastFocus | DateTime | date and time of user's last session (used to calc streak) |
+| friends | Relation | users that this user is friends with |
+| friendRequests | Relation | users that have requested to be friends with this user and have not yet been accepted |
+| totalFocus | Number | time in minutes spent focusing in total |
+| categories | Relation | categories that this user has created |
+
+#### Category (optional)
+| Name | Type | Description |
+| ---- | ---- | ---- |
+| objectId | String | required, unique id for category (default field) |
+| creator | Pointer to User | required, user that created this category |
+| name | String | required, name describing category |
+| totalFocus | Number | time in minutes spent focusing in this category |
+| focuses | Relation | focus sessions related to this category |
+| streak | Number | length of current streak in this category |
+| lastFocus | DateTime | date and time of user's last focus session in this category |
+
 ### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+* Timer screen
+   * (Create/POST) Create new Focus object (will likely happen in background of app)
+* Leaderboard
+   * (Read/GET) Query top focusers
+   ```
+   final ParseQuery<User> query = ParseQuery.getQuery(User.class);
+   query.addDescendingOrder(User.KEY_FOCUS);
+   query.setLimit(10);
+   query.findInBackground(new FindCallback<Post>() {
+      @Override
+      public void done(List<User> users, ParseException e) {
+          if (e != null) {
+              Log.e(TAG, "Issue with getting top focusers", e);
+          } else {
+              // Users have been successfully queried
+              adapter.addAll(users);
+          }
+      }
+   });
+   ```
+   * (Read/GET) Query focus summary info where current user is creator if current user isn't top focuser
+* Personal profile screen
+   * (Read/GET) Query logged in user object (show handle, name, streak, achievements, friends, etc.)
+   * (Update/PUT) Update user profile image
+   * (Update/PUT) Accept pending friend requests, create friendship
+   * (Read/GET) Query users matching user-inputted handle string, send to profile screen
+   * (Read/GET) Query focus information where current user is creator by category (would need Category model)
+   ```
+   final ParseQuery<Category> query = ParseQuery.getQuery(Category.class);
+      query.equalTo(Category.KEY_USER, ParseUser.getCurrentUser());
+      query.findInBackground(new FindCallback<Focus>() {
+         @Override
+         public void done(List<Category> categories, ParseException e) {
+             if (e != null) {
+                 Log.e(TAG, "Issue with getting user's categories", e);
+             } else {
+                 // Categories have been successfully queried
+                 adapter.addAll(categories);
+             }
+         }
+      });
+   ```
+* Other profile screen
+   * (Read/GET) Query relevant user object
+   * (Read/GET) Query focus summary info (number of focuses) where this user is creator
+   * (Update/PUT) Send friend request
