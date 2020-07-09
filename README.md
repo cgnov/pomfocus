@@ -97,8 +97,7 @@ Pomodoro Focus combines the pomodoro method and gamification to make productivit
         * =>Profile of users
 
 ## Wireframe
-TBA
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+<img src="PomFocus Wireframe.jpg" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
