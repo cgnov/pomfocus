@@ -55,4 +55,52 @@
         android:onClick="logOutUser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivStreak"
+        android:layout_width="50dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/streak_icon"
+        android:src="@drawable/streak_24"
+        app:layout_constraintStart_toStartOf="@+id/ivAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+
+    <TextView
+        android:id="@+id/tvStreak"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ivStreak"
+        app:layout_constraintStart_toEndOf="@+id/ivStreak"
+        app:layout_constraintTop_toTopOf="@+id/ivStreak"
+        tools:text="7" />
+
+    <ImageView
+        android:id="@+id/ivTotal"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/total_time_icon"
+        android:src="@drawable/total_time_24"
+        app:layout_constraintBottom_toBottomOf="@+id/ivStreak"
+        app:layout_constraintStart_toEndOf="@+id/tvStreak"
+        app:layout_constraintTop_toTopOf="@+id/ivStreak" />
+
+    <TextView
+        android:id="@+id/tvTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ivStreak"
+        app:layout_constraintStart_toEndOf="@+id/ivTotal"
+        app:layout_constraintTop_toTopOf="@+id/ivStreak"
+        tools:text="15" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

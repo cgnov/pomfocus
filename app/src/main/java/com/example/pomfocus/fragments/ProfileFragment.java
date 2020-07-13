@@ -45,11 +45,16 @@ public class ProfileFragment extends Fragment {
 
         mBind.tvFirstName.setText(mUser.getString(FocusUser.KEY_NAME));
         mBind.tvHandle.setText(String.format("@%s", mUser.getUsername()));
+
+        // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = mUser.getParseFile(FocusUser.KEY_AVATAR);
         if (avatar != null) {
             Glide.with(view).load(avatar.getUrl()).into(mBind.ivAvatar);
         } else {
             mBind.ivAvatar.setImageResource(R.drawable.profile_24);
         }
+
+        mBind.tvStreak.setText(String.valueOf(mUser.getInt(FocusUser.KEY_STREAK)));
+        mBind.tvTotal.setText(String.valueOf(mUser.getLong(FocusUser.KEY_TOTAL)));
     }
 }
