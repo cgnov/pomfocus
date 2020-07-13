@@ -17,9 +17,24 @@
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/etPassword"
+        app:layout_constraintBottom_toTopOf="@+id/etName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:hint="@string/name"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/etPassword"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -28,10 +43,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:autofillHints="@string/password"
         android:ems="10"
         android:hint="@string/password"
         android:importantForAutofill="no"
-        android:autofillHints="@string/password"
         android:inputType="textPersonName|textPassword"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/tvMiddle"
@@ -91,4 +106,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

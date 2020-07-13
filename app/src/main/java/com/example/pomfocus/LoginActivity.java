@@ -70,10 +70,12 @@ public class LoginActivity extends AppCompatActivity {
         if(mBinding.btnLogin.getVisibility()==View.VISIBLE) {
             // User wants to create new account. Display relevant buttons and hide login
             showCredentials(true);
+            mBinding.etName.setVisibility(View.VISIBLE);
             mBinding.btnLogin.setVisibility(View.GONE);
         } else {
             // Get info for new account
             final String username = mBinding.etUsername.getText().toString();
+            final String name = mBinding.etName.getText().toString();
             final String password = mBinding.etPassword.getText().toString();
 
             if(username.isEmpty() || password.isEmpty()) {
@@ -85,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
             ParseUser user = new ParseUser();
             user.setUsername(username);
             user.setPassword(password);
+            user.put(FocusUser.KEY_NAME, name);
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
                     if (e != null) {
@@ -101,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
     // Hide username/password and show login/signup buttons
     public void cancelLoginSignup(View view) {
         showCredentials(false);
+        mBinding.etName.setVisibility(View.GONE);
         mBinding.btnLogin.setVisibility(View.VISIBLE);
         mBinding.btnSignup.setVisibility(View.VISIBLE);
     }
