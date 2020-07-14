@@ -20,11 +20,16 @@ import com.parse.ParseUser;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
+    public Intent i;
+    public TimerFragment timerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        i = new Intent(this, FocusService.class);
+        timerFragment = new TimerFragment(i);
 
         BottomNavigationView bNavigation = findViewById(R.id.bNavigation);
         setUpNavigationSelectedListeners(bNavigation);
@@ -40,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (item.getItemId()) {
                     case R.id.action_timer:
-                        fragment = new TimerFragment();
+                        fragment = timerFragment;
                         break;
                     case R.id.action_leaderboard:
                         fragment = new LeaderboardFragment();
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOutUser(View view) {
         ParseUser.logOut();
+        stopService(i);
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         finish();
