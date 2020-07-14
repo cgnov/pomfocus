@@ -60,11 +60,11 @@
         android:id="@+id/ivStreak"
         android:layout_width="50dp"
         android:layout_height="75dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/streak_icon"
         android:src="@drawable/streak_24"
         app:layout_constraintStart_toStartOf="@+id/ivAvatar"
-        app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+        app:layout_constraintTop_toBottomOf="@+id/btnTakePicture" />
 
     <TextView
         android:id="@+id/tvStreak"
@@ -102,5 +102,14 @@
         app:layout_constraintStart_toEndOf="@+id/ivTotal"
         app:layout_constraintTop_toTopOf="@+id/ivStreak"
         tools:text="15" />
+
+    <Button
+        android:id="@+id/btnTakePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/take_picture"
+        app:layout_constraintEnd_toEndOf="@+id/ivAvatar"
+        app:layout_constraintStart_toStartOf="@+id/ivAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
