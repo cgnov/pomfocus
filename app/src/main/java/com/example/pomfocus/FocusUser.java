@@ -11,6 +11,7 @@ public class FocusUser extends ParseUser {
     public static final String KEY_NAME = "firstName";
     public static final String KEY_AVATAR = "avatar";
     public static final String KEY_TOTAL = "totalTime";
+    public static final String KEY_RANK = "rank";
 
     public String getFirstName() { return getString(KEY_NAME); }
 

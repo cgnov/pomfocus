@@ -35,6 +35,7 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ParseUser focuser = mFocusers.get(position);
+        focuser.put(FocusUser.KEY_RANK, position);
         holder.bind(focuser);
     }
 
@@ -66,7 +67,7 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
         public void bind(final ParseUser focuser) {
             mBind.tvUsername.setText(focuser.getUsername());
             mBind.tvTotal.setText(String.valueOf(focuser.getLong(FocusUser.KEY_TOTAL)));
-            // TODO: Display rank
+            mBind.tvRank.setText(String.valueOf(focuser.getInt(FocusUser.KEY_RANK)+1));
 
             // TODO: Set onclick listener on username to display relevant profile fragment
         }
