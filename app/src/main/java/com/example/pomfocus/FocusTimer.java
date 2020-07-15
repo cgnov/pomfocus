@@ -2,6 +2,7 @@ package com.example.pomfocus;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -67,11 +68,15 @@ public class FocusTimer extends CountDownTimer {
 
         String nextUp = (TimerFragment.breakIsNext) ? "take a break" : "get to work";
 
+        Intent i = new Intent(mContext, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, i, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(String.format("Time to %s!", nextUp))
                 .setContentText("Keep it going by tapping here")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
         notificationManager.notify(NOTIFICATION_ID, builder.build());
