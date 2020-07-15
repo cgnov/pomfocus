@@ -24,7 +24,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <service android:name=".FocusService" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.codepath.fileprovider.pomfocus"

@@ -28,8 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        i = new Intent(this, FocusService.class);
-        timerFragment = new TimerFragment(i);
+        timerFragment = new TimerFragment();
 
         BottomNavigationView bNavigation = findViewById(R.id.bNavigation);
         setUpNavigationSelectedListeners(bNavigation);
