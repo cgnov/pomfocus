@@ -65,14 +65,12 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
         }
 
         public void bind(final ParseUser focuser) {
-            mBind.tvUsername.setText(focuser.getUsername());
+            mBind.tvName.setText(focuser.getString(FocusUser.KEY_NAME));
             mBind.tvTotal.setText(String.valueOf(focuser.getLong(FocusUser.KEY_TOTAL)));
             mBind.tvRank.setText(String.valueOf(focuser.getInt(FocusUser.KEY_RANK)+1));
             if(focuser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
                 itemView.setBackgroundColor(itemView.getResources().getColor(R.color.colorAccent));
             }
-
-            // TODO: Set onclick listener on username to display relevant profile fragment
         }
 
     }

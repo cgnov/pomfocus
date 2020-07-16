@@ -59,7 +59,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mView = view;
 
-        mBind.tvFirstName.setText(mUser.getString(FocusUser.KEY_NAME));
+        mBind.tvName.setText(mUser.getString(FocusUser.KEY_NAME));
         mBind.tvHandle.setText(String.format("@%s", mUser.getUsername()));
         mBind.tvStreak.setText(String.valueOf(mUser.getInt(FocusUser.KEY_STREAK)));
         mBind.tvTotal.setText(String.valueOf(mUser.getLong(FocusUser.KEY_TOTAL)));

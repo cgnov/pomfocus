@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.pomfocus.databinding.ActivityLoginBinding;
-import com.facebook.CallbackManager;
+import com.facebook.Profile;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -22,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
     private ActivityLoginBinding mBinding;
-    private CallbackManager mCallbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "Uh oh. The user cancelled the Facebook login.");
                         } else if (user.isNew()) {
                             Log.d(TAG, "User signed up and logged in through Facebook!");
+                            setName();
+                            // TODO (stretch): create set handle page for searchability
                             goMainActivity();
                         } else {
                             Log.d(TAG, "User logged in through Facebook!");
@@ -56,6 +57,13 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    public void setName() {
+        ParseUser user = ParseUser.getCurrentUser();
+        String name = String.format("%s %s.", Profile.getCurrentProfile().getFirstName(), Profile.getCurrentProfile().getLastName().substring(0,1));
+        user.put(FocusUser.KEY_NAME, name);
+        user.saveInBackground();
     }
 
     public void logInUser(View view) {

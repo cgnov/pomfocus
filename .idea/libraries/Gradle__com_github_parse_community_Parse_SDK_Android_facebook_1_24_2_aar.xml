@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.parse-community.Parse-SDK-Android:facebook:1.24.2@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/07eacaeb483e63a7cf555e8607b67e4d/jetified-facebook-1.24.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/07eacaeb483e63a7cf555e8607b67e4d/jetified-facebook-1.24.2/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.parse-community.Parse-SDK-Android/facebook/1.24.2/38e39e7dc9156bbc6e35770a55416d34b6276c1f/facebook-1.24.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.parse-community.Parse-SDK-Android/facebook/1.24.2/b80797a2a73b8995b6f6ad4719f43a5d28efe21f/facebook-1.24.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

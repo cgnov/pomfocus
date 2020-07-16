@@ -19,13 +19,13 @@
         tools:text="3" />
 
     <TextView
-        android:id="@+id/tvUsername"
+        android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toEndOf="@+id/tvRank"
         app:layout_constraintTop_toTopOf="@+id/tvRank"
-        tools:text="Testing @testing" />
+        tools:text="Jane" />
 
     <TextView
         android:id="@+id/tvTotal"
@@ -35,4 +35,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvRank"
         tools:text="23hr" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
