@@ -55,12 +55,14 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mView = view;
 
         mBind.tvFirstName.setText(mUser.getString(FocusUser.KEY_NAME));
         mBind.tvHandle.setText(String.format("@%s", mUser.getUsername()));
+        mBind.tvStreak.setText(String.valueOf(mUser.getInt(FocusUser.KEY_STREAK)));
+        mBind.tvTotal.setText(String.valueOf(mUser.getLong(FocusUser.KEY_TOTAL)));
 
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = mUser.getParseFile(FocusUser.KEY_AVATAR);
@@ -70,18 +72,16 @@ public class ProfileFragment extends Fragment {
             mBind.ivAvatar.setImageResource(R.drawable.profile_24);
         }
 
+        // Set up click listener for taking picture
         mBind.btnTakePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 launchCamera();
             }
         });
-
-        mBind.tvStreak.setText(String.valueOf(mUser.getInt(FocusUser.KEY_STREAK)));
-        mBind.tvTotal.setText(String.valueOf(mUser.getLong(FocusUser.KEY_TOTAL)));
     }
 
-    private void launchCamera() {
+    public void launchCamera() {
         // Create a File reference for future access
         String mPhotoFileName = "photo.jpg";
         mPhotoFile = getPhotoFileUri(mPhotoFileName);

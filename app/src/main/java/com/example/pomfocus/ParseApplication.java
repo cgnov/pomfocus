@@ -4,9 +4,7 @@ import android.app.Application;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
+import com.parse.facebook.ParseFacebookUtils;
 
 public class ParseApplication extends Application {
     @Override
@@ -23,5 +21,7 @@ public class ParseApplication extends Application {
                 .applicationId("pomodoro-focus") // APP_ID env variable
                 .clientKey("pomodoroFocusMasterKey")  // set explicitly unless clientKey is explicitly configured on Parse server
                 .server("https://pomodoro-focus.herokuapp.com/parse/").build());
+
+        ParseFacebookUtils.initialize(this);
     }
 }

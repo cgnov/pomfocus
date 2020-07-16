@@ -1,5 +1,6 @@
 package com.example.pomfocus;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,15 +10,19 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.pomfocus.databinding.ActivityLoginBinding;
+import com.facebook.CallbackManager;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import com.parse.facebook.ParseFacebookUtils;
+
 
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
     private ActivityLoginBinding mBinding;
+    private CallbackManager mCallbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,29 @@ public class LoginActivity extends AppCompatActivity {
         if (ParseUser.getCurrentUser() != null) {
             goMainActivity();
         }
+
+        // Set up Facebook login button and callback
+        // Learning experience: if have extra required column in ParseUser, won't be able to effectively auto-generate ParseUser
+        // Autogenerates a username - will have to do it all name-based
+        mBinding.btnFBLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, null, new LogInCallback() {
+                    @Override
+                    public void done(ParseUser user, ParseException err) {
+                        if (user == null) { // Always null for some reason, not creating ParseUser correctly
+                            Log.d(TAG, "Uh oh. The user cancelled the Facebook login.");
+                        } else if (user.isNew()) {
+                            Log.d(TAG, "User signed up and logged in through Facebook!");
+                            goMainActivity();
+                        } else {
+                            Log.d(TAG, "User logged in through Facebook!");
+                            goMainActivity();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     public void logInUser(View view) {
@@ -120,5 +148,11 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = new Intent(this, MainActivity.class);
         this.startActivity(i);
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
 }

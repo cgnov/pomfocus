@@ -20,7 +20,6 @@ import com.parse.ParseUser;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    public Intent i;
     public TimerFragment timerFragment;
 
     @Override
@@ -66,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOutUser(View view) {
         ParseUser.logOut();
-        stopService(i);
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         finish();
