@@ -19,4 +19,12 @@
     <string name="channel_name">Timer Complete</string>
     <string name="channel_description">Channel used to send notification of timer completion</string>
     <string name="continue_with_facebook">Continue with Facebook</string>
+    <string name="pomodoro">Pomodoro</string>
+    <string name="lengths">Lengths</string>
+    <string name="short_break">Short Break</string>
+    <string name="long_break">Long Break</string>
+    <string name="save">Save</string>
+    <string name="pomodoro_length">Pomodoro Length</string>
+    <string name="short_break_length">Short Break Length</string>
+    <string name="long_break_length">Long Break Length</string>
 </resources>

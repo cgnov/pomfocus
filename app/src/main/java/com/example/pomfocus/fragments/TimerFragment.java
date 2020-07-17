@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,6 +56,16 @@ public class TimerFragment extends Fragment {
         }
 
         setStartButtonOnClickListener();
+
+        mBind.tvTimeLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                EditLengthsDialogFragment editLengthsDialogFragment = new EditLengthsDialogFragment();
+                assert fragmentManager != null;
+                editLengthsDialogFragment.show(fragmentManager, TAG);
+            }
+        });
     }
 
     public void setStartButtonOnClickListener() {
