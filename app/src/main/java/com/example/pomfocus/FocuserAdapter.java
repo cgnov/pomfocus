@@ -1,15 +1,17 @@
 package com.example.pomfocus;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pomfocus.databinding.ItemFocuserBinding;
+import com.example.pomfocus.fragments.ProfileFragment;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
     private static final String TAG = "FocuserAdapter";
     private Context mContext;
     private List<ParseUser> mFocusers;
+    private AppCompatActivity mActivity;
 
     public FocuserAdapter(Context context, List<ParseUser> focusers) {
         mContext = context;
@@ -29,6 +32,7 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_focuser, parent, false);
+        mActivity = (AppCompatActivity) view.getContext();
         return new ViewHolder(view);
     }
 
@@ -59,12 +63,27 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
     class ViewHolder extends RecyclerView.ViewHolder {
         private ItemFocuserBinding mBind;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             mBind = ItemFocuserBinding.bind(itemView);
         }
 
         public void bind(final ParseUser focuser) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // User clicked on user in leaderboard, slide to relevant profile view
+                    Fragment profileFragment = new ProfileFragment(focuser);
+                    FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.fragment_slide_left_enter,
+                            R.anim.fragment_slide_left_exit,
+                            R.anim.fragment_slide_right_enter,
+                            R.anim.fragment_slide_right_exit);
+                    fragmentTransaction.replace(R.id.flContainer, profileFragment)
+                            .addToBackStack(TAG)
+                            .commit();
+                }
+            });
             mBind.tvName.setText(focuser.getString(FocusUser.KEY_NAME));
             mBind.tvTotal.setText(String.valueOf(focuser.getLong(FocusUser.KEY_TOTAL)));
             mBind.tvRank.setText(String.valueOf(focuser.getInt(FocusUser.KEY_RANK)+1));
@@ -72,6 +91,5 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
                 itemView.setBackgroundColor(itemView.getResources().getColor(R.color.colorAccent));
             }
         }
-
     }
 }
