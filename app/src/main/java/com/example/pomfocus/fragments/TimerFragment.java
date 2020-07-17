@@ -23,6 +23,7 @@ public class TimerFragment extends Fragment {
     private static final String TAG = "TimerFragment";
     public static boolean breakIsNext = false;
     public static boolean currentlyWorking = false;
+    public static int pomodoroStage = 1;
     private FragmentTimerBinding mBind;
     private FocusTimer mTimer;
 
@@ -77,7 +78,13 @@ public class TimerFragment extends Fragment {
     }
 
     public static int getNextLength() {
-        return (breakIsNext) ? FocusTimer.MINUTES_PER_BREAK : FocusTimer.MINUTES_PER_POMODORO;
+        if(!breakIsNext) {
+            return FocusTimer.MINUTES_PER_POMODORO;
+        } else if(pomodoroStage == 4){
+            return FocusTimer.MINUTES_PER_LONG_BREAK;
+        } else {
+            return FocusTimer.MINUTES_PER_BREAK;
+        }
     }
 
     public static String getNextFull() {

@@ -34,8 +34,9 @@ public class FocusTimer extends CountDownTimer {
     public static final int MILLIS_PER_SECOND = 1000;
     public static final int SECONDS_PER_MINUTE = 60;
     public static final int MILLIS_PER_MINUTE = MILLIS_PER_SECOND * SECONDS_PER_MINUTE;
-    public static final int MINUTES_PER_POMODORO = 25;
-    public static final int MINUTES_PER_BREAK = 5;
+    public static int MINUTES_PER_POMODORO = 25; // Not final because user can change these values
+    public static int MINUTES_PER_BREAK = 5;
+    public static int MINUTES_PER_LONG_BREAK = 15;
     public static final int NOTIFICATION_ID = 492804;
     public final Context mContext;
     public FragmentTimerBinding mBinding;
@@ -61,11 +62,19 @@ public class FocusTimer extends CountDownTimer {
         mBinding.btnStart.setVisibility(View.VISIBLE);
         if(!TimerFragment.breakIsNext) {
             createFocusObject();
+        } else {
+            TimerFragment.pomodoroStage++;
+            if(TimerFragment.pomodoroStage==5) {
+                TimerFragment.pomodoroStage = 1;
+            }
         }
         TimerFragment.breakIsNext = !TimerFragment.breakIsNext;
         mBinding.tvTimeLeft.setText(TimerFragment.getNextFull());
 
         String nextUp = (TimerFragment.breakIsNext) ? "take a break" : "get to work";
+        if(TimerFragment.breakIsNext && TimerFragment.pomodoroStage==4) {
+            nextUp = "take a long break";
+        }
 
         Intent i = new Intent(mContext, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, i, 0);
@@ -100,6 +109,7 @@ public class FocusTimer extends CountDownTimer {
     public void createFocusObject() {
         final Focus focus = new Focus();
         focus.setCreator(ParseUser.getCurrentUser());
+        focus.put(Focus.KEY_LENGTH, FocusTimer.MINUTES_PER_POMODORO);
         focus.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
