@@ -5,8 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.ChangeBounds;
+import android.transition.Fade;
+import android.transition.Transition;
+import android.transition.TransitionManager;
+import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.pomfocus.databinding.ActivityLoginBinding;
@@ -69,8 +75,7 @@ public class LoginActivity extends AppCompatActivity {
     public void logInUser(View view) {
         if(mBinding.btnSignup.getVisibility()==View.VISIBLE) {
             // User wants to log in. Display relevant buttons and hide signup button
-            showCredentials(true);
-            mBinding.btnSignup.setVisibility(View.GONE);
+            showCredentials(true, true);
         } else {
             // Get login credentials
             final String username = mBinding.etUsername.getText().toString();
@@ -105,9 +110,7 @@ public class LoginActivity extends AppCompatActivity {
     public void signUpUser(View view) {
         if(mBinding.btnLogin.getVisibility()==View.VISIBLE) {
             // User wants to create new account. Display relevant buttons and hide login
-            showCredentials(true);
-            mBinding.etName.setVisibility(View.VISIBLE);
-            mBinding.btnLogin.setVisibility(View.GONE);
+            showCredentials(true, false);
         } else {
             // Get info for new account
             final String username = mBinding.etUsername.getText().toString();
@@ -139,17 +142,56 @@ public class LoginActivity extends AppCompatActivity {
 
     // Hide username/password and show login/signup buttons
     public void cancelLoginSignup(View view) {
-        showCredentials(false);
-        mBinding.etName.setVisibility(View.GONE);
-        mBinding.btnLogin.setVisibility(View.VISIBLE);
-        mBinding.btnSignup.setVisibility(View.VISIBLE);
+        boolean login = mBinding.btnLogin.getVisibility() == View.VISIBLE;
+        showCredentials(false, login);
     }
 
-    private void showCredentials(boolean show) {
+    private void showCredentials(boolean show, boolean login) {
         int visibility = show ? View.VISIBLE : View.GONE;
+        int opposite = show ? View.GONE : View.VISIBLE;
+
+        // Set up changing bounds
+        ChangeBounds changeBounds = new ChangeBounds();
+        if(login) {
+            changeBounds.addTarget(mBinding.btnLogin);
+        } else {
+            changeBounds.addTarget(mBinding.btnSignup);
+        }
+        changeBounds.setDuration(300);
+
+        // Set up fade-in
+        Fade fadeIn = new Fade();
+        fadeIn.setMode(Fade.IN);
+        fadeIn.addTarget(mBinding.etPassword);
+        fadeIn.addTarget(mBinding.etUsername);
+        fadeIn.addTarget(mBinding.etName);
+        fadeIn.addTarget(mBinding.btnCancel);
+        if(!show) {
+            fadeIn.addTarget(mBinding.btnSignup);
+            fadeIn.addTarget(mBinding.btnLogin);
+            fadeIn.addTarget(mBinding.btnFBLogin);
+        }
+        fadeIn.setDuration(300);
+        fadeIn.setStartDelay(300);
+
+        // Add transitions and begin
+        Transition transition = new TransitionSet().addTransition(changeBounds).addTransition(fadeIn);
+        TransitionManager.beginDelayedTransition((ViewGroup) mBinding.etUsername.getParent(), transition);
+
+        // Display views accordingly
         mBinding.etUsername.setVisibility(visibility);
         mBinding.etPassword.setVisibility(visibility);
         mBinding.btnCancel.setVisibility(visibility);
+        mBinding.btnFBLogin.setVisibility(opposite);
+        mBinding.etName.setVisibility(View.GONE);
+        mBinding.btnLogin.setVisibility(View.VISIBLE);
+        mBinding.btnSignup.setVisibility(View.VISIBLE);
+        if(login) {
+            mBinding.btnSignup.setVisibility(opposite);
+        } else {
+            mBinding.btnLogin.setVisibility(opposite);
+            mBinding.etName.setVisibility(visibility);
+        }
     }
 
     private void goMainActivity() {
