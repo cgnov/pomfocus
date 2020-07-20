@@ -5,12 +5,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.pomfocus.FocusTimer;
 import com.example.pomfocus.databinding.FragmentTimerBinding;
@@ -19,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
-public class TimerFragment extends Fragment {
+public class TimerFragment extends Fragment implements GestureDetector.OnDoubleTapListener {
 
     private static final String TAG = "TimerFragment";
     public static boolean breakIsNext = false;
@@ -57,13 +59,25 @@ public class TimerFragment extends Fragment {
 
         setStartButtonOnClickListener();
 
-        mBind.tvTimeLeft.setOnClickListener(new View.OnClickListener() {
+        final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getFragmentManager();
-                EditLengthsDialogFragment editLengthsDialogFragment = new EditLengthsDialogFragment();
-                assert fragmentManager != null;
-                editLengthsDialogFragment.show(fragmentManager, TAG);
+            public boolean onDoubleTap(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                mBind.tvTimeLeft.performClick();
+            }
+        });
+
+        mBind.tvTimeLeft.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(gestureDetector.onTouchEvent(motionEvent)) {
+                    mBind.tvTimeLeft.performClick();
+                }
+                return true;
             }
         });
     }
@@ -100,5 +114,23 @@ public class TimerFragment extends Fragment {
 
     public static String getNextFull() {
         return String.format(Locale.getDefault(), "%d:00", getNextLength());
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
+        Toast.makeText(getContext(), "singleTapConfirmed", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent motionEvent) {
+        Toast.makeText(getContext(), "doubleTap", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent motionEvent) {
+        Toast.makeText(getContext(), "doubleTapEvent", Toast.LENGTH_SHORT).show();
+        return true;
     }
 }
