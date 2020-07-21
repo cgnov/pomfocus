@@ -30,4 +30,5 @@
     <string name="logging_in">Logging In…</string>
     <string name="signing_up">Signing Up…</string>
     <string name="logging_out">Logging Out…</string>
+    <string name="saving_picture">Saving Picture…</string>
 </resources>

@@ -138,6 +138,9 @@ public class ProfileFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+                mBind.btnTakePicture.setText(getString(R.string.saving_picture));
+                mBind.btnTakePicture.setEnabled(false);
+                mBind.ivAvatar.setImageResource(R.color.grey2);
                 final ParseFile newAvatar = new ParseFile(mPhotoFile);
                 ParseUser user = ParseUser.getCurrentUser();
                 user.put(FocusUser.KEY_AVATAR, newAvatar);
@@ -148,7 +151,9 @@ public class ProfileFragment extends Fragment {
                             Log.e(TAG, "Error while saving new avatar", e);
                             Toast.makeText(getActivity(), "Unable to save profile picture", Toast.LENGTH_SHORT).show();
                         } else {
-                            Glide.with(mView).load(newAvatar.getUrl()).into(mBind.ivAvatar);
+                            mBind.btnTakePicture.setText(getString(R.string.take_picture));
+                            mBind.btnTakePicture.setEnabled(true);
+                            Glide.with(mView).load(newAvatar.getUrl()).placeholder(R.color.grey2).into(mBind.ivAvatar);
                         }
                     }
                 });
