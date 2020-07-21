@@ -2,7 +2,6 @@ package com.example.pomfocus;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -16,7 +15,8 @@ public class CustomCanvas extends View {
     private Paint mToGoPaint = new Paint();
     private RectF mRect;
     private int mcx, mcy, mRadius;
-    private float mSweep;
+    private float mSweep = 360F;
+    private static final float START_ANGLE = -90F;
     private static final String TAG = "CustomCanvas";
 
     public CustomCanvas(Context context) {
@@ -59,8 +59,6 @@ public class CustomCanvas extends View {
                 int top = mcy - mRadius;
                 int bottom = mcy + mRadius;
 
-                mSweep = 360F;
-
                 mRect = new RectF(left, top, right, bottom);
             }
         });
@@ -70,7 +68,7 @@ public class CustomCanvas extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawCircle(mcx, mcy, mRadius, mCompletedPaint);
-        canvas.drawArc(mRect, -90F, mSweep, true, mToGoPaint);
+        canvas.drawArc(mRect, START_ANGLE, mSweep, true, mToGoPaint);
     }
 
     public void onChangeTime(float percentLeft) {

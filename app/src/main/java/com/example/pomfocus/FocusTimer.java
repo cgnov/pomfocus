@@ -34,7 +34,7 @@ public class FocusTimer extends CountDownTimer {
     public static final int MILLIS_PER_SECOND = 1000;
     public static final int SECONDS_PER_MINUTE = 60;
     public static final int MILLIS_PER_MINUTE = MILLIS_PER_SECOND * SECONDS_PER_MINUTE;
-    public static int MINUTES_PER_POMODORO = 1; // Not final because user can change these values
+    public static int MINUTES_PER_POMODORO = 25; // Not final because user can change these values
     public static int MINUTES_PER_BREAK = 5;
     public static int MINUTES_PER_LONG_BREAK = 15;
     public static final int NOTIFICATION_ID = 492804;

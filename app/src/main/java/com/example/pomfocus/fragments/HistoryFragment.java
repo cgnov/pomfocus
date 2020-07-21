@@ -13,14 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pomfocus.Focus;
-import com.example.pomfocus.FocusUser;
 import com.example.pomfocus.HistoryAdapter;
-import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentHistoryBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -47,6 +44,7 @@ public class HistoryFragment extends Fragment {
         final HistoryAdapter adapter = new HistoryAdapter(getContext(), focuses);
         final ParseQuery<Focus> query = ParseQuery.getQuery(Focus.class);
         query.addDescendingOrder(Focus.KEY_CREATED);
+        // TODO: replace limit with request for most recent week
         query.setLimit(NUM_REQUEST);
         query.findInBackground(new FindCallback<Focus>() {
             @Override

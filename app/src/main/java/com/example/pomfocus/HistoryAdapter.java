@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pomfocus.databinding.ItemFocusBinding;
 
 import java.util.List;
-import java.util.Objects;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 

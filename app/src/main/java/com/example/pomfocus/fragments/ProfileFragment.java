@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pomfocus.FocusUser;
 import com.example.pomfocus.LoginActivity;
-import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileBinding;
 import com.parse.ParseException;
