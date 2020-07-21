@@ -9,71 +9,71 @@
         android:id="@+id/ivAvatar"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="@string/user_profile_picture"
+        app:layout_constraintEnd_toStartOf="@+id/divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="@+id/ivAvatar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivAvatar"
-        app:layout_constraintTop_toTopOf="@+id/ivAvatar" />
-
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:layout_marginBottom="32dp"
+        android:singleLine="true"
+        android:textColor="@color/red7"
+        android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
-        app:layout_constraintStart_toStartOf="@+id/divider"
-        tools:text="Jane" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivAvatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/divider"
+        app:layout_constraintTop_toTopOf="@+id/ivAvatar"
+        tools:text="Jane Austinita" />
 
     <TextView
         android:id="@+id/tvHandle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/divider"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
         tools:text="\@janeisproductive" />
 
     <Button
         android:id="@+id/btnLogOut"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/log_out"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSeeHistory" />
 
     <ImageView
         android:id="@+id/ivStreak"
         android:layout_width="50dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:contentDescription="@string/streak_icon"
         android:src="@drawable/streak_24"
-        app:layout_constraintStart_toStartOf="@+id/ivAvatar"
-        app:layout_constraintTop_toBottomOf="@+id/btnTakePicture" />
+        android:tint="@color/red7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
 
     <TextView
         android:id="@+id/tvStreak"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:gravity="center_vertical"
-        android:textSize="30sp"
+        android:layout_marginBottom="10dp"
+        android:gravity="bottom"
+        android:singleLine="true"
+        android:textColor="@color/red7"
+        android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/ivStreak"
+        app:layout_constraintBottom_toBottomOf="@+id/tvStreakCaption"
+        app:layout_constraintEnd_toStartOf="@+id/divider"
         app:layout_constraintStart_toEndOf="@+id/ivStreak"
         app:layout_constraintTop_toTopOf="@+id/ivStreak"
         tools:text="7" />
@@ -82,33 +82,84 @@
         android:id="@+id/ivTotal"
         android:layout_width="50dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:contentDescription="@string/total_time_icon"
         android:src="@drawable/total_time_24"
+        android:tint="@color/red7"
         app:layout_constraintBottom_toBottomOf="@+id/ivStreak"
-        app:layout_constraintStart_toEndOf="@+id/tvStreak"
+        app:layout_constraintStart_toEndOf="@+id/divider"
         app:layout_constraintTop_toTopOf="@+id/ivStreak" />
 
     <TextView
         android:id="@+id/tvTotal"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:gravity="center_vertical"
-        android:textSize="30sp"
+        android:layout_marginBottom="10dp"
+        android:gravity="bottom"
+        android:singleLine="true"
+        android:textColor="@color/red7"
+        android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/ivStreak"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTotalTimeCaption"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivTotal"
         app:layout_constraintTop_toTopOf="@+id/ivStreak"
         tools:text="15" />
 
     <Button
         android:id="@+id/btnTakePicture"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/red7"
         android:text="@string/take_picture"
-        app:layout_constraintEnd_toEndOf="@+id/ivAvatar"
-        app:layout_constraintStart_toStartOf="@+id/ivAvatar"
-        app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/divider"
+        app:layout_constraintTop_toTopOf="@+id/btnSeeHistory" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTotal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvTotal" />
+
+    <TextView
+        android:id="@+id/tvStreakCaption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="@string/streak"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivStreak"
+        app:layout_constraintEnd_toStartOf="@+id/divider"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvStreak" />
+
+    <TextView
+        android:id="@+id/tvTotalTimeCaption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="@string/minutes_focused"
+        app:layout_constraintBottom_toBottomOf="@+id/ivTotal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvTotal" />
+
+    <Button
+        android:id="@+id/btnSeeHistory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/red7"
+        android:text="@string/see_history"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toStartOf="@+id/divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivStreak" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

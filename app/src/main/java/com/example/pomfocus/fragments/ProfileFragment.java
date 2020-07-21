@@ -69,7 +69,7 @@ public class ProfileFragment extends Fragment {
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = mUser.getParseFile(FocusUser.KEY_AVATAR);
         if (avatar != null) {
-            Glide.with(view).load(avatar.getUrl()).placeholder(R.color.grey2).into(mBind.ivAvatar);
+            Glide.with(view).load(avatar.getUrl()).circleCrop().placeholder(R.color.grey2).into(mBind.ivAvatar);
         } else {
             mBind.ivAvatar.setImageResource(R.drawable.profile_24);
         }
@@ -97,6 +97,7 @@ public class ProfileFragment extends Fragment {
         } else {
             mBind.btnTakePicture.setVisibility(View.GONE);
             mBind.btnLogOut.setVisibility(View.GONE);
+            mBind.btnSeeHistory.setVisibility(View.GONE);
         }
     }
 

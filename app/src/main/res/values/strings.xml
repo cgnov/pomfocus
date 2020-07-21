@@ -31,4 +31,7 @@
     <string name="signing_up">Signing Up…</string>
     <string name="logging_out">Logging Out…</string>
     <string name="saving_picture">Saving Picture…</string>
+    <string name="streak">Streak</string>
+    <string name="minutes_focused">Minutes Focused</string>
+    <string name="see_history">See History</string>
 </resources>
