@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pomfocus.FocusUser;
+import com.example.pomfocus.LoginActivity;
+import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileBinding;
 import com.parse.ParseException;
@@ -67,7 +69,7 @@ public class ProfileFragment extends Fragment {
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = mUser.getParseFile(FocusUser.KEY_AVATAR);
         if (avatar != null) {
-            Glide.with(view).load(avatar.getUrl()).into(mBind.ivAvatar);
+            Glide.with(view).load(avatar.getUrl()).placeholder(R.color.grey2).into(mBind.ivAvatar);
         } else {
             mBind.ivAvatar.setImageResource(R.drawable.profile_24);
         }
@@ -78,6 +80,18 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     launchCamera();
+                }
+            });
+
+            mBind.btnLogOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mBind.btnLogOut.setText(getString(R.string.logging_out));
+                    mBind.btnLogOut.setEnabled(false);
+                    ParseUser.logOut();
+                    Intent i = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(i);
+                    Objects.requireNonNull(getActivity()).finish();
                 }
             });
         } else {

@@ -27,4 +27,7 @@
     <string name="pomodoro_length">Pomodoro Length</string>
     <string name="short_break_length">Short Break Length</string>
     <string name="long_break_length">Long Break Length</string>
+    <string name="logging_in">Logging In…</string>
+    <string name="signing_up">Signing Up…</string>
+    <string name="logging_out">Logging Out…</string>
 </resources>

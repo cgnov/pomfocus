@@ -40,16 +40,18 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Set up Facebook login button and callback
-        // Learning experience: if have extra required column in ParseUser, won't be able to effectively auto-generate ParseUser
-        // Autogenerates a username - will have to do it all name-based
         mBinding.btnFBLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mBinding.btnFBLogin.setText(getString(R.string.logging_in));
+                mBinding.btnFBLogin.setEnabled(false);
                 ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, null, new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException err) {
-                        if (user == null) { // Always null for some reason, not creating ParseUser correctly
+                        if (user == null) {
                             Log.d(TAG, "Uh oh. The user cancelled the Facebook login.");
+                            mBinding.btnFBLogin.setText(getString(R.string.continue_with_facebook));
+                            mBinding.btnFBLogin.setEnabled(true);
                         } else if (user.isNew()) {
                             Log.d(TAG, "User signed up and logged in through Facebook!");
                             setName();
@@ -86,6 +88,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void logInUser(String username, String password) {
+        mBinding.btnLogin.setText(getString(R.string.logging_in));
+        mBinding.btnLogin.setEnabled(false);
         Log.i(TAG, "Attempting to login user " + username);
         if(username.isEmpty() || password.isEmpty()) {
             Toast.makeText(LoginActivity.this, "Make sure to fill in both username and password", Toast.LENGTH_LONG).show();
@@ -99,6 +103,8 @@ public class LoginActivity extends AppCompatActivity {
                 if(e != null) {
                     Log.e(TAG, "Issue with login", e);
                     Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    mBinding.btnLogin.setText(getString(R.string.log_in));
+                    mBinding.btnLogin.setEnabled(true);
                 } else {
                     // Login was valid, proceed to main activity
                     goMainActivity();
@@ -112,6 +118,8 @@ public class LoginActivity extends AppCompatActivity {
             // User wants to create new account. Display relevant buttons and hide login
             showCredentials(true, false);
         } else {
+            mBinding.btnSignup.setText(getString(R.string.signing_up));
+            mBinding.btnSignup.setEnabled(false);
             // Get info for new account
             final String username = mBinding.etUsername.getText().toString();
             final String name = mBinding.etName.getText().toString();
@@ -132,6 +140,8 @@ public class LoginActivity extends AppCompatActivity {
                     if (e != null) {
                         Log.e(TAG, "Issue with signing up", e);
                         Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        mBinding.btnSignup.setText(getString(R.string.sign_up));
+                        mBinding.btnSignup.setEnabled(true);
                     } else {
                         logInUser(username, password);
                     }

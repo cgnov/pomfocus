@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.pomfocus.databinding.ActivityMainBinding;
 import com.example.pomfocus.fragments.LeaderboardFragment;
 import com.example.pomfocus.fragments.ProfileFragment;
 import com.example.pomfocus.fragments.TimerFragment;
@@ -21,17 +22,18 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     public TimerFragment timerFragment;
+    ActivityMainBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
 
         timerFragment = new TimerFragment();
 
-        BottomNavigationView navigation = findViewById(R.id.bNavigation);
-        setUpNavigationSelectedListeners(navigation);
-        navigation.setSelectedItemId(R.id.action_timer);
+        setUpNavigationSelectedListeners(mBinding.bNavigation);
+        mBinding.bNavigation.setSelectedItemId(R.id.action_timer);
     }
 
     private void setUpNavigationSelectedListeners(final BottomNavigationView navigation) {
@@ -62,12 +64,5 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-    }
-
-    public void logOutUser(View view) {
-        ParseUser.logOut();
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
-        finish();
     }
 }

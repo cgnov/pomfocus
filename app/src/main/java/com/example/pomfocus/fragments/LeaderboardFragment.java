@@ -61,6 +61,7 @@ public class LeaderboardFragment extends Fragment {
     }
 
     private void queryFocusers() {
+        mBind.pbLeaderboard.setVisibility(View.VISIBLE);
         final ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
         query.addDescendingOrder(FocusUser.KEY_TOTAL);
         query.setLimit(NUM_REQUEST);
@@ -73,6 +74,7 @@ public class LeaderboardFragment extends Fragment {
                     // Posts have been successfully queried, clear out old posts and replace
                     mAdapter.addAll(focusers);
                     mBind.swipeContainer.setRefreshing(false);
+                    mBind.pbLeaderboard.setVisibility(View.GONE);
                 }
             }
         });
