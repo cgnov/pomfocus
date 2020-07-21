@@ -94,6 +94,14 @@ public class ProfileFragment extends Fragment {
                     Objects.requireNonNull(getActivity()).finish();
                 }
             });
+
+            mBind.btnSeeHistory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    assert getFragmentManager() != null;
+                    getFragmentManager().beginTransaction().replace(R.id.flContainer, new HistoryFragment()).addToBackStack(TAG).commit();
+                }
+            });
         } else {
             mBind.btnTakePicture.setVisibility(View.GONE);
             mBind.btnLogOut.setVisibility(View.GONE);
