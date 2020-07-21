@@ -73,12 +73,17 @@ public class ProfileFragment extends Fragment {
         }
 
         // Set up click listener for taking picture
-        mBind.btnTakePicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchCamera();
-            }
-        });
+        if(mUser.equals(ParseUser.getCurrentUser())) {
+            mBind.btnTakePicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    launchCamera();
+                }
+            });
+        } else {
+            mBind.btnTakePicture.setVisibility(View.GONE);
+            mBind.btnLogOut.setVisibility(View.GONE);
+        }
     }
 
     public void launchCamera() {

@@ -88,7 +88,7 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
             mBind.tvTotal.setText(String.valueOf(focuser.getLong(FocusUser.KEY_TOTAL)));
             mBind.tvRank.setText(String.valueOf(focuser.getInt(FocusUser.KEY_RANK)+1));
             if(focuser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
-                itemView.setBackgroundColor(itemView.getResources().getColor(R.color.red7));
+                itemView.setBackgroundColor(itemView.getResources().getColor(R.color.red3));
             }
         }
     }
