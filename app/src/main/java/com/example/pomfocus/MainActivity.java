@@ -29,14 +29,15 @@ public class MainActivity extends AppCompatActivity {
 
         timerFragment = new TimerFragment();
 
-        BottomNavigationView bNavigation = findViewById(R.id.bNavigation);
-        setUpNavigationSelectedListeners(bNavigation);
-        bNavigation.setSelectedItemId(R.id.action_timer);
+        BottomNavigationView navigation = findViewById(R.id.bNavigation);
+        setUpNavigationSelectedListeners(navigation);
+        navigation.setSelectedItemId(R.id.action_timer);
     }
 
-    private void setUpNavigationSelectedListeners(BottomNavigationView bNavigation) {
+    private void setUpNavigationSelectedListeners(final BottomNavigationView navigation) {
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        bNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        navigation.setItemIconTintList(getResources().getColorStateList(R.color.navigation_coloring));
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 // Check which item was clicked, start relevant fragment

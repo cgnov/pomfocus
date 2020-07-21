@@ -57,8 +57,6 @@ public class TimerFragment extends Fragment implements GestureDetector.OnDoubleT
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Log.i(TAG, "viewCreated");
-
         if(currentlyWorking) {
             mBind.btnStart.setVisibility(View.GONE);
             mBind.tvTimeLeft.setText("");
