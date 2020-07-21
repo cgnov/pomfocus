@@ -34,7 +34,7 @@ public class FocusTimer extends CountDownTimer {
     public static final int MILLIS_PER_SECOND = 1000;
     public static final int SECONDS_PER_MINUTE = 60;
     public static final int MILLIS_PER_MINUTE = MILLIS_PER_SECOND * SECONDS_PER_MINUTE;
-    public static int MINUTES_PER_POMODORO = 25; // Not final because user can change these values
+    public static int MINUTES_PER_POMODORO = 1; // Not final because user can change these values
     public static int MINUTES_PER_BREAK = 5;
     public static int MINUTES_PER_LONG_BREAK = 15;
     public static final int NOTIFICATION_ID = 492804;
@@ -53,7 +53,9 @@ public class FocusTimer extends CountDownTimer {
         long seconds = millisUntilFinished/MILLIS_PER_SECOND;
         long minLeft = seconds/SECONDS_PER_MINUTE;
         long secLeft = seconds%SECONDS_PER_MINUTE;
+        float percentLeft = ((float) millisUntilFinished) / (MILLIS_PER_MINUTE * TimerFragment.getNextLength());
         mBinding.tvTimeLeft.setText(String.format(Locale.getDefault(), "%d:%02d", minLeft, secLeft));
+        mBinding.ccTimerVisual.onChangeTime(-percentLeft*360F);
     }
 
     @Override
@@ -79,7 +81,7 @@ public class FocusTimer extends CountDownTimer {
         Intent i = new Intent(mContext, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, i, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.timer_24)
                 .setContentTitle(String.format("Time to %s!", nextUp))
                 .setContentText("Keep it going by tapping here")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

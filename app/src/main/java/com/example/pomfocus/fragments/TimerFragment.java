@@ -1,5 +1,11 @@
 package com.example.pomfocus.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.pomfocus.FocusTimer;
+import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentTimerBinding;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,6 +56,8 @@ public class TimerFragment extends Fragment implements GestureDetector.OnDoubleT
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Log.i(TAG, "viewCreated");
 
         if(currentlyWorking) {
             mBind.btnStart.setVisibility(View.GONE);
