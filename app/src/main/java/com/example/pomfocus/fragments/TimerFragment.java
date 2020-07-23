@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pomfocus.FocusTimer;
+import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentTimerBinding;
 
 import org.jetbrains.annotations.NotNull;
@@ -59,12 +60,14 @@ public class TimerFragment extends Fragment {
         final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
-                return true;
+                return !sCurrentlyWorking;
             }
 
             @Override
             public void onLongPress(MotionEvent e) {
-                mBinding.tvTimeLeft.performClick();
+                if(!sCurrentlyWorking) {
+                    mBinding.tvTimeLeft.performClick();
+                }
             }
         });
 
@@ -117,5 +120,9 @@ public class TimerFragment extends Fragment {
         sCurrentlyWorking = false;
         sBreakIsNext = false;
         sPomodoroStage = 0;
+    }
+
+    public void refresh() {
+        mBinding.tvTimeLeft.setText(getNextFull());
     }
 }

@@ -6,16 +6,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pomfocus.FocusTimer;
+import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.databinding.FragmentEditLengthsDialogBinding;
 
 import org.jetbrains.annotations.NotNull;
 
 public class EditLengthsDialogFragment extends DialogFragment {
+
+    private static final String TAG = "EditLengthsDialogFragme";
     private FragmentEditLengthsDialogBinding mBinding;
 
     @Override
@@ -46,7 +50,11 @@ public class EditLengthsDialogFragment extends DialogFragment {
                 FocusTimer.MINUTES_PER_BREAK = Integer.parseInt(mBinding.etShortBreak.getText().toString());
                 FocusTimer.MINUTES_PER_LONG_BREAK = Integer.parseInt(mBinding.etLongBreak.getText().toString());
                 dismiss();
-                // TODO: refresh timer fragment
+                if(!TimerFragment.sCurrentlyWorking) {
+                    MainActivity mainActivity = (MainActivity)getActivity();
+                    assert mainActivity != null;
+                    mainActivity.mTimerFragment.refresh();
+                }
             }
         });
     }

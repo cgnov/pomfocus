@@ -19,7 +19,7 @@ import com.parse.ParseUser;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    private TimerFragment mTimerFragment;
+    public TimerFragment mTimerFragment;
     private ActivityMainBinding mBinding;
 
     @Override
