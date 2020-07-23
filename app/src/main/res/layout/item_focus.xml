@@ -8,13 +8,15 @@
 
     <TextView
         android:id="@+id/tvLength"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:textAlignment="textEnd"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvDateTime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvDateTime"
+        app:layout_constraintVertical_bias="0.461"
         tools:text="25"
         />
 
@@ -24,11 +26,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:gravity="end"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/divider2"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Thu 10:23pm"
+        />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvLength"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Wednesday, September 23, 2020 at 10:25pm"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -37,6 +37,7 @@ public class HistoryFragment extends Fragment {
     private static final String TAG = "HistoryFragment";
     private static final String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     private static final int DAYS_IN_WEEK = 7;
+    public static final int NUM_REQUEST = 25;
     private FragmentHistoryBinding mBinding;
 
     @Override
@@ -51,29 +52,48 @@ public class HistoryFragment extends Fragment {
         mBinding.rvHistory.setLayoutManager(new LinearLayoutManager(getContext()));
         List<Focus> savedFocuses = new ArrayList<>();
         final HistoryAdapter adapter = new HistoryAdapter(getContext(), savedFocuses);
-        final ParseQuery<Focus> query = ParseQuery.getQuery(Focus.class);
-        query.addDescendingOrder(Focus.KEY_CREATED);
+        mBinding.rvHistory.setAdapter(adapter);
 
-        // Request only focus sessions from last week
+        // Find week limit
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DAY_OF_YEAR, -DAYS_IN_WEEK + 1);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
-        query.whereGreaterThanOrEqualTo(Focus.KEY_CREATED, cal.getTime());
 
-        query.findInBackground(new FindCallback<Focus>() {
+        requestThisWeek(cal.getTime());
+        requestAll(adapter);
+    }
+
+    private void requestThisWeek(Date limit) {
+        final ParseQuery<Focus> thisWeekQuery = ParseQuery.getQuery(Focus.class);
+        thisWeekQuery.addDescendingOrder(Focus.KEY_CREATED);
+        thisWeekQuery.whereGreaterThanOrEqualTo(Focus.KEY_CREATED, limit);
+        thisWeekQuery.findInBackground(new FindCallback<Focus>() {
             @Override
             public void done(List<Focus> thisWeekFocuses, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting focus history", e);
+                    Log.e(TAG, "Issue with getting this week focus history", e);
                 } else {
-                    adapter.addAll(thisWeekFocuses);
                     displayBarChart(thisWeekFocuses);
                 }
             }
         });
-        mBinding.rvHistory.setAdapter(adapter);
+    }
+
+    private void requestAll(final HistoryAdapter adapter) {
+        final ParseQuery<Focus> olderQuery = ParseQuery.getQuery(Focus.class);
+        olderQuery.addDescendingOrder(Focus.KEY_CREATED);
+        olderQuery.findInBackground(new FindCallback<Focus>() {
+            @Override
+            public void done(List<Focus> olderFocuses, ParseException e) {
+                if(e != null) {
+                    Log.e(TAG, "Issue with getting older focus history", e);
+                } else {
+                    adapter.addAll(olderFocuses);
+                }
+            }
+        });
     }
 
     private void displayBarChart(List<Focus> thisWeekFocuses) {

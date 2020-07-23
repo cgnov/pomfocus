@@ -32,4 +32,6 @@
     <string name="streak">Streak</string>
     <string name="minutes_focused">Minutes Focused</string>
     <string name="see_history">See History</string>
+    <string name="this_weeks_focuses">This Week\'s Focuses</string>
+    <string name="total_history">Total History</string>
 </resources>

@@ -10,7 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pomfocus.databinding.ItemFocusBinding;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
@@ -57,8 +61,28 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         public void bind(final Focus focus) {
             if(focus != null) {
                 mBind.tvLength.setText(String.valueOf(focus.getInt(Focus.KEY_LENGTH)));
-                mBind.tvDateTime.setText(focus.getCreatedAt().toString());
+                mBind.tvDateTime.setText(getSimpleDateTime(focus.getCreatedAt().toString()));
             }
         }
+    }
+
+    // Takes datetime string like "Mon Apr 01 21:16:23 +0000 2014" and returns  "Thu April 7 9:16 PM"
+    public static String getSimpleDateTime(String oldFormatDate) {
+        String oldFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        String newFormat = "EEE MMMM dd h:mm aa";
+        SimpleDateFormat sf = new SimpleDateFormat(oldFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        String simpleDate = "";
+        try {
+            Date date = sf.parse(oldFormatDate);
+            sf.applyPattern(newFormat);
+            assert date != null;
+            simpleDate = sf.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return simpleDate;
     }
 }

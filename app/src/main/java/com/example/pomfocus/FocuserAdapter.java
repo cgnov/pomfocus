@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pomfocus.databinding.ItemFocuserBinding;
+import com.example.pomfocus.databinding.ItemFocusUserBinding;
 import com.example.pomfocus.fragments.ProfileFragment;
 import com.parse.ParseUser;
 
@@ -31,7 +31,7 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_focuser, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_focus_user, parent, false);
         mActivity = (AppCompatActivity) view.getContext();
         return new ViewHolder(view);
     }
@@ -61,11 +61,11 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private final ItemFocuserBinding mBind;
+        private final ItemFocusUserBinding mBind;
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
-            mBind = ItemFocuserBinding.bind(itemView);
+            mBind = ItemFocusUserBinding.bind(itemView);
         }
 
         public void bind(final ParseUser focusUser) {
