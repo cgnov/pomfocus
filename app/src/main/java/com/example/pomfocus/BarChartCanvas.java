@@ -10,7 +10,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-public class CustomCanvas extends View {
+public class BarChartCanvas extends View {
 
     private static final String TAG = "CustomCanvas";
     private static final float START_ANGLE = -90F;
@@ -21,17 +21,17 @@ public class CustomCanvas extends View {
     private int mcx, mcy, mRadius;
     private float mSweep = 360F;
 
-    public CustomCanvas(Context context) {
+    public BarChartCanvas(Context context) {
         super(context);
         setUp();
     }
 
-    public CustomCanvas(Context context, @Nullable AttributeSet attrs) {
+    public BarChartCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setUp();
     }
 
-    public CustomCanvas(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public BarChartCanvas(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setUp();
     }

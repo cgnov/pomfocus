@@ -16,7 +16,6 @@ import com.example.pomfocus.Focus;
 import com.example.pomfocus.HistoryAdapter;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentHistoryBinding;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -58,7 +57,7 @@ public class HistoryFragment extends Fragment {
         // Request only focus sessions from last week
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
-        cal.add(Calendar.DAY_OF_YEAR, -6);
+        cal.add(Calendar.DAY_OF_YEAR, -DAYS_IN_WEEK + 1);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         query.whereGreaterThanOrEqualTo(Focus.KEY_CREATED, cal.getTime());
@@ -85,12 +84,12 @@ public class HistoryFragment extends Fragment {
         List<BarEntry> points = new ArrayList<>();
         int sum = 0;
         String[] values = new String[DAYS_IN_WEEK];
-        int pos = values.length -1 ;
+        int pos = values.length -1;
         for(int i = 0; i<thisWeekFocuses.size(); i++) {
             focusDate.setTime(thisWeekFocuses.get(i).getCreatedAt());
 
             // No more focuses on given date, add info to bar chart and prep for previous day
-            while(matchDate.get(Calendar.DAY_OF_YEAR)!=focusDate.get(Calendar.DAY_OF_YEAR)) {
+            while(matchDate.get(Calendar.DAY_OF_YEAR) != focusDate.get(Calendar.DAY_OF_YEAR)) {
                 points.add(new BarEntry(pos, sum));
                 values[pos] = MONTHS[matchDate.get(Calendar.MONTH)] + " " + matchDate.get(Calendar.DAY_OF_MONTH);
                 pos--;
@@ -121,23 +120,22 @@ public class HistoryFragment extends Fragment {
     }
 
     private void styleBarChart() {
-        BarChart bc = mBinding.bcThisWeek;
-        bc.setFitBars(true); // Automates bar width to fit screen
-        bc.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE); // Moves labels tighter to chart
+        mBinding.bcThisWeek.setFitBars(true); // Automates bar width to fit screen
+        mBinding.bcThisWeek.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE); // Moves labels tighter to chart
 
         // Display dates only once no matter how much user zooms in
-        bc.getXAxis().setGranularity(1);
-        bc.getXAxis().setGranularityEnabled(true);
+        mBinding.bcThisWeek.getXAxis().setGranularity(1);
+        mBinding.bcThisWeek.getXAxis().setGranularityEnabled(true);
 
         // Hide lines and description
-        bc.getXAxis().setDrawGridLines(false);
-        bc.getAxisRight().setDrawGridLines(false);
-        bc.getAxisLeft().setDrawGridLines(false);
-        bc.getXAxis().setDrawAxisLine(false);
-        bc.getAxisRight().setDrawAxisLine(false);
-        bc.getAxisLeft().setDrawAxisLine(false);
-        bc.setDescription(null);
+        mBinding.bcThisWeek.getXAxis().setDrawGridLines(false);
+        mBinding.bcThisWeek.getAxisRight().setDrawGridLines(false);
+        mBinding.bcThisWeek.getAxisLeft().setDrawGridLines(false);
+        mBinding.bcThisWeek.getXAxis().setDrawAxisLine(false);
+        mBinding.bcThisWeek.getAxisRight().setDrawAxisLine(false);
+        mBinding.bcThisWeek.getAxisLeft().setDrawAxisLine(false);
+        mBinding.bcThisWeek.setDescription(null);
 
-        bc.invalidate();
+        mBinding.bcThisWeek.invalidate();
     }
 }

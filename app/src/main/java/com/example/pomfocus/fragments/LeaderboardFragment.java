@@ -26,17 +26,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeaderboardFragment extends Fragment {
+    
     private static final String TAG = "LeaderboardFragment";
     private static final int NUM_REQUEST = 15;
     private FocuserAdapter mAdapter;
-    private FragmentLeaderboardBinding mBind;
+    private FragmentLeaderboardBinding mBinding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Set up view binding
-        mBind = FragmentLeaderboardBinding.inflate(getLayoutInflater(), container, false);
-        return mBind.getRoot();
+        mBinding = FragmentLeaderboardBinding.inflate(getLayoutInflater(), container, false);
+        return mBinding.getRoot();
     }
 
     @Override
@@ -44,37 +45,37 @@ public class LeaderboardFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Set up RecyclerView
-        mBind.rvWorldwide.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<ParseUser> focusers = new ArrayList<>();
-        mAdapter = new FocuserAdapter(getContext(), focusers);
-        mBind.rvWorldwide.setAdapter(mAdapter);
+        mBinding.rvWorldwide.setLayoutManager(new LinearLayoutManager(getContext()));
+        List<ParseUser> topFocusUsers = new ArrayList<>();
+        mAdapter = new FocuserAdapter(getContext(), topFocusUsers);
+        mBinding.rvWorldwide.setAdapter(mAdapter);
 
-        mBind.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mAdapter.clear();
-                queryFocusers();
+                queryTopFocusUsers();
             }
         });
 
-        queryFocusers();
+        queryTopFocusUsers();
     }
 
-    private void queryFocusers() {
-        mBind.pbLeaderboard.setVisibility(View.VISIBLE);
+    private void queryTopFocusUsers() {
+        mBinding.pbLeaderboard.setVisibility(View.VISIBLE);
         final ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
         query.addDescendingOrder(FocusUser.KEY_TOTAL);
         query.setLimit(NUM_REQUEST);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<ParseUser> focusers, ParseException e) {
+            public void done(List<ParseUser> topFocusUsers, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);
                 } else {
                     // Posts have been successfully queried, clear out old posts and replace
-                    mAdapter.addAll(focusers);
-                    mBind.swipeContainer.setRefreshing(false);
-                    mBind.pbLeaderboard.setVisibility(View.GONE);
+                    mAdapter.addAll(topFocusUsers);
+                    mBinding.swipeContainer.setRefreshing(false);
+                    mBinding.pbLeaderboard.setVisibility(View.GONE);
                 }
             }
         });

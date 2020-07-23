@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.e(TAG, "Did not recognize item clicked");
                         break;
                 }
-                if(fragment!=null) {
+                if(fragment != null) {
                     fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 }
                 return true;

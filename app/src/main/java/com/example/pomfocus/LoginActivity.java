@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void signUpUser(View view) {
-        if(mBinding.btnLogin.getVisibility()==View.VISIBLE) {
+        if(mBinding.btnLogin.getVisibility() == View.VISIBLE) {
             // User wants to create new account. Display relevant buttons and hide login
             showCredentials(true, false);
         } else {

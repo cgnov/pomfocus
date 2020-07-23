@@ -39,7 +39,7 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment";
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private final ParseUser mUser;
-    private FragmentProfileBinding mBind;
+    private FragmentProfileBinding mBinding;
     private View mView;
     private File mPhotoFile;
 
@@ -51,8 +51,8 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Implement view binding
-        mBind = FragmentProfileBinding.inflate(getLayoutInflater(), container, false);
-        return mBind.getRoot();
+        mBinding = FragmentProfileBinding.inflate(getLayoutInflater(), container, false);
+        return mBinding.getRoot();
     }
 
     @Override
@@ -60,42 +60,46 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mView = view;
 
-        mBind.tvName.setText(mUser.getString(FocusUser.KEY_NAME));
-        mBind.tvHandle.setText(String.format("@%s", mUser.getUsername()));
-        mBind.tvStreak.setText(String.valueOf(mUser.getInt(FocusUser.KEY_STREAK)));
-        mBind.tvTotal.setText(String.valueOf(mUser.getLong(FocusUser.KEY_TOTAL)));
+        mBinding.tvName.setText(mUser.getString(FocusUser.KEY_NAME));
+        mBinding.tvHandle.setText(String.format("@%s", mUser.getUsername()));
+        mBinding.tvStreak.setText(String.valueOf(mUser.getInt(FocusUser.KEY_STREAK)));
+        mBinding.tvTotal.setText(String.valueOf(mUser.getLong(FocusUser.KEY_TOTAL)));
 
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = mUser.getParseFile(FocusUser.KEY_AVATAR);
         if (avatar != null) {
-            Glide.with(view).load(avatar.getUrl()).circleCrop().placeholder(R.color.grey2).into(mBind.ivAvatar);
+            Glide.with(view)
+                    .load(avatar.getUrl())
+                    .circleCrop()
+                    .placeholder(R.color.grey2)
+                    .into(mBinding.ivAvatar);
         } else {
-            mBind.ivAvatar.setImageResource(R.drawable.profile_24);
+            mBinding.ivAvatar.setImageResource(R.drawable.profile_24);
         }
 
         // Set up or hide personal buttons
         if(mUser.equals(ParseUser.getCurrentUser())) {
             setUpClickListeners();
         } else {
-            mBind.btnTakePicture.setVisibility(View.GONE);
-            mBind.btnLogOut.setVisibility(View.GONE);
-            mBind.btnSeeHistory.setVisibility(View.GONE);
+            mBinding.btnTakePicture.setVisibility(View.GONE);
+            mBinding.btnLogOut.setVisibility(View.GONE);
+            mBinding.btnSeeHistory.setVisibility(View.GONE);
         }
     }
 
     private void setUpClickListeners() {
-        mBind.btnTakePicture.setOnClickListener(new View.OnClickListener() {
+        mBinding.btnTakePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 launchCamera();
             }
         });
 
-        mBind.btnLogOut.setOnClickListener(new View.OnClickListener() {
+        mBinding.btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mBind.btnLogOut.setText(getString(R.string.logging_out));
-                mBind.btnLogOut.setEnabled(false);
+                mBinding.btnLogOut.setText(getString(R.string.logging_out));
+                mBinding.btnLogOut.setEnabled(false);
                 TimerFragment.resetValues();
                 ParseUser.logOut();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
@@ -104,11 +108,15 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        mBind.btnSeeHistory.setOnClickListener(new View.OnClickListener() {
+        mBinding.btnSeeHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 assert getFragmentManager() != null;
-                getFragmentManager().beginTransaction().replace(R.id.flContainer, new HistoryFragment()).addToBackStack(TAG).commit();
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.flContainer, new HistoryFragment())
+                        .addToBackStack(TAG)
+                        .commit();
             }
         });
     }
@@ -151,9 +159,12 @@ public class ProfileFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                mBind.btnTakePicture.setText(getString(R.string.saving_picture));
-                mBind.btnTakePicture.setEnabled(false);
-                mBind.ivAvatar.setImageResource(R.color.grey2);
+                // Communicate to user that saving is in progress
+                mBinding.btnTakePicture.setText(getString(R.string.saving_picture));
+                mBinding.btnTakePicture.setEnabled(false);
+                mBinding.ivAvatar.setImageResource(R.color.grey2);
+
+                // Save photo to Parse
                 final ParseFile newAvatar = new ParseFile(mPhotoFile);
                 ParseUser user = ParseUser.getCurrentUser();
                 user.put(FocusUser.KEY_AVATAR, newAvatar);
@@ -164,9 +175,13 @@ public class ProfileFragment extends Fragment {
                             Log.e(TAG, "Error while saving new avatar", e);
                             Toast.makeText(getActivity(), "Unable to save profile picture", Toast.LENGTH_SHORT).show();
                         } else {
-                            mBind.btnTakePicture.setText(getString(R.string.take_picture));
-                            mBind.btnTakePicture.setEnabled(true);
-                            Glide.with(mView).load(newAvatar.getUrl()).circleCrop().placeholder(R.color.grey2).into(mBind.ivAvatar);
+                            mBinding.btnTakePicture.setText(getString(R.string.take_picture));
+                            mBinding.btnTakePicture.setEnabled(true);
+                            Glide.with(mView)
+                                    .load(newAvatar.getUrl())
+                                    .circleCrop()
+                                    .placeholder(R.color.grey2)
+                                    .into(mBinding.ivAvatar);
                         }
                     }
                 });

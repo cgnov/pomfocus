@@ -24,7 +24,7 @@ public class TimerFragment extends Fragment {
     public static boolean sBreakIsNext = false;
     public static boolean sCurrentlyWorking = false;
     public static int sPomodoroStage = 0;
-    private FragmentTimerBinding mBind;
+    private FragmentTimerBinding mBinding;
     public FocusTimer mTimer;
 
     @Override
@@ -36,11 +36,11 @@ public class TimerFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Implement view binding
-        mBind = FragmentTimerBinding.inflate(getLayoutInflater(), container, false);
+        mBinding = FragmentTimerBinding.inflate(getLayoutInflater(), container, false);
         if(mTimer != null) {
-            mTimer.mBinding = mBind;
+            mTimer.mBinding = mBinding;
         }
-        return mBind.getRoot();
+        return mBinding.getRoot();
     }
 
     @Override
@@ -48,10 +48,10 @@ public class TimerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if(sCurrentlyWorking) {
-            mBind.btnStart.setVisibility(View.GONE);
-            mBind.tvTimeLeft.setText("");
+            mBinding.btnStart.setVisibility(View.GONE);
+            mBinding.tvTimeLeft.setText("");
         } else {
-            mBind.tvTimeLeft.setText(getNextFull());
+            mBinding.tvTimeLeft.setText(getNextFull());
         }
 
         setStartButtonOnClickListener();
@@ -64,15 +64,15 @@ public class TimerFragment extends Fragment {
 
             @Override
             public void onLongPress(MotionEvent e) {
-                mBind.tvTimeLeft.performClick();
+                mBinding.tvTimeLeft.performClick();
             }
         });
 
-        mBind.tvTimeLeft.setOnTouchListener(new View.OnTouchListener() {
+        mBinding.tvTimeLeft.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(gestureDetector.onTouchEvent(motionEvent)) {
-                    mBind.tvTimeLeft.performClick();
+                    mBinding.tvTimeLeft.performClick();
                 }
                 return true;
             }
@@ -80,11 +80,11 @@ public class TimerFragment extends Fragment {
     }
 
     public void setStartButtonOnClickListener() {
-        mBind.btnStart.setOnClickListener(new View.OnClickListener() {
+        mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mBind.btnStart.setVisibility(View.GONE);
-                mTimer = new FocusTimer(getNextLength()*FocusTimer.MILLIS_PER_MINUTE, FocusTimer.MILLIS_PER_SECOND, getContext(), mBind);
+                mBinding.btnStart.setVisibility(View.GONE);
+                mTimer = new FocusTimer(getNextLength()*FocusTimer.MILLIS_PER_MINUTE, FocusTimer.MILLIS_PER_SECOND, getContext(), mBinding);
                 mTimer.start();
                 sCurrentlyWorking = true;
             }
@@ -95,14 +95,14 @@ public class TimerFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(!sCurrentlyWorking) {
-            mBind.tvTimeLeft.setText(String.format(Locale.getDefault(), "%d:00", getNextLength()));
+            mBinding.tvTimeLeft.setText(String.format(Locale.getDefault(), "%d:00", getNextLength()));
         }
     }
 
     public static int getNextLength() {
         if(!sBreakIsNext) {
             return FocusTimer.MINUTES_PER_POMODORO;
-        } else if(sPomodoroStage == 3){
+        } else if(sPomodoroStage == FocusTimer.SHORT_BREAKS_PER_LONG_BREAK){
             return FocusTimer.MINUTES_PER_LONG_BREAK;
         } else {
             return FocusTimer.MINUTES_PER_BREAK;

@@ -34,6 +34,7 @@ public class FocusTimer extends CountDownTimer {
     public static final int MILLIS_PER_SECOND = 1000;
     public static final int SECONDS_PER_MINUTE = 60;
     public static final int MILLIS_PER_MINUTE = MILLIS_PER_SECOND * SECONDS_PER_MINUTE;
+    public static final int SHORT_BREAKS_PER_LONG_BREAK = 3;
     public static int MINUTES_PER_POMODORO = 25; // Not final because user can change these values
     public static int MINUTES_PER_BREAK = 5;
     public static int MINUTES_PER_LONG_BREAK = 15;
@@ -66,7 +67,7 @@ public class FocusTimer extends CountDownTimer {
             createFocusObject();
         } else {
             TimerFragment.sPomodoroStage++;
-            TimerFragment.sPomodoroStage%=4;
+            TimerFragment.sPomodoroStage %= 4;
         }
         TimerFragment.sBreakIsNext = !TimerFragment.sBreakIsNext;
         mBinding.tvTimeLeft.setText(TimerFragment.getNextFull());
@@ -74,7 +75,7 @@ public class FocusTimer extends CountDownTimer {
         String nextUp = (TimerFragment.sBreakIsNext)
                 ? "take a break"
                 : "get to work";
-        if(TimerFragment.sBreakIsNext && TimerFragment.sPomodoroStage==4) {
+        if(TimerFragment.sBreakIsNext && (TimerFragment.sPomodoroStage == 4)) {
             nextUp = "take a long break";
         }
 
@@ -159,7 +160,7 @@ public class FocusTimer extends CountDownTimer {
                     oldFocus.setTime(lastFocus.getCreatedAt());
                     newFocus.setTime(focus.getCreatedAt());
                     Log.i(TAG, newFocus.get(Calendar.DAY_OF_YEAR) + " " + oldFocus.get(Calendar.DAY_OF_YEAR));
-                    if(newFocus.get(Calendar.DAY_OF_YEAR) - 1 == oldFocus.get(Calendar.DAY_OF_YEAR)) {
+                    if((newFocus.get(Calendar.DAY_OF_YEAR) - 1) == oldFocus.get(Calendar.DAY_OF_YEAR)) {
                         increaseStreak();
                     }
                 }

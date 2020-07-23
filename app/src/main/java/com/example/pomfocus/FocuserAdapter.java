@@ -20,12 +20,12 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
 
     private static final String TAG = "FocuserAdapter";
     private final Context mContext;
-    private final List<ParseUser> mFocusers;
+    private final List<ParseUser> mFocusUsers;
     private AppCompatActivity mActivity;
 
     public FocuserAdapter(Context context, List<ParseUser> focusers) {
         mContext = context;
-        mFocusers = focusers;
+        mFocusUsers = focusers;
     }
 
     @NonNull
@@ -38,25 +38,25 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ParseUser focuser = mFocusers.get(position);
-        focuser.put(FocusUser.KEY_RANK, position);
-        holder.bind(focuser);
+        ParseUser focusUser = mFocusUsers.get(position);
+        focusUser.put(FocusUser.KEY_RANK, position);
+        holder.bind(focusUser);
     }
 
     @Override
     public int getItemCount() {
-        return mFocusers.size();
+        return mFocusUsers.size();
     }
 
     // Clean all elements of the recycler (used for SwipeRefresh)
     public void clear() {
-        mFocusers.clear();
+        mFocusUsers.clear();
         notifyDataSetChanged();
     }
 
     // Add list of posts (used for SwipeRefresh)
     public void addAll(List<ParseUser> list) {
-        mFocusers.addAll(list);
+        mFocusUsers.addAll(list);
         notifyDataSetChanged();
     }
 
@@ -68,12 +68,12 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
             mBind = ItemFocuserBinding.bind(itemView);
         }
 
-        public void bind(final ParseUser focuser) {
+        public void bind(final ParseUser focusUser) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     // User clicked on user in leaderboard, slide to relevant profile view
-                    Fragment profileFragment = new ProfileFragment(focuser);
+                    Fragment profileFragment = new ProfileFragment(focusUser);
                     FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.anim.fragment_slide_left_enter,
                             R.anim.fragment_slide_left_exit,
@@ -84,10 +84,10 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
                             .commit();
                 }
             });
-            mBind.tvName.setText(focuser.getString(FocusUser.KEY_NAME));
-            mBind.tvTotal.setText(String.valueOf(focuser.getLong(FocusUser.KEY_TOTAL)));
-            mBind.tvRank.setText(String.valueOf(focuser.getInt(FocusUser.KEY_RANK)+1));
-            if(focuser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+            mBind.tvName.setText(focusUser.getString(FocusUser.KEY_NAME));
+            mBind.tvTotal.setText(String.valueOf(focusUser.getLong(FocusUser.KEY_TOTAL)));
+            mBind.tvRank.setText(String.valueOf(focusUser.getInt(FocusUser.KEY_RANK)+1));
+            if(focusUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
                 itemView.setBackgroundColor(itemView.getResources().getColor(R.color.red3));
             }
         }

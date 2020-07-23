@@ -10,15 +10,15 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.pomfocus.fragments.EditLengthsDialogFragment;
 
-public class CustomTextView extends AppCompatTextView {
+public class TimerTextView extends AppCompatTextView {
 
     private static final String TAG = "CustomTextView";
 
-    public CustomTextView(Context context) {
+    public TimerTextView(Context context) {
         super(context);
     }
 
-    public CustomTextView(Context context, AttributeSet attrs) {
+    public TimerTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
