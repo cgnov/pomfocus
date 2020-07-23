@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pomfocus.FocusUser;
 import com.example.pomfocus.LoginActivity;
-import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileBinding;
 import com.parse.ParseException;
@@ -114,7 +113,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    public void launchCamera() {
+    private void launchCamera() {
         // Create a File reference for future access
         String mPhotoFileName = "photo.jpg";
         mPhotoFile = getPhotoFileUri(mPhotoFileName);
@@ -134,7 +133,7 @@ public class ProfileFragment extends Fragment {
     }
 
     // Returns the File for a photo stored on disk given the fileName
-    public File getPhotoFileUri(String fileName) {
+    private File getPhotoFileUri(String fileName) {
         // Get safe storage directory for photos
         File mediaStorageDir = new File(Objects.requireNonNull(getContext()).getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
@@ -167,7 +166,7 @@ public class ProfileFragment extends Fragment {
                         } else {
                             mBind.btnTakePicture.setText(getString(R.string.take_picture));
                             mBind.btnTakePicture.setEnabled(true);
-                            Glide.with(mView).load(newAvatar.getUrl()).placeholder(R.color.grey2).into(mBind.ivAvatar);
+                            Glide.with(mView).load(newAvatar.getUrl()).circleCrop().placeholder(R.color.grey2).into(mBind.ivAvatar);
                         }
                     }
                 });
