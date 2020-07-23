@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.parse-community.Parse-SDK-Android:facebook:1.24.2@aar">
     <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e94aaee81fc6605f7f29ee75632f2d4d/jetified-facebook-1.24.2/AndroidManifest.xml" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e94aaee81fc6605f7f29ee75632f2d4d/jetified-facebook-1.24.2/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e94aaee81fc6605f7f29ee75632f2d4d/jetified-facebook-1.24.2/res" />
     </CLASSES>

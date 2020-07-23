@@ -12,36 +12,41 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
-        android:text="@string/pomodoro"
+        android:text="@string/focus"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/etPomLength"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        />
+        app:layout_constraintEnd_toEndOf="@+id/tvShortBreak"
+        app:layout_constraintTop_toTopOf="@+id/etPomLength" />
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center_horizontal"
         android:text="@string/lengths"
+        android:textColor="@color/red8"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvShortBreak"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:gravity="center"
         android:text="@string/short_break"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/etShortBreak"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPomodoro"
-        />
+        app:layout_constraintTop_toTopOf="@+id/etShortBreak" />
 
     <TextView
         android:id="@+id/tvLongBreak"
@@ -50,58 +55,66 @@
         android:gravity="center"
         android:text="@string/long_break"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/etLongBreak"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvShortBreak"
-        />
+        app:layout_constraintEnd_toEndOf="@+id/tvShortBreak"
+        app:layout_constraintTop_toBottomOf="@+id/tvShortBreak" />
 
     <EditText
         android:id="@+id/etPomLength"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
-        android:importantForAutofill="no"
         android:hint="@string/pomodoro_length"
+        android:importantForAutofill="no"
         android:inputType="number"
         android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvPomodoro"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        tools:text="25"
-        />
+        tools:text="25" />
 
     <EditText
         android:id="@+id/etShortBreak"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:importantForAutofill="no"
-        android:hint="@string/short_break_length"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
+        android:hint="@string/short_break_length"
+        android:importantForAutofill="no"
         android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvShortBreak"
         app:layout_constraintTop_toBottomOf="@+id/etPomLength"
-        tools:text="5"
-        />
+        tools:text="5" />
 
     <EditText
         android:id="@+id/etLongBreak"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
-        android:importantForAutofill="no"
         android:hint="@string/long_break_length"
+        android:importantForAutofill="no"
         android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvLongBreak"
         app:layout_constraintTop_toBottomOf="@+id/etShortBreak"
-        tools:text="15"
-        />
+        tools:text="15" />
 
     <Button
         android:id="@+id/btnSave"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/red7"
         android:text="@string/save"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLongBreak"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tvLongBreak" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
