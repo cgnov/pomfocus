@@ -11,12 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.pomfocus.Focus;
 import com.example.pomfocus.HistoryAdapter;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentHistoryBinding;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -36,7 +36,8 @@ import java.util.List;
 public class HistoryFragment extends Fragment {
 
     private static final String TAG = "HistoryFragment";
-    private static final int NUM_REQUEST = 25;
+    private static final String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    private static final int DAYS_IN_WEEK = 7;
     FragmentHistoryBinding mBinding;
 
     @Override
@@ -49,8 +50,8 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mBinding.rvHistory.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<Focus> focuses = new ArrayList<>();
-        final HistoryAdapter adapter = new HistoryAdapter(getContext(), focuses);
+        List<Focus> savedFocuses = new ArrayList<>();
+        final HistoryAdapter adapter = new HistoryAdapter(getContext(), savedFocuses);
         final ParseQuery<Focus> query = ParseQuery.getQuery(Focus.class);
         query.addDescendingOrder(Focus.KEY_CREATED);
 
@@ -64,78 +65,79 @@ public class HistoryFragment extends Fragment {
 
         query.findInBackground(new FindCallback<Focus>() {
             @Override
-            public void done(List<Focus> focusList, ParseException e) {
+            public void done(List<Focus> thisWeekFocuses, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting focus history", e);
                 } else {
-                    adapter.addAll(focusList);
-
-                    // TODO: modularize/generally clean up code
-
-                    List<BarEntry> points = new ArrayList<>();
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(new Date());
-                    Calendar focusDate = Calendar.getInstance();
-                    focusDate.add(Calendar.DAY_OF_MONTH, -7);
-                    int[] days = new int[7];
-                    for(int i = 0; i<7; i++) {
-                        focusDate.add(Calendar.DAY_OF_MONTH, 1);
-                        days[i] = focusDate.get(Calendar.DAY_OF_YEAR);
-                    }
-                    int[] focusTotals = new int[7];
-                    int pos = 6;
-
-                    for(Focus focus : focusList) {
-                        focusDate.setTime(focus.getCreatedAt());
-                        while(cal.get(Calendar.DAY_OF_YEAR)!=focusDate.get(Calendar.DAY_OF_YEAR)) {
-                            pos--;
-                            cal.add(Calendar.DAY_OF_YEAR, -1);
-                        }
-                        if(pos>=0) {
-                            focusTotals[pos] += focus.getInt(Focus.KEY_LENGTH);
-                        } else {
-                            break;
-                        }
-                    }
-
-                    for(int i = 0; i<days.length; i++) {
-                        points.add(new BarEntry(days[i], focusTotals[i]));
-                    }
-
-                    BarDataSet set = new BarDataSet(points, "Minutes Spent Focusing");
-                    set.setColor(getResources().getColor(R.color.red7));
-
-                    BarData data = new BarData(set);
-
-                    mBinding.bcThisWeek.setData(data);
-
-                    final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-
-                    mBinding.bcThisWeek.setFitBars(true);
-                    mBinding.bcThisWeek.getXAxis().setGranularity(1);
-                    mBinding.bcThisWeek.getXAxis().setGranularityEnabled(true);
-                    mBinding.bcThisWeek.getXAxis().setDrawGridLines(false);
-                    mBinding.bcThisWeek.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
-                    mBinding.bcThisWeek.setDescription(null);
-                    mBinding.bcThisWeek.getXAxis().setDrawAxisLine(false);
-                    mBinding.bcThisWeek.getAxisRight().setDrawGridLines(false);
-                    mBinding.bcThisWeek.getAxisLeft().setDrawGridLines(false);
-                    mBinding.bcThisWeek.getAxisRight().setDrawAxisLine(false);
-                    mBinding.bcThisWeek.getAxisLeft().setDrawAxisLine(false);
-                    mBinding.bcThisWeek.getXAxis().setValueFormatter(new IndexAxisValueFormatter() {
-                        @Override
-                        public String getFormattedValue(float value) {
-                            Calendar cal = Calendar.getInstance();
-                            cal.set(Calendar.DAY_OF_YEAR, (int)value);
-                            return months[cal.get(Calendar.MONTH)] + " " + cal.get(Calendar.DAY_OF_MONTH);
-                        }
-                    });
-                    mBinding.bcThisWeek.invalidate();
-
-                    mBinding.pbHistory.setVisibility(View.GONE);
+                    adapter.addAll(thisWeekFocuses);
+                    displayBarChart(thisWeekFocuses);
                 }
             }
         });
         mBinding.rvHistory.setAdapter(adapter);
+    }
+
+    private void displayBarChart(List<Focus> thisWeekFocuses) {
+        Calendar focusDate = Calendar.getInstance();
+        Calendar matchDate = Calendar.getInstance();
+        matchDate.setTime(new Date());
+
+        List<BarEntry> points = new ArrayList<>();
+        int sum = 0;
+        String[] values = new String[DAYS_IN_WEEK];
+        int pos = values.length -1 ;
+        for(int i = 0; i<thisWeekFocuses.size(); i++) {
+            focusDate.setTime(thisWeekFocuses.get(i).getCreatedAt());
+
+            // No more focuses on given date, add info to bar chart and prep for previous day
+            while(matchDate.get(Calendar.DAY_OF_YEAR)!=focusDate.get(Calendar.DAY_OF_YEAR)) {
+                points.add(new BarEntry(pos, sum));
+                values[pos] = MONTHS[matchDate.get(Calendar.MONTH)] + " " + matchDate.get(Calendar.DAY_OF_MONTH);
+                pos--;
+                sum = 0;
+                matchDate.add(Calendar.DAY_OF_YEAR, -1);
+            }
+
+            sum += thisWeekFocuses.get(i).getInt(Focus.KEY_LENGTH);
+        }
+        // Add info involving oldest focus
+        points.add(new BarEntry(pos, sum));
+        values[pos] = MONTHS[matchDate.get(Calendar.MONTH)] + " " + matchDate.get(Calendar.DAY_OF_MONTH);
+
+        // Add data to chart
+        BarDataSet set = new BarDataSet(points, "Minutes Spent Focusing");
+        set.setColor(getResources().getColor(R.color.red7));
+        BarData data = new BarData(set);
+        mBinding.bcThisWeek.setData(data);
+
+        // Set x-axis labels to date strings
+        IndexAxisValueFormatter valueFormatter = new IndexAxisValueFormatter();
+        valueFormatter.setValues(values);
+        mBinding.bcThisWeek.getXAxis().setValueFormatter(valueFormatter);
+
+        styleBarChart();
+
+        mBinding.pbHistory.setVisibility(View.GONE);
+    }
+
+    private void styleBarChart() {
+        BarChart bc = mBinding.bcThisWeek;
+        bc.setFitBars(true); // Automates bar width to fit screen
+        bc.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE); // Moves labels tighter to chart
+
+        // Display dates only once no matter how much user zooms in
+        bc.getXAxis().setGranularity(1);
+        bc.getXAxis().setGranularityEnabled(true);
+
+        // Hide lines and description
+        bc.getXAxis().setDrawGridLines(false);
+        bc.getAxisRight().setDrawGridLines(false);
+        bc.getAxisLeft().setDrawGridLines(false);
+        bc.getXAxis().setDrawAxisLine(false);
+        bc.getAxisRight().setDrawAxisLine(false);
+        bc.getAxisLeft().setDrawAxisLine(false);
+        bc.setDescription(null);
+
+        bc.invalidate();
     }
 }
