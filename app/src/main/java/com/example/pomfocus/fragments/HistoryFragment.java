@@ -49,6 +49,7 @@ public class HistoryFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        mBinding.bcThisWeek.setNoDataTextColor(getResources().getColor(R.color.red7));
         mBinding.rvHistory.setLayoutManager(new LinearLayoutManager(getContext()));
         List<Focus> savedFocuses = new ArrayList<>();
         final HistoryAdapter adapter = new HistoryAdapter(getContext(), savedFocuses);
@@ -91,6 +92,7 @@ public class HistoryFragment extends Fragment {
                     Log.e(TAG, "Issue with getting older focus history", e);
                 } else {
                     adapter.addAll(olderFocuses);
+                    mBinding.pbHistory.setVisibility(View.GONE);
                 }
             }
         });
@@ -123,7 +125,12 @@ public class HistoryFragment extends Fragment {
         points.add(new BarEntry(pos, sum));
         values[pos] = MONTHS[matchDate.get(Calendar.MONTH)] + " " + matchDate.get(Calendar.DAY_OF_MONTH);
 
-        // Add data to chart
+        addDataToBarChart(points, values);
+        styleBarChart();
+    }
+
+    private void addDataToBarChart(List<BarEntry> points, String[] values) {
+        // Add points to chart
         BarDataSet set = new BarDataSet(points, "Minutes Spent Focusing");
         set.setColor(getResources().getColor(R.color.red7));
         set.setDrawValues(false);
@@ -134,10 +141,6 @@ public class HistoryFragment extends Fragment {
         IndexAxisValueFormatter valueFormatter = new IndexAxisValueFormatter();
         valueFormatter.setValues(values);
         mBinding.bcThisWeek.getXAxis().setValueFormatter(valueFormatter);
-
-        styleBarChart();
-
-        mBinding.pbHistory.setVisibility(View.GONE);
     }
 
     private void styleBarChart() {

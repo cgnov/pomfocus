@@ -16,14 +16,14 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
-public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHolder> {
+public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.ViewHolder> {
 
-    private static final String TAG = "FocuserAdapter";
+    private static final String TAG = "FocusUserAdapter";
     private final Context mContext;
     private final List<ParseUser> mFocusUsers;
     private AppCompatActivity mActivity;
 
-    public FocuserAdapter(Context context, List<ParseUser> focusers) {
+    public FocusUserAdapter(Context context, List<ParseUser> focusers) {
         mContext = context;
         mFocusUsers = focusers;
     }
@@ -85,6 +85,7 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
                 }
             });
             mBind.tvName.setText(focusUser.getString(FocusUser.KEY_NAME));
+            ProfileFragment.displayAvatar(mBind.ivAvatar, focusUser.getParseFile(FocusUser.KEY_AVATAR));
             mBind.tvTotal.setText(String.valueOf(focusUser.getLong(FocusUser.KEY_TOTAL)));
             mBind.tvRank.setText(String.valueOf(focusUser.getInt(FocusUser.KEY_RANK)+1));
             if(focusUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {

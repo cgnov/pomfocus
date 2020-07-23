@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -67,15 +68,7 @@ public class ProfileFragment extends Fragment {
 
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = mUser.getParseFile(FocusUser.KEY_AVATAR);
-        if (avatar != null) {
-            Glide.with(view)
-                    .load(avatar.getUrl())
-                    .circleCrop()
-                    .placeholder(R.color.grey2)
-                    .into(mBinding.ivAvatar);
-        } else {
-            mBinding.ivAvatar.setImageResource(R.drawable.profile_24);
-        }
+        displayAvatar(mBinding.ivAvatar, avatar);
 
         // Set up or hide personal buttons
         if(mUser.equals(ParseUser.getCurrentUser())) {
@@ -119,6 +112,18 @@ public class ProfileFragment extends Fragment {
                         .commit();
             }
         });
+    }
+
+    public static void displayAvatar(ImageView view, ParseFile avatar) {
+        if (avatar != null) {
+            Glide.with(view)
+                    .load(avatar.getUrl())
+                    .circleCrop()
+                    .placeholder(R.color.grey2)
+                    .into(view);
+        } else {
+            view.setImageResource(R.drawable.profile_24);
+        }
     }
 
     private void launchCamera() {
@@ -177,11 +182,7 @@ public class ProfileFragment extends Fragment {
                         } else {
                             mBinding.btnTakePicture.setText(getString(R.string.take_picture));
                             mBinding.btnTakePicture.setEnabled(true);
-                            Glide.with(mView)
-                                    .load(newAvatar.getUrl())
-                                    .circleCrop()
-                                    .placeholder(R.color.grey2)
-                                    .into(mBinding.ivAvatar);
+                            displayAvatar(mBinding.ivAvatar, newAvatar);
                         }
                     }
                 });

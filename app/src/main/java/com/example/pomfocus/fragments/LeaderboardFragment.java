@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.pomfocus.FocusUser;
-import com.example.pomfocus.FocuserAdapter;
+import com.example.pomfocus.FocusUserAdapter;
 import com.example.pomfocus.databinding.FragmentLeaderboardBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -29,7 +29,7 @@ public class LeaderboardFragment extends Fragment {
     
     private static final String TAG = "LeaderboardFragment";
     private static final int NUM_REQUEST = 15;
-    private FocuserAdapter mAdapter;
+    private FocusUserAdapter mAdapter;
     private FragmentLeaderboardBinding mBinding;
 
     @Override
@@ -47,7 +47,7 @@ public class LeaderboardFragment extends Fragment {
         // Set up RecyclerView
         mBinding.rvWorldwide.setLayoutManager(new LinearLayoutManager(getContext()));
         List<ParseUser> topFocusUsers = new ArrayList<>();
-        mAdapter = new FocuserAdapter(getContext(), topFocusUsers);
+        mAdapter = new FocusUserAdapter(getContext(), topFocusUsers);
         mBinding.rvWorldwide.setAdapter(mAdapter);
 
         mBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
