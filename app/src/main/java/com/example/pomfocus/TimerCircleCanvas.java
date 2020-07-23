@@ -10,9 +10,9 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-public class BarChartCanvas extends View {
+public class TimerCircleCanvas extends View {
 
-    private static final String TAG = "CustomCanvas";
+    private static final String TAG = "TimerCircleCanvas";
     private static final float START_ANGLE = -90F;
     public static final int FULL_ANGLE = 360;
     private final Paint mCompletedPaint = new Paint();
@@ -21,17 +21,17 @@ public class BarChartCanvas extends View {
     private int mcx, mcy, mRadius;
     private float mSweep = 360F;
 
-    public BarChartCanvas(Context context) {
+    public TimerCircleCanvas(Context context) {
         super(context);
         setUp();
     }
 
-    public BarChartCanvas(Context context, @Nullable AttributeSet attrs) {
+    public TimerCircleCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setUp();
     }
 
-    public BarChartCanvas(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public TimerCircleCanvas(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setUp();
     }
