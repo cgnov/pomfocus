@@ -19,8 +19,8 @@ import com.parse.ParseUser;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    public TimerFragment timerFragment;
-    ActivityMainBinding mBinding;
+    private TimerFragment mTimerFragment;
+    private ActivityMainBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +28,7 @@ public class MainActivity extends AppCompatActivity {
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        timerFragment = new TimerFragment();
-
+        mTimerFragment = new TimerFragment();
         setUpNavigationSelectedListeners(mBinding.bNavigation);
         mBinding.bNavigation.setSelectedItemId(R.id.action_timer);
     }
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (item.getItemId()) {
                     case R.id.action_timer:
-                        fragment = timerFragment;
+                        fragment = mTimerFragment;
                         break;
                     case R.id.action_leaderboard:
                         fragment = new LeaderboardFragment();
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 if(fragment!=null) {
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment, "current").commit();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 }
                 return true;
             }

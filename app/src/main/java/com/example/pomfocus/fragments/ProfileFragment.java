@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pomfocus.FocusUser;
 import com.example.pomfocus.LoginActivity;
+import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileBinding;
 import com.parse.ParseException;
@@ -38,7 +39,7 @@ public class ProfileFragment extends Fragment {
 
     private static final String TAG = "ProfileFragment";
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-    private ParseUser mUser;
+    private final ParseUser mUser;
     private FragmentProfileBinding mBind;
     private View mView;
     private File mPhotoFile;
@@ -73,39 +74,44 @@ public class ProfileFragment extends Fragment {
             mBind.ivAvatar.setImageResource(R.drawable.profile_24);
         }
 
-        // Set up click listener for taking picture
+        // Set up or hide personal buttons
         if(mUser.equals(ParseUser.getCurrentUser())) {
-            mBind.btnTakePicture.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    launchCamera();
-                }
-            });
-
-            mBind.btnLogOut.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mBind.btnLogOut.setText(getString(R.string.logging_out));
-                    mBind.btnLogOut.setEnabled(false);
-                    ParseUser.logOut();
-                    Intent i = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(i);
-                    Objects.requireNonNull(getActivity()).finish();
-                }
-            });
-
-            mBind.btnSeeHistory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    assert getFragmentManager() != null;
-                    getFragmentManager().beginTransaction().replace(R.id.flContainer, new HistoryFragment()).addToBackStack(TAG).commit();
-                }
-            });
+            setUpClickListeners();
         } else {
             mBind.btnTakePicture.setVisibility(View.GONE);
             mBind.btnLogOut.setVisibility(View.GONE);
             mBind.btnSeeHistory.setVisibility(View.GONE);
         }
+    }
+
+    private void setUpClickListeners() {
+        mBind.btnTakePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchCamera();
+            }
+        });
+
+        mBind.btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBind.btnLogOut.setText(getString(R.string.logging_out));
+                mBind.btnLogOut.setEnabled(false);
+                TimerFragment.resetValues();
+                ParseUser.logOut();
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                startActivity(i);
+                Objects.requireNonNull(getActivity()).finish();
+            }
+        });
+
+        mBind.btnSeeHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                assert getFragmentManager() != null;
+                getFragmentManager().beginTransaction().replace(R.id.flContainer, new HistoryFragment()).addToBackStack(TAG).commit();
+            }
+        });
     }
 
     public void launchCamera() {

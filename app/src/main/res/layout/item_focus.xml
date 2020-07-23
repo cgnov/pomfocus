@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <TextView
         android:id="@+id/tvLength"
@@ -14,7 +15,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/tvDateTime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvDateTime"
-        tools:text="25" />
+        tools:text="25"
+        />
 
     <TextView
         android:id="@+id/tvDateTime"
@@ -26,5 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvLength"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Wednesday, September 23, 2020 at 10:25pm" />
+        tools:text="Wednesday, September 23, 2020 at 10:25pm"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

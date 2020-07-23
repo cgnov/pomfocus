@@ -16,8 +16,6 @@
     <string name="total_time_icon">Total time icon</string>
     <string name="pom_length">25:00</string>
     <string name="take_picture">Take Picture</string>
-    <string name="channel_name">Timer Complete</string>
-    <string name="channel_description">Channel used to send notification of timer completion</string>
     <string name="continue_with_facebook">Continue with Facebook</string>
     <string name="pomodoro">Pomodoro</string>
     <string name="lengths">Lengths</string>

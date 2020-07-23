@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pomfocus.fragments.TimerFragment">
+    tools:context="com.example.pomfocus.fragments.TimerFragment"
+    >
 
     <com.example.pomfocus.CustomCanvas
         android:id="@+id/ccTimerVisual"
@@ -14,7 +15,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        />
 
     <com.example.pomfocus.CustomTextView
         android:id="@+id/tvTimeLeft"
@@ -28,7 +30,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <Button
         android:id="@+id/btnStart"
@@ -42,6 +45,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/ccTimerVisual"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeLeft" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeLeft"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

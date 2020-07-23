@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pomfocus.MainActivity">
+    tools:context="com.example.pomfocus.MainActivity"
+    >
 
     <ImageView
         android:id="@+id/ivAvatar"
@@ -14,7 +15,8 @@
         app:layout_constraintEnd_toStartOf="@+id/divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@tools:sample/avatars"
+        />
 
     <TextView
         android:id="@+id/tvName"
@@ -29,7 +31,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/divider"
         app:layout_constraintTop_toTopOf="@+id/ivAvatar"
-        tools:text="Jane Austinita" />
+        tools:text="Jane Austinita"
+        />
 
     <TextView
         android:id="@+id/tvHandle"
@@ -38,7 +41,8 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/tvName"
-        tools:text="\@janeisproductive" />
+        tools:text="\@janeisproductive"
+        />
 
     <Button
         android:id="@+id/btnLogOut"
@@ -47,7 +51,8 @@
         android:text="@string/log_out"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSeeHistory" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSeeHistory"
+        />
 
     <ImageView
         android:id="@+id/ivStreak"
@@ -59,7 +64,8 @@
         android:src="@drawable/streak_24"
         android:tint="@color/red7"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+        app:layout_constraintTop_toBottomOf="@+id/ivAvatar"
+        />
 
     <TextView
         android:id="@+id/tvStreak"
@@ -76,7 +82,8 @@
         app:layout_constraintEnd_toStartOf="@+id/divider"
         app:layout_constraintStart_toEndOf="@+id/ivStreak"
         app:layout_constraintTop_toTopOf="@+id/ivStreak"
-        tools:text="7" />
+        tools:text="7"
+        />
 
     <ImageView
         android:id="@+id/ivTotal"
@@ -88,7 +95,8 @@
         android:tint="@color/red7"
         app:layout_constraintBottom_toBottomOf="@+id/ivStreak"
         app:layout_constraintStart_toEndOf="@+id/divider"
-        app:layout_constraintTop_toTopOf="@+id/ivStreak" />
+        app:layout_constraintTop_toTopOf="@+id/ivStreak"
+        />
 
     <TextView
         android:id="@+id/tvTotal"
@@ -105,7 +113,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivTotal"
         app:layout_constraintTop_toTopOf="@+id/ivStreak"
-        tools:text="15" />
+        tools:text="15"
+        />
 
     <Button
         android:id="@+id/btnTakePicture"
@@ -116,7 +125,8 @@
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/divider"
-        app:layout_constraintTop_toTopOf="@+id/btnSeeHistory" />
+        app:layout_constraintTop_toTopOf="@+id/btnSeeHistory"
+        />
 
     <View
         android:id="@+id/divider"
@@ -126,7 +136,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/tvTotal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvTotal" />
+        app:layout_constraintTop_toTopOf="@+id/tvTotal"
+        />
 
     <TextView
         android:id="@+id/tvStreakCaption"
@@ -138,7 +149,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/ivStreak"
         app:layout_constraintEnd_toStartOf="@+id/divider"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvStreak" />
+        app:layout_constraintStart_toStartOf="@+id/tvStreak"
+        />
 
     <TextView
         android:id="@+id/tvTotalTimeCaption"
@@ -148,7 +160,8 @@
         android:text="@string/minutes_focused"
         app:layout_constraintBottom_toBottomOf="@+id/ivTotal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvTotal" />
+        app:layout_constraintStart_toStartOf="@+id/tvTotal"
+        />
 
     <Button
         android:id="@+id/btnSeeHistory"
@@ -160,6 +173,7 @@
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toStartOf="@+id/divider"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivStreak" />
+        app:layout_constraintTop_toBottomOf="@+id/ivStreak"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

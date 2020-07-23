@@ -10,15 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pomfocus.databinding.ItemFocusBinding;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
     private static final String TAG = "HistoryAdapter";
-    private Context mContext;
-    private List<Focus> mFocuses;
+    private final Context mContext;
+    private final List<Focus> mFocuses;
 
     public HistoryAdapter(Context context, List<Focus> focuses) {
         mContext = context;
@@ -43,20 +41,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         return mFocuses.size();
     }
 
-    // Clean all elements of the recycler (used for SwipeRefresh)
-    public void clear() {
-        mFocuses.clear();
-        notifyDataSetChanged();
-    }
-
-    // Add list of posts (used for SwipeRefresh)
     public void addAll(List<Focus> focuses) {
         mFocuses.addAll(focuses);
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        private ItemFocusBinding mBind;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private final ItemFocusBinding mBind;
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);

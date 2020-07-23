@@ -11,30 +11,32 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 public class CustomCanvas extends View {
-    private Paint mCompletedPaint = new Paint();
-    private Paint mToGoPaint = new Paint();
-    private RectF mRect;
+
+    private static final String TAG = "CustomCanvas";
+    private static final float START_ANGLE = -90F;
+    public static final int FULL_ANGLE = 360;
+    private final Paint mCompletedPaint = new Paint();
+    private final Paint mToGoPaint = new Paint();
+    private final RectF mRect = new RectF();
     private int mcx, mcy, mRadius;
     private float mSweep = 360F;
-    private static final float START_ANGLE = -90F;
-    private static final String TAG = "CustomCanvas";
 
     public CustomCanvas(Context context) {
         super(context);
-        setup();
+        setUp();
     }
 
     public CustomCanvas(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        setup();
+        setUp();
     }
 
     public CustomCanvas(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setup();
+        setUp();
     }
 
-    private void setup() {
+    private void setUp() {
         mCompletedPaint.setColor(getResources().getColor(R.color.red7));
         mCompletedPaint.setStyle(Paint.Style.FILL);
         mToGoPaint.setColor(getResources().getColor(R.color.grey5));
@@ -59,7 +61,7 @@ public class CustomCanvas extends View {
                 int top = mcy - mRadius;
                 int bottom = mcy + mRadius;
 
-                mRect = new RectF(left, top, right, bottom);
+                mRect.set(new RectF(left, top, right, bottom));
             }
         });
     }
@@ -72,7 +74,7 @@ public class CustomCanvas extends View {
     }
 
     public void onChangeTime(float percentLeft) {
-        mSweep = percentLeft;
+        mSweep = percentLeft*FULL_ANGLE;
         invalidate();
     }
 }

@@ -19,8 +19,8 @@ import java.util.List;
 public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHolder> {
 
     private static final String TAG = "FocuserAdapter";
-    private Context mContext;
-    private List<ParseUser> mFocusers;
+    private final Context mContext;
+    private final List<ParseUser> mFocusers;
     private AppCompatActivity mActivity;
 
     public FocuserAdapter(Context context, List<ParseUser> focusers) {
@@ -61,7 +61,7 @@ public class FocuserAdapter extends RecyclerView.Adapter<FocuserAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private ItemFocuserBinding mBind;
+        private final ItemFocuserBinding mBind;
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);

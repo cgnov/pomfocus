@@ -157,8 +157,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showCredentials(boolean show, boolean login) {
-        int visibility = show ? View.VISIBLE : View.GONE;
-        int opposite = show ? View.GONE : View.VISIBLE;
+        int visibility = show
+                ? View.VISIBLE
+                : View.GONE;
+        int opposite = show
+                ? View.GONE
+                : View.VISIBLE;
 
         // Set up changing bounds
         ChangeBounds changeBounds = new ChangeBounds();

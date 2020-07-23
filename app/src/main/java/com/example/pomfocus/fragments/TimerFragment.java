@@ -6,13 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.pomfocus.FocusTimer;
 import com.example.pomfocus.databinding.FragmentTimerBinding;
@@ -21,14 +19,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
-public class TimerFragment extends Fragment implements GestureDetector.OnDoubleTapListener {
+public class TimerFragment extends Fragment {
 
-    private static final String TAG = "TimerFragment";
-    public static boolean breakIsNext = false;
-    public static boolean currentlyWorking = false;
-    public static int pomodoroStage = 1;
+    public static boolean sBreakIsNext = false;
+    public static boolean sCurrentlyWorking = false;
+    public static int sPomodoroStage = 0;
     private FragmentTimerBinding mBind;
-    private FocusTimer mTimer;
+    public FocusTimer mTimer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +47,7 @@ public class TimerFragment extends Fragment implements GestureDetector.OnDoubleT
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if(currentlyWorking) {
+        if(sCurrentlyWorking) {
             mBind.btnStart.setVisibility(View.GONE);
             mBind.tvTimeLeft.setText("");
         } else {
@@ -89,7 +86,7 @@ public class TimerFragment extends Fragment implements GestureDetector.OnDoubleT
                 mBind.btnStart.setVisibility(View.GONE);
                 mTimer = new FocusTimer(getNextLength()*FocusTimer.MILLIS_PER_MINUTE, FocusTimer.MILLIS_PER_SECOND, getContext(), mBind);
                 mTimer.start();
-                currentlyWorking = true;
+                sCurrentlyWorking = true;
             }
         });
     }
@@ -97,15 +94,15 @@ public class TimerFragment extends Fragment implements GestureDetector.OnDoubleT
     @Override
     public void onResume() {
         super.onResume();
-        if(!currentlyWorking) {
+        if(!sCurrentlyWorking) {
             mBind.tvTimeLeft.setText(String.format(Locale.getDefault(), "%d:00", getNextLength()));
         }
     }
 
     public static int getNextLength() {
-        if(!breakIsNext) {
+        if(!sBreakIsNext) {
             return FocusTimer.MINUTES_PER_POMODORO;
-        } else if(pomodoroStage == 4){
+        } else if(sPomodoroStage == 3){
             return FocusTimer.MINUTES_PER_LONG_BREAK;
         } else {
             return FocusTimer.MINUTES_PER_BREAK;
@@ -116,21 +113,9 @@ public class TimerFragment extends Fragment implements GestureDetector.OnDoubleT
         return String.format(Locale.getDefault(), "%d:00", getNextLength());
     }
 
-    @Override
-    public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
-        Toast.makeText(getContext(), "singleTapConfirmed", Toast.LENGTH_SHORT).show();
-        return true;
-    }
-
-    @Override
-    public boolean onDoubleTap(MotionEvent motionEvent) {
-        Toast.makeText(getContext(), "doubleTap", Toast.LENGTH_SHORT).show();
-        return true;
-    }
-
-    @Override
-    public boolean onDoubleTapEvent(MotionEvent motionEvent) {
-        Toast.makeText(getContext(), "doubleTapEvent", Toast.LENGTH_SHORT).show();
-        return true;
+    public static void resetValues() {
+        sCurrentlyWorking = false;
+        sBreakIsNext = false;
+        sPomodoroStage = 0;
     }
 }

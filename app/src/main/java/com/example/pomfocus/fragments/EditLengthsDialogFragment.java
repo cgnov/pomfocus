@@ -16,7 +16,7 @@ import com.example.pomfocus.databinding.FragmentEditLengthsDialogBinding;
 import org.jetbrains.annotations.NotNull;
 
 public class EditLengthsDialogFragment extends DialogFragment {
-    FragmentEditLengthsDialogBinding mBinding;
+    private FragmentEditLengthsDialogBinding mBinding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

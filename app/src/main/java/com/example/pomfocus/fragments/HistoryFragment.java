@@ -38,7 +38,7 @@ public class HistoryFragment extends Fragment {
     private static final String TAG = "HistoryFragment";
     private static final String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     private static final int DAYS_IN_WEEK = 7;
-    FragmentHistoryBinding mBinding;
+    private FragmentHistoryBinding mBinding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,

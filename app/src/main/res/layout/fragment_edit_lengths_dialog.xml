@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <TextView
         android:id="@+id/tvPomodoro"
@@ -15,7 +16,8 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/etPomLength"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -26,7 +28,8 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <TextView
         android:id="@+id/tvShortBreak"
@@ -37,7 +40,8 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/etShortBreak"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPomodoro" />
+        app:layout_constraintTop_toBottomOf="@+id/tvPomodoro"
+        />
 
     <TextView
         android:id="@+id/tvLongBreak"
@@ -48,7 +52,8 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/etLongBreak"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvShortBreak" />
+        app:layout_constraintTop_toBottomOf="@+id/tvShortBreak"
+        />
 
     <EditText
         android:id="@+id/etPomLength"
@@ -61,7 +66,8 @@
         android:singleLine="true"
         app:layout_constraintStart_toEndOf="@+id/tvPomodoro"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        tools:text="25" />
+        tools:text="25"
+        />
 
     <EditText
         android:id="@+id/etShortBreak"
@@ -73,7 +79,8 @@
         android:inputType="number"
         app:layout_constraintStart_toEndOf="@+id/tvShortBreak"
         app:layout_constraintTop_toBottomOf="@+id/etPomLength"
-        tools:text="5" />
+        tools:text="5"
+        />
 
     <EditText
         android:id="@+id/etLongBreak"
@@ -85,7 +92,8 @@
         android:inputType="number"
         app:layout_constraintStart_toEndOf="@+id/tvLongBreak"
         app:layout_constraintTop_toBottomOf="@+id/etShortBreak"
-        tools:text="15" />
+        tools:text="15"
+        />
 
     <Button
         android:id="@+id/btnSave"
@@ -93,5 +101,7 @@
         android:layout_height="wrap_content"
         android:text="@string/save"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLongBreak" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLongBreak"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -39,7 +39,7 @@ public class FocusTimer extends CountDownTimer {
     public static int MINUTES_PER_LONG_BREAK = 15;
     public static final int NOTIFICATION_ID = 492804;
     public final Context mContext;
-    public FragmentTimerBinding mBinding;
+    public FragmentTimerBinding mBinding; // Not final because change in TimerFragment
 
     public FocusTimer(long millisInFuture, long countDownInterval, Context context, FragmentTimerBinding binding) {
         super(millisInFuture, countDownInterval);
@@ -55,26 +55,26 @@ public class FocusTimer extends CountDownTimer {
         long secLeft = seconds%SECONDS_PER_MINUTE;
         float percentLeft = ((float) millisUntilFinished) / (MILLIS_PER_MINUTE * TimerFragment.getNextLength());
         mBinding.tvTimeLeft.setText(String.format(Locale.getDefault(), "%d:%02d", minLeft, secLeft));
-        mBinding.ccTimerVisual.onChangeTime(-percentLeft*360F);
+        mBinding.ccTimerVisual.onChangeTime(-percentLeft);
     }
 
     @Override
     public void onFinish() {
-        TimerFragment.currentlyWorking = false;
+        TimerFragment.sCurrentlyWorking = false;
         mBinding.btnStart.setVisibility(View.VISIBLE);
-        if(!TimerFragment.breakIsNext) {
+        if(!TimerFragment.sBreakIsNext) {
             createFocusObject();
         } else {
-            TimerFragment.pomodoroStage++;
-            if(TimerFragment.pomodoroStage==5) {
-                TimerFragment.pomodoroStage = 1;
-            }
+            TimerFragment.sPomodoroStage++;
+            TimerFragment.sPomodoroStage%=4;
         }
-        TimerFragment.breakIsNext = !TimerFragment.breakIsNext;
+        TimerFragment.sBreakIsNext = !TimerFragment.sBreakIsNext;
         mBinding.tvTimeLeft.setText(TimerFragment.getNextFull());
 
-        String nextUp = (TimerFragment.breakIsNext) ? "take a break" : "get to work";
-        if(TimerFragment.breakIsNext && TimerFragment.pomodoroStage==4) {
+        String nextUp = (TimerFragment.sBreakIsNext)
+                ? "take a break"
+                : "get to work";
+        if(TimerFragment.sBreakIsNext && TimerFragment.sPomodoroStage==4) {
             nextUp = "take a long break";
         }
 
