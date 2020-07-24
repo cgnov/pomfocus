@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pomfocus.FocusUser;
 import com.example.pomfocus.LoginActivity;
+import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileBinding;
 import com.parse.ParseException;
@@ -41,7 +42,6 @@ public class ProfileFragment extends Fragment {
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private final ParseUser mUser;
     private FragmentProfileBinding mBinding;
-    private View mView;
     private File mPhotoFile;
 
     public ProfileFragment(ParseUser user) {
@@ -59,7 +59,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mView = view;
 
         mBinding.tvName.setText(mUser.getString(FocusUser.KEY_NAME));
         mBinding.tvHandle.setText(String.format("@%s", mUser.getUsername()));
@@ -74,10 +73,14 @@ public class ProfileFragment extends Fragment {
         if(mUser.equals(ParseUser.getCurrentUser())) {
             setUpClickListeners();
         } else {
-            mBinding.btnTakePicture.setVisibility(View.GONE);
-            mBinding.btnLogOut.setVisibility(View.GONE);
-            mBinding.btnSeeHistory.setVisibility(View.GONE);
+            hideButtons();
         }
+    }
+
+    private void hideButtons() {
+        mBinding.btnTakePicture.setVisibility(View.GONE);
+        mBinding.btnLogOut.setVisibility(View.GONE);
+        mBinding.btnSeeHistory.setVisibility(View.GONE);
     }
 
     private void setUpClickListeners() {

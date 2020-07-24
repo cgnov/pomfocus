@@ -19,18 +19,18 @@ import com.parse.ParseUser;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    public TimerFragment mTimerFragment;
+    public static TimerFragment sTimerFragment = new TimerFragment();
     private ActivityMainBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int selectedItemId = R.id.action_timer;
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        mTimerFragment = new TimerFragment();
         setUpNavigationSelectedListeners(mBinding.bNavigation);
-        mBinding.bNavigation.setSelectedItemId(R.id.action_timer);
+        mBinding.bNavigation.setSelectedItemId(selectedItemId);
     }
 
     private void setUpNavigationSelectedListeners(final BottomNavigationView navigation) {
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (item.getItemId()) {
                     case R.id.action_timer:
-                        fragment = mTimerFragment;
+                        fragment = sTimerFragment;
                         break;
                     case R.id.action_leaderboard:
                         fragment = new LeaderboardFragment();

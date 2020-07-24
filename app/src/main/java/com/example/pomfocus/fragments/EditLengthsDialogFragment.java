@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class EditLengthsDialogFragment extends DialogFragment {
 
-    private static final String TAG = "EditLengthsDialogFragme";
+    private static final String TAG = "EditLengthsDialogFragment";
     private FragmentEditLengthsDialogBinding mBinding;
 
     @Override
@@ -51,9 +51,7 @@ public class EditLengthsDialogFragment extends DialogFragment {
                 FocusTimer.MINUTES_PER_LONG_BREAK = Integer.parseInt(mBinding.etLongBreak.getText().toString());
                 dismiss();
                 if(!TimerFragment.sCurrentlyWorking) {
-                    MainActivity mainActivity = (MainActivity)getActivity();
-                    assert mainActivity != null;
-                    mainActivity.mTimerFragment.refresh();
+                    MainActivity.sTimerFragment.refresh();
                 }
             }
         });

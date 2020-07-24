@@ -1,6 +1,12 @@
 package com.example.pomfocus;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.TypedValue;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -23,5 +29,14 @@ public class ParseApplication extends Application {
                 .server("https://pomodoro-focus.herokuapp.com/parse/").build());
 
         ParseFacebookUtils.initialize(this);
+    }
+
+    public static int getAttrColor(@Nullable Context context, int attr) {
+        assert context != null;
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(attr, typedValue, true);
+        @ColorInt int color = typedValue.data;
+        return color;
     }
 }

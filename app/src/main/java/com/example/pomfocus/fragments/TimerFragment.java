@@ -1,11 +1,22 @@
 package com.example.pomfocus.fragments;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Parcelable;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pomfocus.FocusTimer;
+import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentTimerBinding;
 
@@ -22,6 +34,7 @@ import java.util.Locale;
 
 public class TimerFragment extends Fragment {
 
+    private static final String TAG = "TimerFragment";
     public static boolean sBreakIsNext = false;
     public static boolean sCurrentlyWorking = false;
     public static int sPomodoroStage = 0;
@@ -47,6 +60,7 @@ public class TimerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        mBinding.btnSwitchTheme.setBackgroundColor(ContextCompat.getColor(getContext(), backgronud));
 
         if(sCurrentlyWorking) {
             mBinding.btnStart.setVisibility(View.GONE);
@@ -56,7 +70,22 @@ public class TimerFragment extends Fragment {
         }
 
         setStartButtonOnClickListener();
+        setGestureDetectors();
+    }
 
+    private void setStartButtonOnClickListener() {
+        mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBinding.btnStart.setVisibility(View.GONE);
+                mTimer = new FocusTimer(getNextLength()*FocusTimer.MILLIS_PER_MINUTE, FocusTimer.MILLIS_PER_SECOND, getContext(), mBinding);
+                mTimer.start();
+                sCurrentlyWorking = true;
+            }
+        });
+    }
+
+    private void setGestureDetectors() {
         final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
@@ -78,18 +107,6 @@ public class TimerFragment extends Fragment {
                     mBinding.tvTimeLeft.performClick();
                 }
                 return true;
-            }
-        });
-    }
-
-    public void setStartButtonOnClickListener() {
-        mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mBinding.btnStart.setVisibility(View.GONE);
-                mTimer = new FocusTimer(getNextLength()*FocusTimer.MILLIS_PER_MINUTE, FocusTimer.MILLIS_PER_SECOND, getContext(), mBinding);
-                mTimer.start();
-                sCurrentlyWorking = true;
             }
         });
     }
@@ -120,6 +137,7 @@ public class TimerFragment extends Fragment {
         sCurrentlyWorking = false;
         sBreakIsNext = false;
         sPomodoroStage = 0;
+        MainActivity.sTimerFragment = new TimerFragment();
     }
 
     public void refresh() {

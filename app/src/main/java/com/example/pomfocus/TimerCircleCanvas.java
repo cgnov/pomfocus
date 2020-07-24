@@ -1,14 +1,18 @@
 package com.example.pomfocus;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 public class TimerCircleCanvas extends View {
 
@@ -37,9 +41,9 @@ public class TimerCircleCanvas extends View {
     }
 
     private void setUp() {
-        mCompletedPaint.setColor(getResources().getColor(R.color.red7));
+        mCompletedPaint.setColor(ParseApplication.getAttrColor(getContext(), R.attr.colorPrimary));
         mCompletedPaint.setStyle(Paint.Style.FILL);
-        mToGoPaint.setColor(getResources().getColor(R.color.grey5));
+        mToGoPaint.setColor(ParseApplication.getAttrColor(getContext(), R.attr.backgroundColor));
         mToGoPaint.setStyle(Paint.Style.FILL);
 
         addOnLayoutChangeListener(new OnLayoutChangeListener() {

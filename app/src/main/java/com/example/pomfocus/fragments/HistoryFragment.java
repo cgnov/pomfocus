@@ -1,19 +1,23 @@
 package com.example.pomfocus.fragments;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pomfocus.Focus;
 import com.example.pomfocus.HistoryAdapter;
+import com.example.pomfocus.ParseApplication;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentHistoryBinding;
 import com.github.mikephil.charting.components.XAxis;
@@ -49,7 +53,7 @@ public class HistoryFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mBinding.bcThisWeek.setNoDataTextColor(getResources().getColor(R.color.red7));
+        mBinding.bcThisWeek.setNoDataTextColor(ParseApplication.getAttrColor(getContext(), R.attr.colorPrimary));
         mBinding.rvHistory.setLayoutManager(new LinearLayoutManager(getContext()));
         List<Focus> savedFocuses = new ArrayList<>();
         final HistoryAdapter adapter = new HistoryAdapter(getContext(), savedFocuses);
@@ -132,7 +136,7 @@ public class HistoryFragment extends Fragment {
     private void addDataToBarChart(List<BarEntry> points, String[] values) {
         // Add points to chart
         BarDataSet set = new BarDataSet(points, "Minutes Spent Focusing");
-        set.setColor(getResources().getColor(R.color.red7));
+        set.setColor(ParseApplication.getAttrColor(getContext(), R.attr.colorPrimary));
         set.setDrawValues(false);
         BarData data = new BarData(set);
         mBinding.bcThisWeek.setData(data);

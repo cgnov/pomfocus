@@ -1,9 +1,13 @@
 package com.example.pomfocus;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -89,7 +93,7 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
             mBind.tvTotal.setText(String.valueOf(focusUser.getLong(FocusUser.KEY_TOTAL)));
             mBind.tvRank.setText(String.valueOf(focusUser.getInt(FocusUser.KEY_RANK)+1));
             if(focusUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
-                itemView.setBackgroundColor(itemView.getResources().getColor(R.color.red3));
+                itemView.setBackgroundColor(ParseApplication.getAttrColor(mContext, R.attr.backgroundColor));
             }
         }
     }

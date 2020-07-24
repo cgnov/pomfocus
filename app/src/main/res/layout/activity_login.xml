@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
-    >
+    tools:context=".LoginActivity" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -16,8 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent" >
 
         <EditText
             android:id="@+id/etUsername"
@@ -31,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            />
+            tools:visibility="visible" />
 
         <EditText
             android:id="@+id/etPassword"
@@ -46,19 +44,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etName"
-            />
+            tools:visibility="visible" />
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="?attr/backgroundColor"
             android:onClick="cancelLoginSignup"
             android:text="@string/cancel"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnSignup"
-            />
+            tools:visibility="visible" />
 
         <EditText
             android:id="@+id/etName"
@@ -72,44 +71,40 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etUsername"
-            />
+            tools:visibility="visible" />
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/red7"
+            android:backgroundTint="?attr/colorPrimary"
             android:onClick="logInUser"
             android:text="@string/log_in"
-            android:textColor="@android:color/white"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etPassword"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
         <Button
             android:id="@+id/btnSignup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/red7"
+            android:backgroundTint="?attr/colorPrimary"
             android:onClick="signUpUser"
             android:text="@string/sign_up"
-            android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
         <Button
             android:id="@+id/btnFBLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="?attr/backgroundColor"
             android:text="@string/continue_with_facebook"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnCancel"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/btnCancel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

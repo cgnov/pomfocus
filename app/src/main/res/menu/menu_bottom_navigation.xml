@@ -17,4 +17,5 @@
         android:icon="@drawable/profile_24"
         android:title="@string/profile"
         app:showAsAction="ifRoom" />
+
 </menu>

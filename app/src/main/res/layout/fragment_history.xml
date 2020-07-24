@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pomfocus.fragments.HistoryFragment"
-    >
+    tools:context="com.example.pomfocus.fragments.HistoryFragment" >
 
     <TextView
         android:id="@+id/tvThisWeek"
@@ -14,13 +13,12 @@
         android:text="@string/this_weeks_focuses"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="@color/red7"
+        android:textColor="?attr/colorPrimary"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/bcThisWeek"
@@ -28,8 +26,7 @@
         android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvThisWeek"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tvThisWeek" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHistory"
@@ -38,19 +35,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTotalHistory"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalHistory" />
 
     <ProgressBar
         android:id="@+id/pbHistory"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminateTint="?attr/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/rvHistory"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rvHistory"
-        />
+        app:layout_constraintTop_toTopOf="@+id/rvHistory" />
 
     <TextView
         android:id="@+id/tvTotalHistory"
@@ -59,12 +55,11 @@
         android:layout_marginTop="8dp"
         android:text="@string/total_history"
         android:textAlignment="center"
-        android:textColor="@color/red7"
+        android:textColor="?attr/colorPrimary"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bcThisWeek"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/bcThisWeek" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

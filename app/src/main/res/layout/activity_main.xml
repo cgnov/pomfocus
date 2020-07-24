@@ -4,22 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    >
+    tools:context=".MainActivity" >
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bNavigation"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:background="@android:color/white"
-        app:itemIconTint="@android:color/black"
-        app:itemTextColor="@android:color/black"
+        android:background="?android:colorBackground"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_bottom_navigation"
-        />
+        app:menu="@menu/menu_bottom_navigation" />
 
     <FrameLayout
         android:id="@+id/flContainer"
@@ -28,8 +24,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent" >
 
     </FrameLayout>
 
