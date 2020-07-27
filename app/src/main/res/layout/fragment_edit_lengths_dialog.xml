@@ -11,12 +11,13 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
+        android:labelFor="@id/etPomLength"
         android:text="@string/focus"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/etPomLength"
         app:layout_constraintEnd_toEndOf="@+id/tvShortBreak"
-        app:layout_constraintTop_toTopOf="@+id/etPomLength"  />
+        app:layout_constraintTop_toTopOf="@+id/etPomLength" />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -40,18 +41,20 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:gravity="center"
+        android:labelFor="@id/etShortBreak"
         android:text="@string/short_break"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/etShortBreak"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etShortBreak"  />
+        app:layout_constraintTop_toTopOf="@+id/etShortBreak" />
 
     <TextView
         android:id="@+id/tvLongBreak"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
+        android:labelFor="@id/etLongBreak"
         android:text="@string/long_break"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -66,7 +69,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="@string/pomodoro_length"
         android:importantForAutofill="no"
         android:inputType="number"
         android:singleLine="true"
@@ -82,7 +84,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="@string/short_break_length"
         android:importantForAutofill="no"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +98,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="@string/long_break_length"
         android:importantForAutofill="no"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"

@@ -22,9 +22,6 @@
     <string name="short_break">Short Break</string>
     <string name="long_break">Long Break</string>
     <string name="save">Save</string>
-    <string name="pomodoro_length">Pomodoro Length</string>
-    <string name="short_break_length">Short Break Length</string>
-    <string name="long_break_length">Long Break Length</string>
     <string name="logging_in">Logging In…</string>
     <string name="signing_up">Signing Up…</string>
     <string name="logging_out">Logging Out…</string>
@@ -34,4 +31,5 @@
     <string name="see_history">See History</string>
     <string name="this_weeks_focuses">This Week\'s Focuses</string>
     <string name="total_history">Total History</string>
+    <string name="no_results">no results found for query</string>
 </resources>
