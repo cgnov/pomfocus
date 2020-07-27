@@ -19,18 +19,24 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.pomfocus.Focus;
 import com.example.pomfocus.FocusUser;
 import com.example.pomfocus.LoginActivity;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileBinding;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -42,9 +48,11 @@ public class ProfileFragment extends Fragment {
     private final ParseUser mUser;
     private FragmentProfileBinding mBinding;
     private File mPhotoFile;
+    private List<Focus> mFocuses;
 
     public ProfileFragment(ParseUser user) {
         this.mUser = user;
+        findFullFocusHistory();
     }
 
     @Override
@@ -61,7 +69,7 @@ public class ProfileFragment extends Fragment {
 
         mBinding.tvName.setText(mUser.getString(FocusUser.KEY_NAME));
         mBinding.tvHandle.setText(String.format("@%s", mUser.getUsername()));
-        mBinding.tvStreak.setText(String.valueOf(mUser.getInt(FocusUser.KEY_STREAK)));
+        mBinding.tvStreak.setText("--");
         mBinding.tvTotal.setText(String.valueOf(mUser.getLong(FocusUser.KEY_TOTAL)));
 
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
@@ -192,5 +200,79 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void findFullFocusHistory() {
+        Log.i(TAG, "Querying full focus history from Parse for user " + mUser.getUsername());
+        ParseQuery<Focus> fullHistoryQuery = ParseQuery.getQuery(Focus.class);
+        fullHistoryQuery.whereEqualTo(Focus.KEY_CREATOR, mUser);
+        fullHistoryQuery.addDescendingOrder(Focus.KEY_CREATED_AT);
+
+        fullHistoryQuery.findInBackground(new FindCallback<Focus>() {
+            @Override
+            public void done(List<Focus> focuses, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue getting focus history", e);
+                } else {
+                    mFocuses = focuses;
+                    displayFocusInfo();
+                }
+            }
+        });
+    }
+
+    private void displayFocusInfo() {
+        mBinding.tvStreak.setText(String.valueOf(findCurrentStreak(false)));
+    }
+
+    private int findCurrentStreak(boolean workweekOnly) {
+        Log.i(TAG, "Checking current streak for user " + mUser.getUsername());
+        final Calendar toCheck = Calendar.getInstance();
+        final Calendar focusTime = Calendar.getInstance();
+        int streak = 0;
+
+        for (Focus focus : mFocuses) {
+            focusTime.setTime(focus.getCreatedAt());
+            if(workweekOnly) {
+                while((toCheck.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) || (toCheck.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
+                    toCheck.add(Calendar.DAY_OF_YEAR, -1);
+                }
+            }
+            if (focusTime.get(Calendar.DAY_OF_YEAR) == toCheck.get(Calendar.DAY_OF_YEAR)) {
+                streak++;
+                toCheck.add(Calendar.DAY_OF_YEAR, -1);
+            } else if (focusTime.compareTo(toCheck) < 0) {
+                return streak;
+            }
+        }
+        return streak;
+    }
+
+    private int checkNumStreaks(int minStreakLength) {
+        Log.i(TAG, "Counting number of streaks");
+        final List<Integer> streaks = new ArrayList<>();
+        final Calendar toCheck = Calendar.getInstance();
+        final Calendar focusTime = Calendar.getInstance();
+        int streak = 0;
+
+        for (Focus focus : mFocuses) {
+            focusTime.setTime(focus.getCreatedAt());
+            if (focusTime.get(Calendar.DAY_OF_YEAR) == toCheck.get(Calendar.DAY_OF_YEAR)) {
+                streak++;
+                toCheck.add(Calendar.DAY_OF_YEAR, -1);
+            } else if (focusTime.compareTo(toCheck) < 0) {
+                if(streak >= minStreakLength) {
+                    streaks.add(streak);
+                }
+                streak = 1;
+                toCheck.setTime(focusTime.getTime());
+                toCheck.add(Calendar.DAY_OF_YEAR, -1);
+            }
+        }
+        if(streak >= minStreakLength) {
+            streaks.add(streak);
+        }
+
+        return streaks.size();
     }
 }

@@ -71,6 +71,10 @@ public class FocusTimer extends CountDownTimer {
         TimerFragment.sBreakIsNext = !TimerFragment.sBreakIsNext;
         mBinding.tvTimeLeft.setText(TimerFragment.getNextFull());
 
+        sendTimerCompleteNotification();
+    }
+
+    private void sendTimerCompleteNotification() {
         String nextUp = (TimerFragment.sBreakIsNext)
                 ? "take a break"
                 : "get to work";
@@ -120,7 +124,6 @@ public class FocusTimer extends CountDownTimer {
                     Toast.makeText(mContext, "Unable to save focus session", Toast.LENGTH_SHORT).show();
                 } else {
                     increaseTotalTime();
-                    checkStreak(focus);
                 }
             }
         });
@@ -133,77 +136,6 @@ public class FocusTimer extends CountDownTimer {
             public void done(ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "problem saving total time", e);
-                }
-            }
-        });
-    }
-
-    public void checkStreak(final Focus focus) {
-        Log.i(TAG, "checking streak");
-        // Get last focus session to possibly update streak
-        final ParseQuery<Focus> query = ParseQuery.getQuery(Focus.class);
-        query.include(Focus.KEY_CREATOR);
-        query.setSkip(1);
-        query.whereEqualTo(Focus.KEY_CREATOR, ParseUser.getCurrentUser());
-        query.addDescendingOrder(Focus.KEY_CREATED);
-        query.getFirstInBackground(new GetCallback<Focus>() {
-            public void done(Focus lastFocus, ParseException e) {
-                if (e != null) {
-                    if(hasNoResults(e)) {
-                        resetStreak();
-                    } else {
-                        Log.e(TAG, "Error retrieving last focus. Streak may not be accurately updated", e);
-                    }
-                } else {
-                    // Compare new focus session date with most recent focus session date and update streak accordingly
-                    Calendar newFocus = Calendar.getInstance();
-                    Calendar oldFocus = Calendar.getInstance();
-                    oldFocus.setTime(lastFocus.getCreatedAt());
-                    newFocus.setTime(focus.getCreatedAt());
-                    newFocus.add(Calendar.DAY_OF_YEAR,-1);
-                    if(newFocus.compareTo(oldFocus) == 0) {
-                        increaseStreak();
-                    } else if (newFocus.compareTo(oldFocus) > 0) {
-                        resetStreak();
-                    }
-                }
-            }
-        });
-    }
-
-    private boolean hasNoResults(Exception e) {
-        if(e.getMessage() == null) {
-            return false;
-        } else {
-            return e.getMessage().equals(mContext.getResources().getString(R.string.no_results));
-        }
-    }
-
-    private void increaseStreak() {
-        Log.i(TAG, "Increasing streak");
-        ParseUser updatedUser = ParseUser.getCurrentUser();
-        updatedUser.increment(FocusUser.KEY_STREAK);
-        updatedUser.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error increasing streak", e);
-                    Toast.makeText(mContext, "Problem setting streak", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void resetStreak() {
-        Log.i(TAG, "Resetting streak");
-        ParseUser updatedUser = ParseUser.getCurrentUser();
-        updatedUser.put(FocusUser.KEY_STREAK, 1);
-        updatedUser.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error resetting streak", e);
-                    Toast.makeText(mContext, "Problem setting streak", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -71,9 +71,9 @@ public class HistoryFragment extends Fragment {
 
     private void requestThisWeek(Date limit) {
         final ParseQuery<Focus> thisWeekQuery = ParseQuery.getQuery(Focus.class);
-        thisWeekQuery.addDescendingOrder(Focus.KEY_CREATED);
+        thisWeekQuery.addDescendingOrder(Focus.KEY_CREATED_AT);
         thisWeekQuery.whereEqualTo(Focus.KEY_CREATOR, ParseUser.getCurrentUser());
-        thisWeekQuery.whereGreaterThanOrEqualTo(Focus.KEY_CREATED, limit);
+        thisWeekQuery.whereGreaterThanOrEqualTo(Focus.KEY_CREATED_AT, limit);
         thisWeekQuery.findInBackground(new FindCallback<Focus>() {
             @Override
             public void done(List<Focus> thisWeekFocuses, ParseException e) {
@@ -88,7 +88,7 @@ public class HistoryFragment extends Fragment {
 
     private void requestAll(final HistoryAdapter adapter) {
         final ParseQuery<Focus> olderQuery = ParseQuery.getQuery(Focus.class);
-        olderQuery.addDescendingOrder(Focus.KEY_CREATED);
+        olderQuery.addDescendingOrder(Focus.KEY_CREATED_AT);
         olderQuery.whereEqualTo(Focus.KEY_CREATOR, ParseUser.getCurrentUser());
         olderQuery.findInBackground(new FindCallback<Focus>() {
             @Override
@@ -158,7 +158,18 @@ public class HistoryFragment extends Fragment {
         mBinding.bcThisWeek.getXAxis().setGranularity(1);
         mBinding.bcThisWeek.getXAxis().setGranularityEnabled(true);
 
-        // Hide lines and description
+        hideBarChartLines();
+
+        int textColor = ParseApplication.getAttrColor(getContext(), R.attr.backgroundColor);
+        mBinding.bcThisWeek.getXAxis().setTextColor(textColor);
+        mBinding.bcThisWeek.getAxisRight().setTextColor(textColor);
+        mBinding.bcThisWeek.getAxisLeft().setTextColor(textColor);
+        mBinding.bcThisWeek.getLegend().setTextColor(textColor);
+
+        mBinding.bcThisWeek.invalidate();
+    }
+
+    private void hideBarChartLines() {
         mBinding.bcThisWeek.getXAxis().setDrawGridLines(false);
         mBinding.bcThisWeek.getAxisRight().setDrawGridLines(false);
         mBinding.bcThisWeek.getAxisLeft().setDrawGridLines(false);
@@ -166,7 +177,5 @@ public class HistoryFragment extends Fragment {
         mBinding.bcThisWeek.getAxisRight().setDrawAxisLine(false);
         mBinding.bcThisWeek.getAxisLeft().setDrawAxisLine(false);
         mBinding.bcThisWeek.setDescription(null);
-
-        mBinding.bcThisWeek.invalidate();
     }
 }
