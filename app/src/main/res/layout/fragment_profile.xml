@@ -154,11 +154,32 @@
         android:id="@+id/btnSeeHistory"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/see_history"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toStartOf="@+id/divider"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivStreak" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNumStreaks" />
+
+    <ProgressBar
+        android:id="@+id/pbNumStreaks"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tvNumStreaks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/divider"
+        app:layout_constraintTop_toTopOf="@+id/tvNumStreaks" />
+
+    <TextView
+        android:id="@+id/tvNumStreaks"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/number_of_streaks"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/pbNumStreaks"
+        app:layout_constraintStart_toStartOf="@+id/ivStreak"
+        app:layout_constraintTop_toBottomOf="@+id/tvStreakCaption" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

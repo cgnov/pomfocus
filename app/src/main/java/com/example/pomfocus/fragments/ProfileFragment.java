@@ -223,6 +223,8 @@ public class ProfileFragment extends Fragment {
 
     private void displayFocusInfo() {
         mBinding.tvStreak.setText(String.valueOf(findCurrentStreak(false)));
+        mBinding.pbNumStreaks.setMax(3);
+        mBinding.pbNumStreaks.setProgress(checkNumStreaks(2));
     }
 
     private int findCurrentStreak(boolean workweekOnly) {

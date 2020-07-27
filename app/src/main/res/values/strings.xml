@@ -32,4 +32,5 @@
     <string name="this_weeks_focuses">This Week\'s Focuses</string>
     <string name="total_history">Total History</string>
     <string name="no_results">no results found for query</string>
+    <string name="number_of_streaks">Number of Streaks</string>
 </resources>
