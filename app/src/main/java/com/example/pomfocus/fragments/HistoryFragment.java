@@ -1,16 +1,13 @@
 package com.example.pomfocus.fragments;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +25,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +37,8 @@ import java.util.List;
 public class HistoryFragment extends Fragment {
 
     private static final String TAG = "HistoryFragment";
-    private static final String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    private static final String[] MONTHS = {"January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"};
     private static final int DAYS_IN_WEEK = 7;
     public static final int NUM_REQUEST = 25;
     private FragmentHistoryBinding mBinding;
@@ -73,6 +72,7 @@ public class HistoryFragment extends Fragment {
     private void requestThisWeek(Date limit) {
         final ParseQuery<Focus> thisWeekQuery = ParseQuery.getQuery(Focus.class);
         thisWeekQuery.addDescendingOrder(Focus.KEY_CREATED);
+        thisWeekQuery.whereEqualTo(Focus.KEY_CREATOR, ParseUser.getCurrentUser());
         thisWeekQuery.whereGreaterThanOrEqualTo(Focus.KEY_CREATED, limit);
         thisWeekQuery.findInBackground(new FindCallback<Focus>() {
             @Override
@@ -89,6 +89,7 @@ public class HistoryFragment extends Fragment {
     private void requestAll(final HistoryAdapter adapter) {
         final ParseQuery<Focus> olderQuery = ParseQuery.getQuery(Focus.class);
         olderQuery.addDescendingOrder(Focus.KEY_CREATED);
+        olderQuery.whereEqualTo(Focus.KEY_CREATOR, ParseUser.getCurrentUser());
         olderQuery.findInBackground(new FindCallback<Focus>() {
             @Override
             public void done(List<Focus> olderFocuses, ParseException e) {
