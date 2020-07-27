@@ -131,8 +131,8 @@ public class ProfileFragment extends Fragment {
 
     private void launchCamera() {
         // Create a File reference for future access
-        String mPhotoFileName = "photo.jpg";
-        mPhotoFile = getPhotoFileUri(mPhotoFileName);
+        String photoFileName = "photo.jpg";
+        mPhotoFile = getPhotoFileUri(photoFileName);
 
         // wrap File object into a content provider (required for API >= 24)
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
