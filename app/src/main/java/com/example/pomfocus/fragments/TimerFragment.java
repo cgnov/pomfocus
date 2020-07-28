@@ -1,22 +1,11 @@
 package com.example.pomfocus.fragments;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Parcelable;
-import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.example.pomfocus.FocusTimer;
 import com.example.pomfocus.MainActivity;
-import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentTimerBinding;
 
 import org.jetbrains.annotations.NotNull;

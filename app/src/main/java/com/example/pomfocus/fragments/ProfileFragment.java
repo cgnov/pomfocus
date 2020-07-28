@@ -2,10 +2,12 @@ package com.example.pomfocus.fragments;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -209,6 +211,7 @@ public class ProfileFragment extends Fragment {
         fullHistoryQuery.addDescendingOrder(Focus.KEY_CREATED_AT);
 
         fullHistoryQuery.findInBackground(new FindCallback<Focus>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void done(List<Focus> focuses, ParseException e) {
                 if (e != null) {
@@ -221,10 +224,14 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void displayFocusInfo() {
         mBinding.tvStreak.setText(String.valueOf(findCurrentStreak(false)));
-        mBinding.pbNumStreaks.setMax(3);
-        mBinding.pbNumStreaks.setProgress(checkNumStreaks(2));
+        mBinding.pbStreakCount.setMax(3);
+        mBinding.pbStreakCount.setMin(0);
+        mBinding.pbStreakCount.setProgress(checkNumStreaks(2));
+        mBinding.pbWorkweekStreak.setMax(3);
+        mBinding.pbWorkweekStreak.setProgress(findCurrentStreak(true));
     }
 
     private int findCurrentStreak(boolean workweekOnly) {

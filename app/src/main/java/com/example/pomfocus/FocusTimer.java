@@ -16,16 +16,14 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.pomfocus.databinding.FragmentTimerBinding;
 import com.example.pomfocus.fragments.TimerFragment;
-import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.Calendar;
 import java.util.Locale;
 
 
+@SuppressWarnings("CanBeFinal")
 public class FocusTimer extends CountDownTimer {
 
     private static final String TAG = "FocusTimer";
