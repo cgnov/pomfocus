@@ -2,12 +2,10 @@ package com.example.pomfocus.fragments;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -18,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -51,6 +51,9 @@ public class ProfileFragment extends Fragment {
     private FragmentProfileBinding mBinding;
     private File mPhotoFile;
     private List<Focus> mFocuses;
+    private final static int[] STREAK_LIMITS = {3, 7, 14, 30, 75, 150, 365};
+    private final static int[] NUM_STREAK_LIMITS = {1, 2, 3, 5, 7, 10, 15};
+    private final static int[] WEEKEND_WARRIOR_LIMITS = {25, 50, 100, 250, 500, 750, 1000};
 
     public ProfileFragment(ParseUser user) {
         this.mUser = user;
@@ -211,7 +214,6 @@ public class ProfileFragment extends Fragment {
         fullHistoryQuery.addDescendingOrder(Focus.KEY_CREATED_AT);
 
         fullHistoryQuery.findInBackground(new FindCallback<Focus>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void done(List<Focus> focuses, ParseException e) {
                 if (e != null) {
@@ -224,14 +226,43 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void displayFocusInfo() {
         mBinding.tvStreak.setText(String.valueOf(findCurrentStreak(false)));
-        mBinding.pbStreakCount.setMax(3);
-        mBinding.pbStreakCount.setMin(0);
-        mBinding.pbStreakCount.setProgress(checkNumStreaks(2));
-        mBinding.pbWorkweekStreak.setMax(3);
-        mBinding.pbWorkweekStreak.setProgress(findCurrentStreak(true));
+
+        setLevels(findCurrentStreak(true), STREAK_LIMITS, mBinding.pbWorkweekStreak,
+                mBinding.tvWorkweekStreakLevel, mBinding.tvWorkweekStreakProgress);
+        setLevels(checkNumStreaks(2), NUM_STREAK_LIMITS, mBinding.pbStreakCount,
+                mBinding.tvStreakCountLevel, mBinding.tvStreakCountProgress);
+        setLevels(countTotalWeekend(), WEEKEND_WARRIOR_LIMITS, mBinding.pbWeekendWarrior,
+                mBinding.tvWeekendWarriorLevel, mBinding.tvWeekendWarriorProgress);
+
+    }
+
+    private void setLevels(int progress, int[] limits, ProgressBar progressBar, TextView tvLevel, TextView tvProgress) {
+        for (int level = 0; level < limits.length; level++) {
+            if (progress < limits[level]) {
+                tvLevel.setText(String.valueOf(level+1));
+                progressBar.setMax(limits[level]);
+                break;
+            }
+        }
+        progressBar.setProgress(progress);
+        String fraction = "(" + progress + "/" + progressBar.getMax() + ")";
+        tvProgress.setText(fraction);
+    }
+
+    private int countTotalWeekend() {
+        Log.i(TAG, "Counting total focus time for user " + mUser.getUsername());
+        final Calendar focusTime = Calendar.getInstance();
+        int total = 0;
+
+        for (Focus focus : mFocuses) {
+            focusTime.setTime(focus.getCreatedAt());
+            if((focusTime.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) || (focusTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
+                total += focus.getInt(Focus.KEY_LENGTH);
+            }
+        }
+        return total;
     }
 
     private int findCurrentStreak(boolean workweekOnly) {

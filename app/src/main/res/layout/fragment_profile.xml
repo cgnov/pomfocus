@@ -49,8 +49,6 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tvStreakCountDesc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/tvWeekendWarriorLevel" />
 
     <TextView
@@ -76,8 +74,6 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tvWorkweekStreakDesc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/tvWeekendWarriorLevel" />
 
     <ProgressBar
@@ -280,8 +276,6 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tvWeekendWarriorDesc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/tvWeekendWarriorLevel" />
 
     <TextView
@@ -306,5 +300,38 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvWeekendWarriorLevel" />
+
+    <TextView
+        android:id="@+id/tvWorkweekStreakProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/loading_hyphens"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvWorkweekStreakTitle"
+        app:layout_constraintStart_toEndOf="@+id/tvWorkweekStreakTitle" />
+
+    <TextView
+        android:id="@+id/tvWeekendWarriorProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/loading_hyphens"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvWeekendWarriorTitle"
+        app:layout_constraintStart_toEndOf="@+id/tvWeekendWarriorTitle" />
+
+    <TextView
+        android:id="@+id/tvStreakCountProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/loading_hyphens"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvStreakCountDesc"
+        app:layout_constraintStart_toEndOf="@+id/tvStreakCountTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
