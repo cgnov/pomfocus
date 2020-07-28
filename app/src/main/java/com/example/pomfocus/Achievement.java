@@ -12,8 +12,4 @@ public class Achievement {
         this.progress = progress;
         this.limits = limits;
     }
-
-    public void setProgress(int progress) {
-        this.progress = progress;
-    }
 }

@@ -154,6 +154,12 @@ public class HistoryFragment extends Fragment {
         mBinding.bcThisWeek.setDoubleTapToZoomEnabled(false);
         mBinding.bcThisWeek.setScaleXEnabled(false);
 
+        // Style y-axes to display discrete values starting at 0 on default
+        mBinding.bcThisWeek.getAxisRight().setAxisMinimum(0);
+        mBinding.bcThisWeek.getAxisLeft().setAxisMinimum(0);
+        mBinding.bcThisWeek.getAxisRight().setGranularity(1);
+        mBinding.bcThisWeek.getAxisLeft().setGranularity(1);
+
         // Display dates only once no matter how much user zooms in
         mBinding.bcThisWeek.getXAxis().setGranularity(1);
         mBinding.bcThisWeek.getXAxis().setGranularityEnabled(true);

@@ -65,7 +65,6 @@ public class ProfileFragment extends Fragment {
 
     public ProfileFragment(ParseUser user) {
         this.mUser = user;
-        findFullFocusHistory();
     }
 
     @Override
@@ -84,6 +83,12 @@ public class ProfileFragment extends Fragment {
         mBinding.tvHandle.setText(String.format("@%s", mUser.getUsername()));
         mBinding.tvTotal.setText(String.valueOf(mUser.getLong(FocusUser.KEY_TOTAL)));
         setUpRecyclerView();
+
+        if(mFocuses == null) {
+            findFullFocusHistory();
+        } else {
+            displayFocusInfo();
+        }
 
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = mUser.getParseFile(FocusUser.KEY_AVATAR);
@@ -237,35 +242,40 @@ public class ProfileFragment extends Fragment {
                     Log.e(TAG, "Issue getting focus history", e);
                 } else {
                     mFocuses = focuses;
-                    displayFocusInfo();
+                    countFocusInfo();
                 }
             }
         });
     }
 
-    private void displayFocusInfo() {
+    private void countFocusInfo() {
         countCurrentStreaks();
         countTotals();
         confirmTotalTime();
+        displayFocusInfo();
+    }
 
+    private void displayFocusInfo() {
         mBinding.tvStreak.setText(String.valueOf(mFullStreak));
 
-        mAdapter.add(new Achievement("Weekend Warrior", "Focus minutes completed on weekends", mWeekendTotal, MINUTE_LIMITS));
+        mAdapter.add(new Achievement("Weekend Warrior", "Minutes focused on weekends", mWeekendTotal, MINUTE_LIMITS));
         mAdapter.add(new Achievement("Doesn't Give Up", "Streaks started", mNumStreaks, NUM_STREAK_LIMITS));
         mAdapter.add(new Achievement("Workweek Streak", "Streak excluding weekends", mWorkweekStreak, STREAK_LIMITS));
-        mAdapter.add(new Achievement("Early Bird", "Minutes focusing between 4am and 7am", mEarlyBirdTotal, MINUTE_LIMITS));
-        mAdapter.add(new Achievement("Night Owl", "Minutes focusing between 10pm and 3am", mNightOwlTotal, MINUTE_LIMITS));
+        mAdapter.add(new Achievement("Early Bird", "Minutes focused between 4am and 7am", mEarlyBirdTotal, MINUTE_LIMITS));
+        mAdapter.add(new Achievement("Night Owl", "Minutes focused between 10pm and 3am", mNightOwlTotal, MINUTE_LIMITS));
         mAdapter.add(new Achievement("Consistent", "Longest streak length", mMaxStreak, STREAK_LIMITS));
-        mAdapter.add(new Achievement("Doing the Most", "Days with over 4 hours of focus time", mFourHourDays, NUM_STREAK_LIMITS));
-        mAdapter.add(new Achievement("Monthly Max", "Maximum number of focus minutes completed in a single month", mMaxOneMonth, MINUTE_LIMITS));
-        mAdapter.add(new Achievement("Daily Max", "Maximum number of focus minutes completed in a single day", mMaxOneDay, MINUTE_LIMITS));
+        mAdapter.add(new Achievement("Doing the Most", "Days with over 4 hours focused", mFourHourDays, NUM_STREAK_LIMITS));
+        mAdapter.add(new Achievement("Monthly Max", "Most minutes focused in one month", mMaxOneMonth, MINUTE_LIMITS));
+        mAdapter.add(new Achievement("Daily Max", "Most minutes focused in one day", mMaxOneDay, MINUTE_LIMITS));
 
         mAdapter.notifyDataSetChanged();
     }
 
     // Saves manually calculated total time if not same as automatically incremented value
     private void confirmTotalTime() {
-        if (mTotal!=Integer.parseInt(mBinding.tvTotal.getText().toString()) && mUser.equals(ParseUser.getCurrentUser())) {
+        if (!mBinding.tvTotal.getText().toString().isEmpty()
+                && (mTotal != Integer.parseInt(mBinding.tvTotal.getText().toString()))
+                && mUser.equals(ParseUser.getCurrentUser())) {
             mUser.put(FocusUser.KEY_TOTAL, mTotal);
             mUser.saveInBackground(new SaveCallback() {
                 @Override
