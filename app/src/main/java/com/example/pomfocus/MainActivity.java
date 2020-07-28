@@ -20,17 +20,16 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     public static TimerFragment sTimerFragment = new TimerFragment();
-    private ActivityMainBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int selectedItemId = R.id.action_timer;
-        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(mBinding.getRoot());
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        setUpNavigationSelectedListeners(mBinding.bNavigation);
-        mBinding.bNavigation.setSelectedItemId(selectedItemId);
+        setUpNavigationSelectedListeners(binding.bNavigation);
+        binding.bNavigation.setSelectedItemId(selectedItemId);
     }
 
     private void setUpNavigationSelectedListeners(final BottomNavigationView navigation) {

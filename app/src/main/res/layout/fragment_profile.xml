@@ -5,98 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.pomfocus.MainActivity" >
 
-    <TextView
-        android:id="@+id/tvWorkweekStreakDesc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/streak_excluding_weekends"
-        app:layout_constraintBottom_toBottomOf="@+id/tvWorkweekStreakLevel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvWeekendWarriorTitle" />
-
-    <ProgressBar
-        android:id="@+id/pbWorkweekStreak"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/pbWeekendWarrior"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/pbWeekendWarrior"
-        app:layout_constraintTop_toBottomOf="@+id/tvWorkweekStreakLevel" />
-
-    <TextView
-        android:id="@+id/tvStreakCountLevel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/loading_hyphens"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/ivStreak"
-        app:layout_constraintHorizontal_bias="0.275"
-        app:layout_constraintStart_toStartOf="@+id/ivStreak"
-        app:layout_constraintTop_toBottomOf="@+id/pbWeekendWarrior" />
-
-    <TextView
-        android:id="@+id/tvStreakCountTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/doesnt_give_up"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tvStreakCountDesc"
-        app:layout_constraintStart_toEndOf="@+id/tvWeekendWarriorLevel" />
-
-    <TextView
-        android:id="@+id/tvWorkweekStreakLevel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/loading_hyphens"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/ivStreak"
-        app:layout_constraintHorizontal_bias="0.363"
-        app:layout_constraintStart_toStartOf="@+id/ivStreak"
-        app:layout_constraintTop_toBottomOf="@+id/pbStreakCount" />
-
-    <TextView
-        android:id="@+id/tvWorkweekStreakTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/workweek_streak"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tvWorkweekStreakDesc"
-        app:layout_constraintStart_toEndOf="@+id/tvWeekendWarriorLevel" />
-
-    <ProgressBar
-        android:id="@+id/pbStreakCount"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/pbWeekendWarrior"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/pbWeekendWarrior"
-        app:layout_constraintTop_toBottomOf="@+id/tvStreakCountLevel" />
-
-    <TextView
-        android:id="@+id/tvWeekendWarriorDesc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/focus_minutes_completed_on_the_weekend"
-        app:layout_constraintBottom_toBottomOf="@+id/tvWeekendWarriorLevel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvWeekendWarriorTitle" />
-
     <ImageView
         android:id="@+id/ivAvatar"
         android:layout_width="150dp"
@@ -138,16 +46,16 @@
         android:layout_height="wrap_content"
         android:backgroundTint="?attr/backgroundColor"
         android:text="@string/log_out"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSeeHistory" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/ivStreak"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:contentDescription="@string/streak_icon"
         android:src="@drawable/streak_24"
         android:tint="?attr/colorPrimary"
@@ -162,6 +70,7 @@
         android:layout_marginBottom="10dp"
         android:gravity="bottom"
         android:singleLine="true"
+        android:text="@string/loading_hyphens"
         android:textColor="?attr/colorPrimary"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -246,92 +155,21 @@
         android:id="@+id/btnSeeHistory"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/see_history"
         android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogOut"
         app:layout_constraintEnd_toStartOf="@+id/divider"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pbWorkweekStreak" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tvWeekendWarriorLevel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/loading_hyphens"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/ivStreak"
-        app:layout_constraintHorizontal_bias="0.275"
-        app:layout_constraintStart_toStartOf="@+id/ivStreak"
-        app:layout_constraintTop_toBottomOf="@+id/ivStreak" />
-
-    <TextView
-        android:id="@+id/tvWeekendWarriorTitle"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAchievements"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/weekend_warrior"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tvWeekendWarriorDesc"
-        app:layout_constraintStart_toEndOf="@+id/tvWeekendWarriorLevel" />
-
-    <TextView
-        android:id="@+id/tvStreakCountDesc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/streaks_started"
-        app:layout_constraintBottom_toBottomOf="@+id/tvStreakCountLevel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvWeekendWarriorTitle" />
-
-    <ProgressBar
-        android:id="@+id/pbWeekendWarrior"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSeeHistory"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWeekendWarriorLevel" />
-
-    <TextView
-        android:id="@+id/tvWorkweekStreakProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/loading_hyphens"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tvWorkweekStreakTitle"
-        app:layout_constraintStart_toEndOf="@+id/tvWorkweekStreakTitle" />
-
-    <TextView
-        android:id="@+id/tvWeekendWarriorProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/loading_hyphens"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tvWeekendWarriorTitle"
-        app:layout_constraintStart_toEndOf="@+id/tvWeekendWarriorTitle" />
-
-    <TextView
-        android:id="@+id/tvStreakCountProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/loading_hyphens"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tvStreakCountDesc"
-        app:layout_constraintStart_toEndOf="@+id/tvStreakCountTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/ivStreak" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

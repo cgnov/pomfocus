@@ -32,10 +32,4 @@
     <string name="this_weeks_focuses">This Week\'s Focuses</string>
     <string name="total_history">Total History</string>
     <string name="loading_hyphens">--</string>
-    <string name="streak_excluding_weekends">Streak excluding weekends</string>
-    <string name="doesnt_give_up">Doesn\'t Give Up</string>
-    <string name="workweek_streak">Workweek Streak</string>
-    <string name="focus_minutes_completed_on_the_weekend">Focus minutes completed on the weekend</string>
-    <string name="weekend_warrior">Weekend Warrior</string>
-    <string name="streaks_started">Streaks started</string>
 </resources>

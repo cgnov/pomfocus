@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -16,11 +18,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.pomfocus.Achievement;
+import com.example.pomfocus.AchievementAdapter;
 import com.example.pomfocus.Focus;
 import com.example.pomfocus.FocusUser;
 import com.example.pomfocus.LoginActivity;
@@ -51,9 +53,15 @@ public class ProfileFragment extends Fragment {
     private FragmentProfileBinding mBinding;
     private File mPhotoFile;
     private List<Focus> mFocuses;
-    private final static int[] STREAK_LIMITS = {3, 7, 14, 30, 75, 150, 365};
-    private final static int[] NUM_STREAK_LIMITS = {1, 2, 3, 5, 7, 10, 15};
-    private final static int[] WEEKEND_WARRIOR_LIMITS = {25, 50, 100, 250, 500, 750, 1000};
+    private static final int[] STREAK_LIMITS = {3, 7, 14, 30, 75, 150, 365};
+    private static final int[] NUM_STREAK_LIMITS = {1, 2, 3, 5, 7, 10, 15};
+    private static final int[] MINUTE_LIMITS = {25, 50, 100, 250, 500, 750, 1000};
+    private static final int MIN_STREAK_LENGTH = 2;
+    private int mFullStreak = 0, mWorkweekStreak = 0;
+    private int mTotal = 0, mWeekendTotal = 0, mWorkweekTotal = 0, mEarlyBirdTotal = 0, mNightOwlTotal = 0;
+    private int mFourHourDays = 0, mMaxOneDay = 0, mSixtyHourMonths = 0, mMaxOneMonth = 0;
+    private int mNumStreaks = 0, mMaxStreak;
+    private AchievementAdapter mAdapter;
 
     public ProfileFragment(ParseUser user) {
         this.mUser = user;
@@ -74,8 +82,8 @@ public class ProfileFragment extends Fragment {
 
         mBinding.tvName.setText(mUser.getString(FocusUser.KEY_NAME));
         mBinding.tvHandle.setText(String.format("@%s", mUser.getUsername()));
-        mBinding.tvStreak.setText("--");
         mBinding.tvTotal.setText(String.valueOf(mUser.getLong(FocusUser.KEY_TOTAL)));
+        setUpRecyclerView();
 
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = mUser.getParseFile(FocusUser.KEY_AVATAR);
@@ -87,6 +95,15 @@ public class ProfileFragment extends Fragment {
         } else {
             hideButtons();
         }
+    }
+
+    private void setUpRecyclerView() {
+        List<Achievement> achievements = new ArrayList<>();
+        mAdapter = new AchievementAdapter(getContext(), achievements);
+        mBinding.rvAchievements.setAdapter(mAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mBinding.rvAchievements.setLayoutManager(layoutManager);
+        mBinding.rvAchievements.addItemDecoration(new DividerItemDecoration(mBinding.rvAchievements.getContext(), layoutManager.getOrientation()));
     }
 
     private void hideButtons() {
@@ -227,92 +244,148 @@ public class ProfileFragment extends Fragment {
     }
 
     private void displayFocusInfo() {
-        mBinding.tvStreak.setText(String.valueOf(findCurrentStreak(false)));
+        countCurrentStreaks();
+        countTotals();
+        confirmTotalTime();
 
-        setLevels(findCurrentStreak(true), STREAK_LIMITS, mBinding.pbWorkweekStreak,
-                mBinding.tvWorkweekStreakLevel, mBinding.tvWorkweekStreakProgress);
-        setLevels(checkNumStreaks(2), NUM_STREAK_LIMITS, mBinding.pbStreakCount,
-                mBinding.tvStreakCountLevel, mBinding.tvStreakCountProgress);
-        setLevels(countTotalWeekend(), WEEKEND_WARRIOR_LIMITS, mBinding.pbWeekendWarrior,
-                mBinding.tvWeekendWarriorLevel, mBinding.tvWeekendWarriorProgress);
+        mBinding.tvStreak.setText(String.valueOf(mFullStreak));
 
+        mAdapter.add(new Achievement("Weekend Warrior", "Focus minutes completed on weekends", mWeekendTotal, MINUTE_LIMITS));
+        mAdapter.add(new Achievement("Doesn't Give Up", "Streaks started", mNumStreaks, NUM_STREAK_LIMITS));
+        mAdapter.add(new Achievement("Workweek Streak", "Streak excluding weekends", mWorkweekStreak, STREAK_LIMITS));
+        mAdapter.add(new Achievement("Early Bird", "Minutes focusing between 4am and 7am", mEarlyBirdTotal, MINUTE_LIMITS));
+        mAdapter.add(new Achievement("Night Owl", "Minutes focusing between 10pm and 3am", mNightOwlTotal, MINUTE_LIMITS));
+        mAdapter.add(new Achievement("Consistent", "Longest streak length", mMaxStreak, STREAK_LIMITS));
+        mAdapter.add(new Achievement("Doing the Most", "Days with over 4 hours of focus time", mFourHourDays, NUM_STREAK_LIMITS));
+        mAdapter.add(new Achievement("Monthly Max", "Maximum number of focus minutes completed in a single month", mMaxOneMonth, MINUTE_LIMITS));
+        mAdapter.add(new Achievement("Daily Max", "Maximum number of focus minutes completed in a single day", mMaxOneDay, MINUTE_LIMITS));
+
+        mAdapter.notifyDataSetChanged();
     }
 
-    private void setLevels(int progress, int[] limits, ProgressBar progressBar, TextView tvLevel, TextView tvProgress) {
-        for (int level = 0; level < limits.length; level++) {
-            if (progress < limits[level]) {
-                tvLevel.setText(String.valueOf(level+1));
-                progressBar.setMax(limits[level]);
-                break;
-            }
+    // Saves manually calculated total time if not same as automatically incremented value
+    private void confirmTotalTime() {
+        if (mTotal!=Integer.parseInt(mBinding.tvTotal.getText().toString()) && mUser.equals(ParseUser.getCurrentUser())) {
+            mUser.put(FocusUser.KEY_TOTAL, mTotal);
+            mUser.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, "Error updating accurate total time", e);
+                    }
+                }
+            });
         }
-        progressBar.setProgress(progress);
-        String fraction = "(" + progress + "/" + progressBar.getMax() + ")";
-        tvProgress.setText(fraction);
     }
 
-    private int countTotalWeekend() {
-        Log.i(TAG, "Counting total focus time for user " + mUser.getUsername());
-        final Calendar focusTime = Calendar.getInstance();
-        int total = 0;
-
-        for (Focus focus : mFocuses) {
-            focusTime.setTime(focus.getCreatedAt());
-            if((focusTime.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) || (focusTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
-                total += focus.getInt(Focus.KEY_LENGTH);
-            }
-        }
-        return total;
-    }
-
-    private int findCurrentStreak(boolean workweekOnly) {
-        Log.i(TAG, "Checking current streak for user " + mUser.getUsername());
+    private void countCurrentStreaks() {
+        Log.i(TAG, "Checking current streaks for user " + mUser.getUsername());
         final Calendar toCheck = Calendar.getInstance();
         final Calendar focusTime = Calendar.getInstance();
-        int streak = 0;
+        boolean fullUnbroken = true;
+        boolean workweekUnbroken = true;
+        int focusIndex = 0;
 
-        for (Focus focus : mFocuses) {
-            focusTime.setTime(focus.getCreatedAt());
-            if(workweekOnly) {
-                while((toCheck.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) || (toCheck.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
-                    toCheck.add(Calendar.DAY_OF_YEAR, -1);
-                }
-            }
+        while(workweekUnbroken && (focusIndex < mFocuses.size())) {
+            focusTime.setTime(mFocuses.get(focusIndex).getCreatedAt());
             if (focusTime.get(Calendar.DAY_OF_YEAR) == toCheck.get(Calendar.DAY_OF_YEAR)) {
-                streak++;
+                if(!isWeekend(focusTime)) {
+                    mWorkweekStreak++;
+                }
+                if(fullUnbroken) {
+                    mFullStreak++;
+                }
                 toCheck.add(Calendar.DAY_OF_YEAR, -1);
             } else if (focusTime.compareTo(toCheck) < 0) {
-                return streak;
+                if (!isWeekend(toCheck)) {
+                    workweekUnbroken = false;
+                }
+                fullUnbroken = false;
             }
+            focusIndex++;
         }
-        return streak;
     }
 
-    private int checkNumStreaks(int minStreakLength) {
-        Log.i(TAG, "Counting number of streaks");
-        final List<Integer> streaks = new ArrayList<>();
-        final Calendar toCheck = Calendar.getInstance();
+    private void countTotals() {
+        Log.i(TAG, "Counting total focus times and number of streaks for user " + mUser.getUsername());
         final Calendar focusTime = Calendar.getInstance();
-        int streak = 0;
+        final Calendar toCheck = Calendar.getInstance();
+        final Calendar matchDate = Calendar.getInstance();
+
+        int daySum = 0;
+        int monthSum = 0;
+        int fullStreak = 0;
 
         for (Focus focus : mFocuses) {
             focusTime.setTime(focus.getCreatedAt());
+            int length = focus.getInt(Focus.KEY_LENGTH);
+            increaseLengths(length, focusTime);
+
+            if(matchDate.get(Calendar.DAY_OF_YEAR) != focusTime.get(Calendar.DAY_OF_YEAR)) {
+                if (daySum > 240) {
+                    mFourHourDays++;
+                }
+                mMaxOneDay = Math.max(mMaxOneDay, daySum);
+                daySum = 0;
+            }
+            if(matchDate.get(Calendar.MONTH) != focusTime.get(Calendar.MONTH)) {
+                if (monthSum > 3600) {
+                    mSixtyHourMonths++;
+                }
+                mMaxOneMonth = Math.max(mMaxOneMonth, monthSum);
+                monthSum = 0;
+            }
+            matchDate.setTime(focusTime.getTime());
+            daySum += length;
+            monthSum += length;
+
+            // Increase/save streaks
             if (focusTime.get(Calendar.DAY_OF_YEAR) == toCheck.get(Calendar.DAY_OF_YEAR)) {
-                streak++;
+                fullStreak++;
                 toCheck.add(Calendar.DAY_OF_YEAR, -1);
             } else if (focusTime.compareTo(toCheck) < 0) {
-                if(streak >= minStreakLength) {
-                    streaks.add(streak);
+                if(fullStreak >= MIN_STREAK_LENGTH) {
+                    mNumStreaks++;
+                    mMaxStreak = Math.max(mMaxStreak, fullStreak);
                 }
-                streak = 1;
+                fullStreak = 1;
                 toCheck.setTime(focusTime.getTime());
                 toCheck.add(Calendar.DAY_OF_YEAR, -1);
             }
         }
-        if(streak >= minStreakLength) {
-            streaks.add(streak);
+        if(fullStreak >= MIN_STREAK_LENGTH) {
+            mNumStreaks++;
+        }
+        if (daySum > 240) {
+            mFourHourDays++;
+        }
+        if (monthSum > 3600) {
+            mSixtyHourMonths++;
+        }
+        mMaxOneDay = Math.max(mMaxOneDay, daySum);
+        mMaxOneMonth = Math.max(mMaxOneMonth, monthSum);
+    }
+
+    private void increaseLengths(int length, Calendar focusTime) {
+        mTotal += length;
+
+        if (isWeekend(focusTime)) {
+            mWeekendTotal += length;
+        } else {
+            mWorkweekTotal += length;
         }
 
-        return streaks.size();
+        int hour = focusTime.get(Calendar.HOUR_OF_DAY);
+        if (hour < 7 && hour >= 4) {
+            mEarlyBirdTotal += length;
+        } else if (hour > 22 || hour <= 2) {
+            mNightOwlTotal += length;
+        }
+    }
+
+    private boolean isWeekend(Calendar calendar) {
+        boolean isSaturday = calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY;
+        boolean isSunday = calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
+        return isSaturday || isSunday;
     }
 }
