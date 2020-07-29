@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
@@ -21,7 +22,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.Locale;
-
 
 @SuppressWarnings("CanBeFinal")
 public class FocusTimer extends CountDownTimer {
@@ -58,10 +58,14 @@ public class FocusTimer extends CountDownTimer {
 
     @Override
     public void onFinish() {
+        mBinding.ccTimerVisual.onChangeTime(0);
         TimerFragment.sCurrentlyWorking = false;
         MainActivity.sTimerFragment.mTimer = null;
+        if (MainActivity.sTimerFragment.getActivity() != null) {
+            MainActivity.sTimerFragment.getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
         mBinding.btnStart.setVisibility(View.VISIBLE);
-        if(!TimerFragment.sBreakIsNext) {
+        if (!TimerFragment.sBreakIsNext) {
             createFocusObject();
         } else {
             TimerFragment.sPomodoroStage++;
@@ -77,7 +81,7 @@ public class FocusTimer extends CountDownTimer {
         String nextUp = (TimerFragment.sBreakIsNext)
                 ? "take a break"
                 : "get to work";
-        if(TimerFragment.sBreakIsNext && (TimerFragment.sPomodoroStage == 4)) {
+        if (TimerFragment.sBreakIsNext && (TimerFragment.sPomodoroStage == 4)) {
             nextUp = "take a long break";
         }
 
@@ -127,14 +131,8 @@ public class FocusTimer extends CountDownTimer {
     }
 
     public void increaseTotalTime() {
-        ParseUser.getCurrentUser().increment(FocusUser.KEY_TOTAL, FocusTimer.MINUTES_PER_POMODORO);
-        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "problem saving total time", e);
-                }
-            }
-        });
+        ParseUser user = ParseUser.getCurrentUser();
+        user.increment(FocusUser.KEY_TOTAL, FocusTimer.MINUTES_PER_POMODORO);
+        user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving total time"));
     }
 }

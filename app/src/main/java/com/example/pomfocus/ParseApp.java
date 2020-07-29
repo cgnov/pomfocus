@@ -3,16 +3,21 @@ package com.example.pomfocus;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.util.TypedValue;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 import com.parse.facebook.ParseFacebookUtils;
 
-public class ParseApplication extends Application {
+public class ParseApp extends Application {
+    private static final String TAG = "ParseApp";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -38,5 +43,16 @@ public class ParseApplication extends Application {
         theme.resolveAttribute(attr, typedValue, true);
         @ColorInt int color = typedValue.data;
         return color;
+    }
+
+    public static SaveCallback makeSaveCallback(final String TAG, final String logExplanation) {
+        return new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, logExplanation, e);
+                }
+            }
+        };
     }
 }

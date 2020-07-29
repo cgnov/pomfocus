@@ -20,19 +20,28 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     public static TimerFragment sTimerFragment = new TimerFragment();
+    public BottomNavigationView mNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         if(getIntent() != null && getIntent().getBooleanExtra("fromNotification", false)) {
             sTimerFragment = new TimerFragment();
         }
+        mNavigation = binding.bNavigation;
+        setUpNavigationSelectedListeners(mNavigation);
+        displayTimerFragment();
+    }
 
-        setUpNavigationSelectedListeners(binding.bNavigation);
-        binding.bNavigation.setSelectedItemId(R.id.action_timer);
+    // Only called on app close and opening notif from app open, not sleep mode, but NOT when other app is opened from home page notif
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        if (ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_FOCUS) && (sTimerFragment.mTimer != null)) {
+            sTimerFragment.cancelTimer();
+        }
     }
 
     private void setUpNavigationSelectedListeners(final BottomNavigationView navigation) {
@@ -63,5 +72,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public void displayTimerFragment() {
+        sTimerFragment = new TimerFragment();
+        mNavigation.setSelectedItemId(R.id.action_timer);
     }
 }

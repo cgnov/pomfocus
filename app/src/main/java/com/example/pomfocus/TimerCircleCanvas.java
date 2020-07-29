@@ -37,9 +37,9 @@ public class TimerCircleCanvas extends View {
     }
 
     private void setUp() {
-        mCompletedPaint.setColor(ParseApplication.getAttrColor(getContext(), R.attr.colorPrimary));
+        mCompletedPaint.setColor(ParseApp.getAttrColor(getContext(), R.attr.colorPrimary));
         mCompletedPaint.setStyle(Paint.Style.FILL);
-        mToGoPaint.setColor(ParseApplication.getAttrColor(getContext(), R.attr.backgroundColor));
+        mToGoPaint.setColor(ParseApp.getAttrColor(getContext(), R.attr.backgroundColor));
         mToGoPaint.setStyle(Paint.Style.FILL);
 
         addOnLayoutChangeListener(new OnLayoutChangeListener() {
@@ -74,7 +74,7 @@ public class TimerCircleCanvas extends View {
     }
 
     public void onChangeTime(float percentLeft) {
-        mSweep = percentLeft*FULL_ANGLE;
+        mSweep = percentLeft * FULL_ANGLE;
         invalidate();
     }
 }

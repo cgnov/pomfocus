@@ -26,6 +26,7 @@ import com.example.pomfocus.AchievementAdapter;
 import com.example.pomfocus.Focus;
 import com.example.pomfocus.FocusUser;
 import com.example.pomfocus.LoginActivity;
+import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileBinding;
 import com.parse.FindCallback;
@@ -267,6 +268,7 @@ public class ProfileFragment extends Fragment {
         mAdapter.add(new Achievement("Doing the Most", "Days with over 4 hours focused", mFourHourDays, NUM_STREAK_LIMITS));
         mAdapter.add(new Achievement("Monthly Max", "Most minutes focused in one month", mMaxOneMonth, MINUTE_LIMITS));
         mAdapter.add(new Achievement("Daily Max", "Most minutes focused in one day", mMaxOneDay, MINUTE_LIMITS));
+        mAdapter.add(new Achievement("Intense Months", "Months with over sixty hours focused", mSixtyHourMonths, NUM_STREAK_LIMITS));
 
         mAdapter.notifyDataSetChanged();
     }
@@ -277,14 +279,7 @@ public class ProfileFragment extends Fragment {
                 && (mTotal != Integer.parseInt(mBinding.tvTotal.getText().toString()))
                 && mUser.equals(ParseUser.getCurrentUser())) {
             mUser.put(FocusUser.KEY_TOTAL, mTotal);
-            mUser.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e != null) {
-                        Log.e(TAG, "Error updating accurate total time", e);
-                    }
-                }
-            });
+            mUser.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving accurate total time"));
         }
     }
 

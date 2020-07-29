@@ -12,14 +12,18 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.example.pomfocus.FocusTimer;
+import com.example.pomfocus.FocusUser;
 import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.databinding.FragmentTimerBinding;
+import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public class TimerFragment extends Fragment {
 
@@ -66,6 +70,9 @@ public class TimerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mBinding.btnStart.setVisibility(View.GONE);
+                if (ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_SCREEN) && (getActivity() != null)) {
+                    getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
                 mTimer = new FocusTimer(getNextLength()*FocusTimer.MILLIS_PER_MINUTE, FocusTimer.MILLIS_PER_SECOND, getContext(), mBinding);
                 mTimer.start();
                 sCurrentlyWorking = true;
@@ -130,5 +137,11 @@ public class TimerFragment extends Fragment {
 
     public void refresh() {
         mBinding.tvTimeLeft.setText(getNextFull());
+    }
+
+    public void cancelTimer() {
+        mTimer.cancel();
+        sCurrentlyWorking = false;
+        ((MainActivity) Objects.requireNonNull(getActivity())).displayTimerFragment();
     }
 }
