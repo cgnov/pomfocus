@@ -59,6 +59,7 @@ public class FocusTimer extends CountDownTimer {
     @Override
     public void onFinish() {
         TimerFragment.sCurrentlyWorking = false;
+        MainActivity.sTimerFragment.mTimer = null;
         mBinding.btnStart.setVisibility(View.VISIBLE);
         if(!TimerFragment.sBreakIsNext) {
             createFocusObject();
@@ -81,7 +82,8 @@ public class FocusTimer extends CountDownTimer {
         }
 
         Intent i = new Intent(mContext, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, i, 0);
+        i.putExtra("fromNotification", true);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
                 .setSmallIcon(R.drawable.timer_24)
                 .setContentTitle(String.format("Time to %s!", nextUp))
@@ -98,11 +100,8 @@ public class FocusTimer extends CountDownTimer {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "testName";
-            String description = "test description";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Pomodoro Focus Notification Channel", importance);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = mContext.getSystemService(NotificationManager.class);

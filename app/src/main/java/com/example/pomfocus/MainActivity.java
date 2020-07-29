@@ -24,12 +24,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int selectedItemId = R.id.action_timer;
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        if(getIntent() != null && getIntent().getBooleanExtra("fromNotification", false)) {
+            sTimerFragment = new TimerFragment();
+        }
+
         setUpNavigationSelectedListeners(binding.bNavigation);
-        binding.bNavigation.setSelectedItemId(selectedItemId);
+        binding.bNavigation.setSelectedItemId(R.id.action_timer);
     }
 
     private void setUpNavigationSelectedListeners(final BottomNavigationView navigation) {

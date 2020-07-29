@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -48,7 +49,6 @@ public class TimerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        mBinding.btnSwitchTheme.setBackgroundColor(ContextCompat.getColor(getContext(), backgronud));
 
         if(sCurrentlyWorking) {
             mBinding.btnStart.setVisibility(View.GONE);
