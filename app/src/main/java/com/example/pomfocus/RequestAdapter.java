@@ -1,16 +1,21 @@
 package com.example.pomfocus;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pomfocus.databinding.ItemRequestBinding;
 import com.example.pomfocus.fragments.ProfileFragment;
+import com.parse.DeleteCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -47,7 +52,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         notifyDataSetChanged();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public void remove(int position) {
+        mRequests.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemRequestBinding mBind;
 
         public ViewHolder(@NonNull final View itemView) {
@@ -61,7 +71,43 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                 assert sender != null;
                 mBind.tvName.setText(sender.getUsername());
                 ProfileFragment.displayAvatar(mBind.ivAvatar, sender.getParseFile(FocusUser.KEY_AVATAR));
+                setUpResponseClickListeners(request, sender);
             }
+        }
+
+        private void setUpResponseClickListeners(final FriendRequest request, final ParseUser sender) {
+            mBind.btnAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    request.setAccepted();
+                    request.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                Log.e(TAG, "Error accepting friend request");
+                            } else {
+                                RequestAdapter.this.remove(getAdapterPosition());
+                            }
+                        }
+                    });
+                }
+            });
+
+            mBind.btnDecline.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    request.deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                Log.e(TAG, "Error declining/deleting friend request", e);
+                            } else {
+                                RequestAdapter.this.remove(getAdapterPosition());
+                            }
+                        }
+                    });
+                }
+            });
         }
     }
 }

@@ -59,6 +59,7 @@ public class TimerFragment extends Fragment {
             mBinding.tvTimeLeft.setText("");
         } else {
             mBinding.tvTimeLeft.setText(getNextFull());
+            mBinding.ccTimerVisual.onChangeTime(100);
         }
 
         setStartButtonOnClickListener();

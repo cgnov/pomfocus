@@ -61,12 +61,8 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mBinding.tvName.setText(ParseUser.getCurrentUser().getString(FocusUser.KEY_NAME));
-        mBinding.tvHandle.setText(ParseUser.getCurrentUser().getUsername());
-
-        // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
-        ParseFile avatar = ParseUser.getCurrentUser().getParseFile(FocusUser.KEY_AVATAR);
-        ProfileFragment.displayAvatar(mBinding.ivAvatar, avatar);
+        displayProfileInfo();
+        setUpSwitches();
 
         mBinding.ivAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +71,36 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        mBinding.btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBinding.btnLogOut.setText(getString(R.string.logging_out));
+                mBinding.btnLogOut.setEnabled(false);
+                TimerFragment.resetValues();
+                ParseUser.logOut();
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                startActivity(i);
+                Objects.requireNonNull(getActivity()).finish();
+            }
+        });
+    }
+
+    private void displayProfileInfo() {
+        mBinding.tvName.setText(ParseUser.getCurrentUser().getString(FocusUser.KEY_NAME));
+        mBinding.tvHandle.setText(ParseUser.getCurrentUser().getUsername());
+
+        // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
+        ParseFile avatar = ParseUser.getCurrentUser().getParseFile(FocusUser.KEY_AVATAR);
+        ProfileFragment.displayAvatar(mBinding.ivAvatar, avatar);
+
+        // Set up RecyclerView with friend requests
+        mBinding.rvRequests.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new RequestAdapter(getContext(), new ArrayList<FriendRequest>());
+        queryRequests();
+        mBinding.rvRequests.setAdapter(mAdapter);
+    }
+
+    private void setUpSwitches() {
         mBinding.switchKeepScreenOn.setChecked(ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_SCREEN));
         mBinding.switchFocusMode.setChecked(ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_FOCUS));
 
@@ -93,24 +119,6 @@ public class SettingsFragment extends Fragment {
                 ParseUser user = ParseUser.getCurrentUser();
                 user.put(FocusUser.KEY_FOCUS, b);
                 user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving focusMode preference"));
-            }
-        });
-
-        mBinding.rvRequests.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new RequestAdapter(getContext(), new ArrayList<FriendRequest>());
-        queryRequests();
-        mBinding.rvRequests.setAdapter(mAdapter);
-
-        mBinding.btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mBinding.btnLogOut.setText(getString(R.string.logging_out));
-                mBinding.btnLogOut.setEnabled(false);
-                TimerFragment.resetValues();
-                ParseUser.logOut();
-                Intent i = new Intent(getActivity(), LoginActivity.class);
-                startActivity(i);
-                Objects.requireNonNull(getActivity()).finish();
             }
         });
     }

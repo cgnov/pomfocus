@@ -8,6 +8,7 @@ import com.parse.ParseUser;
 public class FriendRequest extends ParseObject {
     public static final String KEY_FROM = "fromUser";
     public static final String KEY_TO = "toUser";
+    public static final String KEY_ACCEPTED = "accepted";
 
     public void setFrom(ParseUser fromUser) {
         ParseUser pointer = (ParseUser) ParseUser.createWithoutData("_User", fromUser.getObjectId());
@@ -17,5 +18,9 @@ public class FriendRequest extends ParseObject {
     public void setTo(ParseUser toUser) {
         ParseUser pointer = (ParseUser) ParseUser.createWithoutData("_User", toUser.getObjectId());
         put(KEY_TO, pointer);
+    }
+
+    public void setAccepted() {
+        put(KEY_ACCEPTED, true);
     }
 }

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        if (ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_FOCUS) && (sTimerFragment.mTimer != null)) {
+        if ((sTimerFragment.mTimer != null) && ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_FOCUS)) {
             sTimerFragment.cancelTimer();
         }
     }
