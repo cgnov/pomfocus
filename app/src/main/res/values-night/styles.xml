@@ -8,6 +8,7 @@
         <item name="android:windowBackground">@color/grey10</item>
         <item name="backgroundColor">@color/grey8</item>
         <item name="android:navigationBarColor">@color/grey10</item>
+        <item name="colorSecondary">@color/grey2</item>
 
     </style>
 </resources>

@@ -165,7 +165,7 @@ public class HistoryFragment extends Fragment {
 
         hideBarChartLines();
 
-        int textColor = ParseApp.getAttrColor(getContext(), R.attr.backgroundColor);
+        int textColor = ParseApp.getAttrColor(getContext(), R.attr.colorSecondary);
         mBinding.bcThisWeek.getXAxis().setTextColor(textColor);
         mBinding.bcThisWeek.getAxisRight().setTextColor(textColor);
         mBinding.bcThisWeek.getAxisLeft().setTextColor(textColor);

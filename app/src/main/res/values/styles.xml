@@ -7,6 +7,7 @@
         <item name="colorAccent">@color/red5</item>
         <item name="android:windowBackground">@color/grey2</item>
         <item name="backgroundColor">@color/grey5</item>
+        <item name="colorSecondary">@color/grey8</item>
 
     </style>
 
