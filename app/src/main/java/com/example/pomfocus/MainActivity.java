@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = sTimerFragment;
                         break;
                     case R.id.action_leaderboard:
-                        fragment = new LeaderboardFragment();
+                        fragment = new LeaderboardFragment(false);
                         break;
                     case R.id.action_profile:
                         fragment = new ProfileFragment(ParseUser.getCurrentUser());

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pomfocus.databinding.ItemFocusUserBinding;
 import com.example.pomfocus.fragments.ProfileFragment;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -22,11 +23,19 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
     private static final String TAG = "FocusUserAdapter";
     private final Context mContext;
     private final List<ParseUser> mFocusUsers;
+    private final List<ParseObject> mFriends;
     private AppCompatActivity mActivity;
 
     public FocusUserAdapter(Context context, List<ParseUser> focusers) {
         mContext = context;
         mFocusUsers = focusers;
+        mFriends = null;
+    }
+
+    public FocusUserAdapter(Context context, List<ParseObject> friends, boolean friendsOnly) {
+        mContext = context;
+        mFocusUsers = null;
+        mFriends = friends;
     }
 
     @NonNull
@@ -39,25 +48,48 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ParseUser focusUser = mFocusUsers.get(position);
+        ParseUser focusUser;
+        if (mFriends == null) {
+            assert mFocusUsers != null;
+            focusUser = mFocusUsers.get(position);
+        } else {
+            focusUser = (ParseUser) mFriends.get(position);
+        }
         focusUser.put(FocusUser.KEY_RANK, position);
         holder.bind(focusUser);
     }
 
     @Override
     public int getItemCount() {
-        return mFocusUsers.size();
+        if (mFriends == null) {
+            assert mFocusUsers != null;
+            return mFocusUsers.size();
+        } else {
+            return mFriends.size();
+        }
     }
 
     // Clean all elements of the recycler (used for SwipeRefresh)
     public void clear() {
-        mFocusUsers.clear();
+        if (mFriends == null) {
+            assert mFocusUsers != null;
+            mFocusUsers.clear();
+        } else {
+            mFriends.clear();
+        }
         notifyDataSetChanged();
     }
 
     // Add list of posts (used for SwipeRefresh)
     public void addAll(List<ParseUser> list) {
+        assert mFocusUsers != null;
         mFocusUsers.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<ParseObject> list, boolean onlyFriends) {
+        assert mFriends != null;
+        mFriends.addAll(list);
         notifyDataSetChanged();
     }
 

@@ -43,4 +43,5 @@
     <string name="respond_to_request">Respond to Friend Request</string>
     <string name="cancel_request">Cancel Friend Request</string>
     <string name="decline">Decline</string>
+    <string name="friends_only">Friends Only</string>
 </resources>
