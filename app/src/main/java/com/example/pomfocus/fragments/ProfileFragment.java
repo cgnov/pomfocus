@@ -67,16 +67,20 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mBinding.tvName.setText(mUser.getString(FocusUser.KEY_NAME));
-        mBinding.tvHandle.setText(String.format("@%s", mUser.getUsername()));
-        mBinding.tvTotal.setText(String.valueOf(mUser.getLong(FocusUser.KEY_TOTAL)));
         setUpRecyclerView();
+        displayProfileInfo();
 
         if(mFocuses == null) {
             findFullFocusHistory();
         } else {
             displayFocusInfo();
         }
+    }
+
+    private void displayProfileInfo() {
+        mBinding.tvName.setText(mUser.getString(FocusUser.KEY_NAME));
+        mBinding.tvHandle.setText(String.format("@%s", mUser.getUsername()));
+        mBinding.tvTotal.setText(String.valueOf(mUser.getLong(FocusUser.KEY_TOTAL)));
 
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = mUser.getParseFile(FocusUser.KEY_AVATAR);
@@ -88,16 +92,7 @@ public class ProfileFragment extends Fragment {
             mBinding.btnFriends.setVisibility(View.GONE);
         } else {
             hideButtons();
-            mBinding.btnFriends.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.i(TAG, "Saving friend request from " + ParseUser.getCurrentUser().getUsername() + " to " + mUser.getUsername());
-                    FriendRequest friendRequest = new FriendRequest();
-                    friendRequest.setFrom(ParseUser.getCurrentUser());
-                    friendRequest.setTo(mUser);
-                    friendRequest.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving friend request"));
-                }
-            });
+            setUpFriendsButton();
         }
     }
 
@@ -113,6 +108,23 @@ public class ProfileFragment extends Fragment {
     private void hideButtons() {
         mBinding.btnSettings.setVisibility(View.GONE);
         mBinding.btnSeeHistory.setVisibility(View.GONE);
+    }
+
+    private void setUpFriendsButton() {
+        if(mUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+            mBinding.btnFriends.setVisibility(View.GONE);
+        } else {
+            mBinding.btnFriends.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.i(TAG, "Saving friend request from " + ParseUser.getCurrentUser().getUsername() + " to " + mUser.getUsername());
+                    FriendRequest friendRequest = new FriendRequest();
+                    friendRequest.setFrom(ParseUser.getCurrentUser());
+                    friendRequest.setTo(mUser);
+                    friendRequest.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving friend request"));
+                }
+            });
+        }
     }
 
     private void setUpClickListeners() {
