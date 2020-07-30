@@ -22,8 +22,9 @@ public class ParseApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Register your parse models
+        // Register parse models
         ParseObject.registerSubclass(Focus.class);
+        ParseObject.registerSubclass(FriendRequest.class);
 
         // set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured

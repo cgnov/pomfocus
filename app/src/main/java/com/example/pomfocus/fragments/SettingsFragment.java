@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -19,18 +20,24 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.pomfocus.FocusUser;
+import com.example.pomfocus.FriendRequest;
 import com.example.pomfocus.LoginActivity;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
+import com.example.pomfocus.RequestAdapter;
 import com.example.pomfocus.databinding.FragmentSettingsBinding;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -40,6 +47,7 @@ public class SettingsFragment extends Fragment {
     private static final String TAG = "SettingsFragment";
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private File mPhotoFile;
+    private RequestAdapter mAdapter;
     private FragmentSettingsBinding mBinding;
 
     @Override
@@ -88,6 +96,11 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        mBinding.rvRequests.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new RequestAdapter(getContext(), new ArrayList<FriendRequest>());
+        queryRequests();
+        mBinding.rvRequests.setAdapter(mAdapter);
+
         mBinding.btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,6 +111,22 @@ public class SettingsFragment extends Fragment {
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 Objects.requireNonNull(getActivity()).finish();
+            }
+        });
+    }
+
+    private void queryRequests() {
+        ParseQuery<FriendRequest> query = ParseQuery.getQuery(FriendRequest.class);
+        query.whereEqualTo(FriendRequest.KEY_TO, ParseUser.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
+        query.include(FriendRequest.KEY_FROM);
+        query.findInBackground(new FindCallback<FriendRequest>() {
+            @Override
+            public void done(List<FriendRequest> requests, ParseException e) {
+                if (e != null) {
+                    Log.i(TAG, "Error getting requests", e);
+                } else {
+                    mAdapter.addAll(requests);
+                }
             }
         });
     }

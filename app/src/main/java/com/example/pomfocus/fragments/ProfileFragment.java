@@ -19,6 +19,7 @@ import com.example.pomfocus.Achievement;
 import com.example.pomfocus.AchievementAdapter;
 import com.example.pomfocus.Focus;
 import com.example.pomfocus.FocusUser;
+import com.example.pomfocus.FriendRequest;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileBinding;
@@ -84,8 +85,19 @@ public class ProfileFragment extends Fragment {
         // Set up or hide personal buttons
         if(mUser.equals(ParseUser.getCurrentUser())) {
             setUpClickListeners();
+            mBinding.btnFriends.setVisibility(View.GONE);
         } else {
             hideButtons();
+            mBinding.btnFriends.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.i(TAG, "Saving friend request from " + ParseUser.getCurrentUser().getUsername() + " to " + mUser.getUsername());
+                    FriendRequest friendRequest = new FriendRequest();
+                    friendRequest.setFrom(ParseUser.getCurrentUser());
+                    friendRequest.setTo(mUser);
+                    friendRequest.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving friend request"));
+                }
+            });
         }
     }
 

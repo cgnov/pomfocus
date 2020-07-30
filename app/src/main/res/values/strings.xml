@@ -37,4 +37,8 @@
     <string name="keep_screen_on_desc">If on, the screen will not turn off whenever the timer is running and the application is open.</string>
     <string name="focus_mode_desc">In focus mode, the timer automatically cancels when you close the app but not when you put the device on sleep mode.</string>
     <string name="focus_mode">Focus Mode</string>
+    <string name="send_friend_request">Send Friend Request</string>
+    <string name="friend_requests">Friend Requests</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
 </resources>
