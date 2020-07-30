@@ -320,7 +320,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material/icons/materialicons/stop/baseline_stop_24.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material/icons/materialicons/lens/baseline_lens_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -330,7 +330,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="stop_24" />
+                            <entry key="outputName" value="circle_24" />
                           </map>
                         </option>
                       </PersistentState>

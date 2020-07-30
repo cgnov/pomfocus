@@ -41,11 +41,11 @@
         tools:text="\@janeisproductive" />
 
     <Button
-        android:id="@+id/btnLogOut"
+        android:id="@+id/btnSettings"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="?attr/backgroundColor"
-        android:text="@string/log_out"
+        android:text="@string/settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -109,16 +109,6 @@
         app:layout_constraintTop_toTopOf="@+id/ivStreak"
         tools:text="15" />
 
-    <Button
-        android:id="@+id/btnTakePicture"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/take_picture"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/divider"
-        app:layout_constraintTop_toTopOf="@+id/btnSeeHistory" />
-
     <View
         android:id="@+id/divider"
         android:layout_width="1dp"
@@ -157,8 +147,8 @@
         android:layout_height="wrap_content"
         android:text="@string/see_history"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogOut"
-        app:layout_constraintEnd_toStartOf="@+id/divider"
+        app:layout_constraintBottom_toTopOf="@+id/btnSettings"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView

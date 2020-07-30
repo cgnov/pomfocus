@@ -15,7 +15,6 @@
     <string name="streak_icon">Streak icon</string>
     <string name="total_time_icon">Total time icon</string>
     <string name="pom_length">25:00</string>
-    <string name="take_picture">Take Picture</string>
     <string name="continue_with_facebook">Continue with Facebook</string>
     <string name="focus">Focus</string>
     <string name="lengths">Lengths</string>
@@ -25,11 +24,17 @@
     <string name="logging_in">Logging In…</string>
     <string name="signing_up">Signing Up…</string>
     <string name="logging_out">Logging Out…</string>
-    <string name="saving_picture">Saving Picture…</string>
     <string name="streak">Streak</string>
     <string name="minutes_focused">Minutes Focused</string>
     <string name="see_history">See History</string>
     <string name="this_weeks_focuses">This Week\'s Focuses</string>
     <string name="total_history">Total History</string>
     <string name="loading_hyphens">--</string>
+    <string name="settings">Settings</string>
+    <string name="edit_icon_shadow">Edit icon shadow</string>
+    <string name="edit_icon">Edit icon</string>
+    <string name="keep_screen_on">Keep Screen On</string>
+    <string name="keep_screen_on_desc">If on, the screen will not turn off whenever the timer is running and the application is open.</string>
+    <string name="focus_mode_desc">In focus mode, the timer automatically cancels when you close the app but not when you put the device on sleep mode.</string>
+    <string name="focus_mode">Focus Mode</string>
 </resources>
