@@ -126,6 +126,7 @@ public class SettingsFragment extends Fragment {
     private void queryRequests() {
         ParseQuery<FriendRequest> query = ParseQuery.getQuery(FriendRequest.class);
         query.whereEqualTo(FriendRequest.KEY_TO, ParseUser.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
+        query.whereEqualTo(FriendRequest.KEY_ACCEPTED, false);
         query.include(FriendRequest.KEY_FROM);
         query.findInBackground(new FindCallback<FriendRequest>() {
             @Override

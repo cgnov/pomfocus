@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pomfocus.Achievement;
@@ -23,10 +24,13 @@ import com.example.pomfocus.FriendRequest;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileBinding;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
@@ -50,6 +54,7 @@ public class ProfileFragment extends Fragment {
     private int mFourHourDays = 0, mMaxOneDay = 0, mSixtyHourMonths = 0, mMaxOneMonth = 0;
     private int mNumStreaks = 0, mMaxStreak;
     private AchievementAdapter mAdapter;
+    private boolean mFriends = true, mSent = true, mReceived = true;
 
     public ProfileFragment(ParseUser user) {
         this.mUser = user;
@@ -89,11 +94,50 @@ public class ProfileFragment extends Fragment {
         // Set up or hide personal buttons
         if(mUser.equals(ParseUser.getCurrentUser())) {
             setUpClickListeners();
-            mBinding.btnFriends.setVisibility(View.GONE);
+            queryNewFriends();
         } else {
             hideButtons();
-            setUpFriendsButton();
+            checkFriendStatus();
         }
+    }
+
+    private void queryNewFriends() {
+        ParseQuery<FriendRequest> query = ParseQuery.getQuery(FriendRequest.class);
+        query.whereEqualTo(FriendRequest.KEY_FROM, FriendRequest.makePointer(ParseUser.getCurrentUser()));
+        query.whereEqualTo(FriendRequest.KEY_ACCEPTED, true);
+        query.findInBackground(new FindCallback<FriendRequest>() {
+            @Override
+            public void done(List<FriendRequest> acceptedRequests, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error retrieving new friends", e);
+                } else {
+                    if ((acceptedRequests != null) && (acceptedRequests.size() != 0)) {
+                        processNewFriends(acceptedRequests);
+                    }
+                }
+            }
+        });
+    }
+
+    private void processNewFriends(List<FriendRequest> acceptedRequests) {
+        List<ParseUser> newFriends = new ArrayList<>();
+        for (FriendRequest acceptedRequest : acceptedRequests) {
+            ParseUser newFriend = acceptedRequest.getParseUser(FriendRequest.KEY_TO);
+            assert newFriend != null;
+            newFriends.add(FriendRequest.makePointer(newFriend));
+            acceptedRequest.deleteInBackground(new DeleteCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, "Error deleting accepted friend request");
+                    }
+                }
+            });
+        }
+        for (ParseUser friendPointer : newFriends) {
+            ParseUser.getCurrentUser().getRelation(FocusUser.KEY_FRIENDS).add(friendPointer);
+        }
+        ParseUser.getCurrentUser().saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving new friends"));
     }
 
     private void setUpRecyclerView() {
@@ -110,10 +154,126 @@ public class ProfileFragment extends Fragment {
         mBinding.btnSeeHistory.setVisibility(View.GONE);
     }
 
-    private void setUpFriendsButton() {
-        if(mUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
-            mBinding.btnFriends.setVisibility(View.GONE);
-        } else {
+    private void checkFriendStatus() {
+        if(!mUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+            checkAlreadyFriends();
+            checkPendingSentRequest();
+            checkPendingReceivedRequest();
+        }
+    }
+
+    private void checkAlreadyFriends() {
+        ParseQuery<ParseObject> friendsQuery = ParseUser.getCurrentUser().getRelation(FocusUser.KEY_FRIENDS).getQuery();
+        friendsQuery.whereEqualTo(FocusUser.KEY_HANDLE, mUser.getUsername());
+        friendsQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error checking if friend", e);
+                } else {
+                    if (objects.size() == 0) {
+                        mFriends = false;
+                        setUpSendRequestButton();
+                    }
+                }
+            }
+        });
+    }
+
+    private void checkPendingSentRequest() {
+        ParseQuery<FriendRequest> sentRequestQuery = ParseQuery.getQuery(FriendRequest.class);
+        sentRequestQuery.whereEqualTo(FriendRequest.KEY_FROM, FriendRequest.makePointer(ParseUser.getCurrentUser()));
+        sentRequestQuery.whereEqualTo(FriendRequest.KEY_TO, FriendRequest.makePointer(mUser));
+        sentRequestQuery.findInBackground(new FindCallback<FriendRequest>() {
+            @Override
+            public void done(List<FriendRequest> requests, ParseException e) {
+                if (e != null) {
+                    Log.i(TAG, "Error checking sent friend request");
+                } else {
+                    if (requests.size() == 0) {
+                        mSent = false;
+                        setUpSendRequestButton();
+                    } else {
+                        FriendRequest request = requests.get(0);
+                        if (request.getAccepted()) {
+                            processAcceptedRequest(request);
+                        } else {
+                            setUpCancelRequestButton(request);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void setUpCancelRequestButton(final FriendRequest request) {
+        mBinding.btnFriends.setText(getString(R.string.cancel_request));
+        mBinding.btnFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                request.deleteInBackground(new DeleteCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.i(TAG, "Error cancelling friend request");
+                        } else {
+                            mSent = false;
+                            setUpSendRequestButton();
+                        }
+                    }
+                });
+            }
+        });
+        mBinding.btnFriends.setVisibility(View.VISIBLE);
+    }
+
+    private void processAcceptedRequest(FriendRequest request) {
+        ParseUser.getCurrentUser().getRelation(FocusUser.KEY_FRIENDS).add(FriendRequest.makePointer(mUser));
+        request.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.i(TAG, "Error deleting friend request");
+                }
+            }
+        });
+    }
+
+    private void checkPendingReceivedRequest() {
+        ParseQuery<FriendRequest> receivedRequestQuery = ParseQuery.getQuery(FriendRequest.class);
+        receivedRequestQuery.whereEqualTo(FriendRequest.KEY_TO, FriendRequest.makePointer(ParseUser.getCurrentUser()));
+        receivedRequestQuery.whereEqualTo(FriendRequest.KEY_FROM, FriendRequest.makePointer(mUser));
+        receivedRequestQuery.whereEqualTo(FriendRequest.KEY_ACCEPTED, false);
+        receivedRequestQuery.findInBackground(new FindCallback<FriendRequest>() {
+            @Override
+            public void done(List<FriendRequest> requests, ParseException e) {
+                if (e != null) {
+                    Log.i(TAG, "Error checking received friend request");
+                } else {
+                    if (requests.size() == 0) {
+                        mReceived = false;
+                        setUpSendRequestButton();
+                    } else {
+                        // Received request, can redirect to Settings to respond
+                        mBinding.btnFriends.setText(getString(R.string.respond_to_request));
+                        mBinding.btnFriends.setVisibility(View.VISIBLE);
+                        mBinding.btnFriends.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                assert getFragmentManager() != null;
+                                getFragmentManager().beginTransaction().replace(R.id.flContainer, new SettingsFragment()).commit();
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    private void setUpSendRequestButton() {
+        if (!mFriends && !mSent && !mReceived) {
+            mBinding.btnFriends.setText(getString(R.string.send_friend_request));
+            mBinding.btnFriends.setVisibility(View.VISIBLE);
             mBinding.btnFriends.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -122,6 +282,7 @@ public class ProfileFragment extends Fragment {
                     friendRequest.setFrom(ParseUser.getCurrentUser());
                     friendRequest.setTo(mUser);
                     friendRequest.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving friend request"));
+                    setUpCancelRequestButton(friendRequest);
                 }
             });
         }

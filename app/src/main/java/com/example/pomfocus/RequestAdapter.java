@@ -90,6 +90,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                             }
                         }
                     });
+
+                    ParseUser.getCurrentUser().getRelation(FocusUser.KEY_FRIENDS).add(FriendRequest.makePointer(sender));
+                    ParseUser.getCurrentUser().saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving accepted friend request"));
                 }
             });
 

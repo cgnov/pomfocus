@@ -11,16 +11,22 @@ public class FriendRequest extends ParseObject {
     public static final String KEY_ACCEPTED = "accepted";
 
     public void setFrom(ParseUser fromUser) {
-        ParseUser pointer = (ParseUser) ParseUser.createWithoutData("_User", fromUser.getObjectId());
-        put(KEY_FROM, pointer);
+        put(KEY_FROM, makePointer(fromUser));
     }
 
     public void setTo(ParseUser toUser) {
-        ParseUser pointer = (ParseUser) ParseUser.createWithoutData("_User", toUser.getObjectId());
-        put(KEY_TO, pointer);
+        put(KEY_TO, makePointer(toUser));
+    }
+
+    public static ParseUser makePointer(ParseUser user) {
+        return (ParseUser) ParseUser.createWithoutData("_User", user.getObjectId());
     }
 
     public void setAccepted() {
         put(KEY_ACCEPTED, true);
+    }
+
+    public boolean getAccepted() {
+        return getBoolean(KEY_ACCEPTED);
     }
 }
