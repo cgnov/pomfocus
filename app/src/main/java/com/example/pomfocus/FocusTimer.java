@@ -35,7 +35,7 @@ public class FocusTimer extends CountDownTimer {
     public static int MINUTES_PER_POMODORO = 25; // Not final because user can change these values
     public static int MINUTES_PER_BREAK = 5;
     public static int MINUTES_PER_LONG_BREAK = 15;
-    public static final int NOTIFICATION_ID = 492804;
+    public static final int NOTIFICATION_ID = 0; // Always use the same id because one notification at a time
     public final Context mContext;
     public FragmentTimerBinding mBinding; // Not final because change in TimerFragment
 
@@ -48,9 +48,9 @@ public class FocusTimer extends CountDownTimer {
 
     @Override
     public void onTick(long millisUntilFinished) {
-        long seconds = millisUntilFinished/MILLIS_PER_SECOND;
-        long minLeft = seconds/SECONDS_PER_MINUTE;
-        long secLeft = seconds%SECONDS_PER_MINUTE;
+        long seconds = millisUntilFinished / MILLIS_PER_SECOND;
+        long minLeft = seconds / SECONDS_PER_MINUTE;
+        long secLeft = seconds % SECONDS_PER_MINUTE;
         float percentLeft = ((float) millisUntilFinished) / (MILLIS_PER_MINUTE * TimerFragment.getNextLength());
         mBinding.tvTimeLeft.setText(String.format(Locale.getDefault(), "%d:%02d", minLeft, secLeft));
         mBinding.ccTimerVisual.onChangeTime(-percentLeft);
