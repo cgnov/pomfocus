@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser user = ParseUser.getCurrentUser();
         String name = String.format("%s %s.", Profile.getCurrentProfile().getFirstName(), Profile.getCurrentProfile().getLastName().substring(0,1));
         user.put(FocusUser.KEY_NAME, name);
+        user.put(FocusUser.KEY_NAME_LOWERCASE, name.toLowerCase());
         user.saveInBackground();
     }
 
@@ -135,6 +136,7 @@ public class LoginActivity extends AppCompatActivity {
             user.setUsername(username);
             user.setPassword(password);
             user.put(FocusUser.KEY_NAME, name);
+            user.put(FocusUser.KEY_NAME_LOWERCASE, name.toLowerCase());
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
                     if (e != null) {

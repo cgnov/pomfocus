@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.pomfocus.FocusUser;
 import com.example.pomfocus.FriendAdapter;
+import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentFriendsBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -55,6 +56,18 @@ public class FriendsFragment extends Fragment {
                 } else {
                     adapter.addAll(friends);
                 }
+            }
+        });
+
+        mBinding.btnAddFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                assert getFragmentManager() != null;
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.flContainer, new SearchFragment())
+                        .addToBackStack(TAG)
+                        .commit();
             }
         });
     }

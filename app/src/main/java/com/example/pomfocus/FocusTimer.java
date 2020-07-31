@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.example.pomfocus.databinding.FragmentTimerBinding;
 import com.example.pomfocus.fragments.TimerFragment;

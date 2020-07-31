@@ -13,4 +13,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnAddFriend"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_friend"
+        app:layout_constraintBottom_toBottomOf="@+id/rvFriends"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,4 +46,7 @@
     <string name="all">All</string>
     <string name="friends">Friends</string>
     <string name="no_friend_requests_pending">No friend requests pending</string>
+    <string name="add_new_friend">Add New Friend</string>
+    <string name="enter_name_or_handle">Enter name or handle</string>
+    <string name="search">Search</string>
 </resources>

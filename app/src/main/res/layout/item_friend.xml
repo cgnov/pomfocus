@@ -22,8 +22,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivAvatar"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/ivAvatar"
         app:layout_constraintTop_toTopOf="@+id/ivAvatar"
         tools:text="Jane Doe" />
+
+    <TextView
+        android:id="@+id/tvHandle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        tools:text="\@janedoe" />
 </androidx.constraintlayout.widget.ConstraintLayout>
