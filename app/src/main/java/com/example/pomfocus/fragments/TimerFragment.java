@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -33,6 +34,7 @@ public class TimerFragment extends Fragment {
     public static int sPomodoroStage = 0;
     private FragmentTimerBinding mBinding;
     public FocusTimer mTimer;
+    public NotificationManagerCompat mNotificationManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class TimerFragment extends Fragment {
         if(mTimer != null) {
             mTimer.mBinding = mBinding;
         }
+        mNotificationManager = NotificationManagerCompat.from(Objects.requireNonNull(getContext()));
         return mBinding.getRoot();
     }
 

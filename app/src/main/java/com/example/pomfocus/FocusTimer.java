@@ -43,6 +43,7 @@ public class FocusTimer extends CountDownTimer {
         super(millisInFuture, countDownInterval);
         mContext = context;
         mBinding = binding;
+        MainActivity.sTimerFragment.mNotificationManager.cancelAll();
         createNotificationChannel();
     }
 
@@ -96,8 +97,7 @@ public class FocusTimer extends CountDownTimer {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        MainActivity.sTimerFragment.mNotificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
     private void createNotificationChannel() {
