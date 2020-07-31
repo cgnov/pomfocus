@@ -26,7 +26,7 @@
     <string name="logging_out">Logging Out…</string>
     <string name="streak">Streak</string>
     <string name="minutes_focused">Minutes Focused</string>
-    <string name="see_history">See History</string>
+    <string name="history">History</string>
     <string name="this_weeks_focuses">This Week\'s Focuses</string>
     <string name="total_history">Total History</string>
     <string name="loading_hyphens">--</string>
@@ -43,7 +43,6 @@
     <string name="respond_to_request">Respond to Friend Request</string>
     <string name="cancel_request">Cancel Friend Request</string>
     <string name="decline">Decline</string>
-    <string name="friends_only">Friends Only</string>
     <string name="all">All</string>
     <string name="friends">Friends</string>
 </resources>

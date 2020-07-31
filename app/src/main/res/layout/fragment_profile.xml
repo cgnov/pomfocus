@@ -48,6 +48,7 @@
         android:text="@string/settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -145,10 +146,11 @@
         android:id="@+id/btnSeeHistory"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/see_history"
+        android:text="@string/history"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/btnSettings"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/divider"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -160,10 +162,10 @@
         app:layout_constraintBottom_toTopOf="@+id/btnSeeHistory"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFriends" />
+        app:layout_constraintTop_toBottomOf="@+id/btnFriendRequest" />
 
     <Button
-        android:id="@+id/btnFriends"
+        android:id="@+id/btnFriendRequest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -172,5 +174,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivStreak" />
+
+    <Button
+        android:id="@+id/btnFriends"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/friends"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnSettings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/divider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

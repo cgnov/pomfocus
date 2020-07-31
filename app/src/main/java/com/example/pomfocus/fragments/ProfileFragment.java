@@ -30,7 +30,6 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
@@ -152,6 +151,7 @@ public class ProfileFragment extends Fragment {
     private void hideButtons() {
         mBinding.btnSettings.setVisibility(View.GONE);
         mBinding.btnSeeHistory.setVisibility(View.GONE);
+        mBinding.btnFriends.setVisibility(View.GONE);
     }
 
     private void checkFriendStatus() {
@@ -207,8 +207,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setUpCancelRequestButton(final FriendRequest request) {
-        mBinding.btnFriends.setText(getString(R.string.cancel_request));
-        mBinding.btnFriends.setOnClickListener(new View.OnClickListener() {
+        mBinding.btnFriendRequest.setText(getString(R.string.cancel_request));
+        mBinding.btnFriendRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 request.deleteInBackground(new DeleteCallback() {
@@ -224,7 +224,7 @@ public class ProfileFragment extends Fragment {
                 });
             }
         });
-        mBinding.btnFriends.setVisibility(View.VISIBLE);
+        mBinding.btnFriendRequest.setVisibility(View.VISIBLE);
     }
 
     private void processAcceptedRequest(FriendRequest request) {
@@ -255,9 +255,9 @@ public class ProfileFragment extends Fragment {
                         setUpSendRequestButton();
                     } else {
                         // Received request, can redirect to Settings to respond
-                        mBinding.btnFriends.setText(getString(R.string.respond_to_request));
-                        mBinding.btnFriends.setVisibility(View.VISIBLE);
-                        mBinding.btnFriends.setOnClickListener(new View.OnClickListener() {
+                        mBinding.btnFriendRequest.setText(getString(R.string.respond_to_request));
+                        mBinding.btnFriendRequest.setVisibility(View.VISIBLE);
+                        mBinding.btnFriendRequest.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 assert getFragmentManager() != null;
@@ -272,9 +272,9 @@ public class ProfileFragment extends Fragment {
 
     private void setUpSendRequestButton() {
         if (!mFriends && !mSent && !mReceived) {
-            mBinding.btnFriends.setText(getString(R.string.send_friend_request));
-            mBinding.btnFriends.setVisibility(View.VISIBLE);
-            mBinding.btnFriends.setOnClickListener(new View.OnClickListener() {
+            mBinding.btnFriendRequest.setText(getString(R.string.send_friend_request));
+            mBinding.btnFriendRequest.setVisibility(View.VISIBLE);
+            mBinding.btnFriendRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Log.i(TAG, "Saving friend request from " + ParseUser.getCurrentUser().getUsername() + " to " + mUser.getUsername());
@@ -310,6 +310,14 @@ public class ProfileFragment extends Fragment {
                         .replace(R.id.flContainer, new HistoryFragment())
                         .addToBackStack(TAG)
                         .commit();
+            }
+        });
+
+        mBinding.btnFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "Displaying friends", Toast.LENGTH_SHORT).show();
+                // TODO: display friends
             }
         });
     }

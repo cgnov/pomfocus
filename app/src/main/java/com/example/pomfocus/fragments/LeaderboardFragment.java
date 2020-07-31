@@ -5,25 +5,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.pomfocus.Focus;
 import com.example.pomfocus.FocusUser;
 import com.example.pomfocus.FocusUserAdapter;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentLeaderboardBinding;
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
