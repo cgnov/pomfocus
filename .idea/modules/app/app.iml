@@ -121,7 +121,6 @@
     <orderEntry type="library" name="Gradle: com.google.zxing:core:3.3.3@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.databinding:viewbinding:4.0.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.material:material:1.1.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.preference:preference:1.1.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.facebook.android:facebook-android-sdk:5.15.3@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.parse-community.Parse-SDK-Android:facebook:1.24.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.facebook.android:facebook-login:6.3.0@aar" level="project" />

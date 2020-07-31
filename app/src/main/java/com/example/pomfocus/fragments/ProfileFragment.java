@@ -53,10 +53,15 @@ public class ProfileFragment extends Fragment {
     private int mFourHourDays = 0, mMaxOneDay = 0, mSixtyHourMonths = 0, mMaxOneMonth = 0;
     private int mNumStreaks = 0, mMaxStreak;
     private AchievementAdapter mAdapter;
-    private boolean mFriends = true, mSent = true, mReceived = true;
+    private boolean mFriends = true, mSent = true, mReceived = true, mConfirmed = false;
 
     public ProfileFragment(ParseUser user) {
         this.mUser = user;
+    }
+
+    public ProfileFragment(ParseUser user, boolean friend) {
+        this.mUser = user;
+        mConfirmed = friend;
     }
 
     @Override
@@ -155,7 +160,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void checkFriendStatus() {
-        if(!mUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+        if (!mUser.getUsername().equals(ParseUser.getCurrentUser().getUsername()) && !mConfirmed) {
             checkAlreadyFriends();
             checkPendingSentRequest();
             checkPendingReceivedRequest();
@@ -316,8 +321,12 @@ public class ProfileFragment extends Fragment {
         mBinding.btnFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Displaying friends", Toast.LENGTH_SHORT).show();
-                // TODO: display friends
+                assert getFragmentManager() != null;
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.flContainer, new FriendsFragment())
+                        .addToBackStack(TAG)
+                        .commit();
             }
         });
     }

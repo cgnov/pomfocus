@@ -45,4 +45,5 @@
     <string name="decline">Decline</string>
     <string name="all">All</string>
     <string name="friends">Friends</string>
+    <string name="no_friend_requests_pending">No friend requests pending</string>
 </resources>

@@ -134,7 +134,12 @@ public class SettingsFragment extends Fragment {
                 if (e != null) {
                     Log.i(TAG, "Error getting requests", e);
                 } else {
-                    mAdapter.addAll(requests);
+                    if (requests.size() != 0) {
+                        mBinding.rvRequests.setVisibility(View.VISIBLE);
+                        mAdapter.addAll(requests);
+                    } else {
+                        mBinding.tvNoRequestsPending.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
