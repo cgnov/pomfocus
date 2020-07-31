@@ -12,17 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pomfocus.databinding.ItemAchievementBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.ViewHolder> {
 
     private static final String TAG = "FocusUserAdapter";
     private final Context mContext;
-    private final List<Achievement> mAchievements;
+    private final List<Achievement> mAchievements = new ArrayList<>();
 
-    public AchievementAdapter(Context context, List<Achievement> achievements) {
+    public AchievementAdapter(Context context) {
         mContext = context;
-        mAchievements = achievements;
     }
 
     @NonNull

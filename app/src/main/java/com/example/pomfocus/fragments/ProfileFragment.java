@@ -144,8 +144,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-        List<Achievement> achievements = new ArrayList<>();
-        mAdapter = new AchievementAdapter(getContext(), achievements);
+        mAdapter = new AchievementAdapter(getContext());
         mBinding.rvAchievements.setAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBinding.rvAchievements.setLayoutManager(layoutManager);

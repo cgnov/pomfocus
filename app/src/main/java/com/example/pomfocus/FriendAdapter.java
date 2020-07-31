@@ -15,18 +15,18 @@ import com.example.pomfocus.databinding.ItemFriendBinding;
 import com.example.pomfocus.fragments.ProfileFragment;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder> {
 
     private static final String TAG = "FriendAdapter";
     private final Context mContext;
-    private final List<ParseUser> mFriends;
+    private final List<ParseUser> mFriends = new ArrayList<>();
     private static AppCompatActivity mActivity;
 
-    public FriendAdapter(Context context, List<ParseUser> friends) {
+    public FriendAdapter(Context context) {
         mContext = context;
-        mFriends = friends;
     }
 
     @NonNull

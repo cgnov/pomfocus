@@ -95,7 +95,7 @@ public class SettingsFragment extends Fragment {
 
         // Set up RecyclerView with friend requests
         mBinding.rvRequests.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new RequestAdapter(getContext(), new ArrayList<FriendRequest>());
+        mAdapter = new RequestAdapter(getContext());
         queryRequests();
         mBinding.rvRequests.setAdapter(mAdapter);
     }

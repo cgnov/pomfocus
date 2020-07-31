@@ -44,7 +44,7 @@ public class FriendsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mBinding.rvFriends.setLayoutManager(new LinearLayoutManager(getContext()));
-        final FriendAdapter adapter = new FriendAdapter(getContext(), new ArrayList<ParseUser>());
+        final FriendAdapter adapter = new FriendAdapter(getContext());
         mBinding.rvFriends.setAdapter(adapter);
 
         ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation(FocusUser.KEY_FRIENDS);

@@ -16,17 +16,17 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
 
     private static final String TAG = "HistoryAdapter";
     private final Context mContext;
-    private final List<FriendRequest> mRequests;
+    private final List<FriendRequest> mRequests = new ArrayList<>();
 
-    public RequestAdapter(Context context, List<FriendRequest> requests) {
+    public RequestAdapter(Context context) {
         mContext = context;
-        mRequests = requests;
     }
 
     @NonNull
