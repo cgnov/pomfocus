@@ -19,8 +19,8 @@ import com.example.pomfocus.databinding.FragmentLeaderboardBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +33,6 @@ public class LeaderboardFragment extends Fragment {
     private static final String TAG = "LeaderboardFragment";
     private static final int NUM_REQUEST = 10;
     private FocusUserAdapter mAdapter;
-    private FocusUserAdapter mFriendsOnlyAdapter;
     private boolean mFriendsOnly;
     private FragmentLeaderboardBinding mBinding;
 
@@ -55,15 +54,12 @@ public class LeaderboardFragment extends Fragment {
 
         // Set up RecyclerView
         mBinding.rvLeaderboards.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new FocusUserAdapter(getContext(), new ArrayList<ParseUser>());
-        mFriendsOnlyAdapter = new FocusUserAdapter(getContext(), new ArrayList<ParseObject>(), true);
+        mAdapter = new FocusUserAdapter(getContext());
         mBinding.rvLeaderboards.setAdapter(mAdapter);
 
         mBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mAdapter.clear();
-                mFriendsOnlyAdapter.clear();
                 queryUsers();
             }
         });
@@ -74,13 +70,7 @@ public class LeaderboardFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 assert tab.getText() != null;
-                if (getString(R.string.all).equals(tab.getText().toString())) {
-                    mFriendsOnly = false;
-                    mFriendsOnlyAdapter.clear();
-                } else {
-                    mFriendsOnly = true;
-                    mAdapter.clear();
-                }
+                mFriendsOnly = getString(R.string.friends).equals(tab.getText().toString());
                 queryUsers();
             }
 
@@ -97,6 +87,7 @@ public class LeaderboardFragment extends Fragment {
     }
 
     private void queryUsers() {
+        mAdapter.clear();
         mBinding.pbLeaderboard.setVisibility(View.VISIBLE);
         if (mFriendsOnly) {
             queryFriends();
@@ -106,20 +97,26 @@ public class LeaderboardFragment extends Fragment {
     }
 
     private void queryFriends() {
-        if (!mFriendsOnlyAdapter.equals(mBinding.rvLeaderboards.getAdapter())) {
-            mBinding.rvLeaderboards.setAdapter(mFriendsOnlyAdapter);
-        }
-        ParseQuery<ParseObject> query = ParseUser.getCurrentUser().getRelation(FocusUser.KEY_FRIENDS).getQuery();
-        query.addDescendingOrder(FocusUser.KEY_TOTAL);
-        query.setLimit(NUM_REQUEST);
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation(FocusUser.KEY_FRIENDS);
+        ParseQuery<ParseUser> queryFriends = relation.getQuery();
+
+        ParseQuery<ParseUser> querySelf = ParseQuery.getQuery(ParseUser.class);
+        querySelf.whereEqualTo(FocusUser.KEY_HANDLE, ParseUser.getCurrentUser().getUsername());
+
+        List<ParseQuery<ParseUser>> queryList = new ArrayList<>();
+        queryList.add(queryFriends);
+        queryList.add(querySelf);
+
+        ParseQuery<ParseUser> fullQuery = ParseQuery.or(queryList);
+        fullQuery.addDescendingOrder(FocusUser.KEY_TOTAL);
+        fullQuery.setLimit(NUM_REQUEST);
+        fullQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<ParseObject> topFriends, ParseException e) {
+            public void done(List<ParseUser> topFriends, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);
                 } else {
-                    // Posts have been successfully queried, clear out old posts and replace
-                    mFriendsOnlyAdapter.addAll(topFriends, true);
+                    mAdapter.addAll(topFriends);
                     mBinding.swipeContainer.setRefreshing(false);
                     mBinding.pbLeaderboard.setVisibility(View.GONE);
                 }
@@ -128,9 +125,6 @@ public class LeaderboardFragment extends Fragment {
     }
 
     private void queryAll() {
-        if (!mAdapter.equals(mBinding.rvLeaderboards.getAdapter())) {
-            mBinding.rvLeaderboards.setAdapter(mAdapter);
-        }
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
         query.addDescendingOrder(FocusUser.KEY_TOTAL);
         query.setLimit(NUM_REQUEST);
@@ -140,7 +134,6 @@ public class LeaderboardFragment extends Fragment {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);
                 } else {
-                    // Posts have been successfully queried, clear out old posts and replace
                     mAdapter.addAll(topFocusUsers);
                     mBinding.swipeContainer.setRefreshing(false);
                     mBinding.pbLeaderboard.setVisibility(View.GONE);

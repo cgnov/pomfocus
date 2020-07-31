@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pomfocus.databinding.ItemFriendBinding;
 import com.example.pomfocus.fragments.ProfileFragment;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -22,10 +21,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
 
     private static final String TAG = "FriendAdapter";
     private final Context mContext;
-    private final List<ParseObject> mFriends;
+    private final List<ParseUser> mFriends;
     private static AppCompatActivity mActivity;
 
-    public FriendAdapter(Context context, List<ParseObject> friends) {
+    public FriendAdapter(Context context, List<ParseUser> friends) {
         mContext = context;
         mFriends = friends;
     }
@@ -40,11 +39,11 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull FriendAdapter.ViewHolder holder, int position) {
-        ParseUser friend = (ParseUser) mFriends.get(position);
+        ParseUser friend = mFriends.get(position);
         holder.bind(friend);
     }
 
-    public void addAll(List<ParseObject> friends) {
+    public void addAll(List<ParseUser> friends) {
         mFriends.addAll(friends);
         notifyDataSetChanged();
     }

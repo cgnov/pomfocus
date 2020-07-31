@@ -18,8 +18,8 @@ import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentFriendsBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
@@ -44,13 +44,14 @@ public class FriendsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mBinding.rvFriends.setLayoutManager(new LinearLayoutManager(getContext()));
-        final FriendAdapter adapter = new FriendAdapter(getContext(), new ArrayList<ParseObject>());
+        final FriendAdapter adapter = new FriendAdapter(getContext(), new ArrayList<ParseUser>());
         mBinding.rvFriends.setAdapter(adapter);
 
-        ParseQuery<ParseObject> query = ParseUser.getCurrentUser().getRelation(FocusUser.KEY_FRIENDS).getQuery();
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation(FocusUser.KEY_FRIENDS);
+        ParseQuery<ParseUser> query = relation.getQuery();
+        query.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<ParseObject> friends, ParseException e) {
+            public void done(List<ParseUser> friends, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Error accessing friends");
                 } else {
