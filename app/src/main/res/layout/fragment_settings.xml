@@ -5,153 +5,282 @@
     android:layout_height="match_parent"
     tools:context="com.example.pomfocus.fragments.SettingsFragment">
 
-    <ImageView
-        android:id="@+id/ivAvatar"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toStartOf="@+id/space"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars"
-        android:contentDescription="@string/user_profile_picture" />
-
-    <ProgressBar
-        android:id="@+id/pbAvatar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/ivAvatar"
-        app:layout_constraintEnd_toEndOf="@+id/ivAvatar"
-        app:layout_constraintStart_toStartOf="@+id/ivAvatar"
-        app:layout_constraintTop_toTopOf="@+id/ivAvatar" />
-
-    <ImageView
-        android:id="@+id/ivEditAvatarShadow"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/circle_24"
-        android:tint="?attr/colorPrimary"
-        app:layout_constraintEnd_toEndOf="@+id/ivAvatar"
-        app:layout_constraintTop_toTopOf="@+id/ivAvatar"
-        android:contentDescription="@string/edit_icon_shadow" />
-
-    <ImageView
-        android:id="@+id/ivEditAvatarPrimary"
-        android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:scaleX=".6"
-        android:scaleY=".6"
-        android:src="@drawable/edit_24"
-        android:tint="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/ivEditAvatarShadow"
-        app:layout_constraintEnd_toEndOf="@+id/ivEditAvatarShadow"
-        app:layout_constraintStart_toStartOf="@+id/ivEditAvatarShadow"
-        app:layout_constraintTop_toTopOf="@+id/ivEditAvatarShadow"
-        android:contentDescription="@string/edit_icon" />
-
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:singleLine="true"
-        android:textColor="?attr/colorPrimary"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/ivAvatar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/space"
-        app:layout_constraintTop_toTopOf="@+id/ivAvatar"
-        tools:text="Jane Austinita" />
-
-    <TextView
-        android:id="@+id/tvHandle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvName"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
-        tools:text="\@janeisproductive" />
-
-    <Space
-        android:id="@+id/space"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogOut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tvFocusModeDesc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/focus_mode_desc"
-        app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
-        app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
-        app:layout_constraintTop_toBottomOf="@+id/switchFocusMode" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Switch
-        android:id="@+id/switchFocusMode"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/focus_mode"
-        android:textColor="?attr/colorSecondary"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+            <ImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="24dp"
+                android:contentDescription="@string/user_profile_picture"
+                app:layout_constraintEnd_toStartOf="@+id/space"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/tvKeepScreenOnDesc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/keep_screen_on_desc"
-        app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
-        app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
-        app:layout_constraintTop_toBottomOf="@+id/switchKeepScreenOn" />
+            <ProgressBar
+                android:id="@+id/pbAvatar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/ivAvatar"
+                app:layout_constraintEnd_toEndOf="@+id/ivAvatar"
+                app:layout_constraintStart_toStartOf="@+id/ivAvatar"
+                app:layout_constraintTop_toTopOf="@+id/ivAvatar" />
 
-    <Switch
-        android:id="@+id/switchKeepScreenOn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/keep_screen_on"
-        android:textColor="?attr/colorSecondary"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
-        app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
-        app:layout_constraintTop_toBottomOf="@+id/tvFocusModeDesc" />
+            <ImageView
+                android:id="@+id/ivEditAvatarShadow"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/edit_icon_shadow"
+                android:src="@drawable/circle_24"
+                android:tint="?attr/colorPrimary"
+                app:layout_constraintEnd_toEndOf="@+id/ivAvatar"
+                app:layout_constraintTop_toTopOf="@+id/ivAvatar" />
 
-    <TextView
-        android:id="@+id/tvPrivate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/private_mode_desc"
-        app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
-        app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
-        app:layout_constraintTop_toBottomOf="@+id/switchPrivate" />
+            <ImageView
+                android:id="@+id/ivEditAvatarPrimary"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@string/edit_icon"
+                android:scaleX=".6"
+                android:scaleY=".6"
+                android:src="@drawable/edit_24"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/ivEditAvatarShadow"
+                app:layout_constraintEnd_toEndOf="@+id/ivEditAvatarShadow"
+                app:layout_constraintStart_toStartOf="@+id/ivEditAvatarShadow"
+                app:layout_constraintTop_toTopOf="@+id/ivEditAvatarShadow" />
 
-    <Switch
-        android:id="@+id/switchPrivate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/private_mode"
-        android:textColor="?attr/colorSecondary"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
-        app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
-        app:layout_constraintTop_toBottomOf="@+id/tvKeepScreenOnDesc" />
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:singleLine="true"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/ivAvatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/space"
+                app:layout_constraintTop_toTopOf="@+id/ivAvatar"
+                tools:text="Jane Austinita" />
+
+            <TextView
+                android:id="@+id/tvHandle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvName"
+                app:layout_constraintTop_toBottomOf="@+id/tvName"
+                tools:text="\@janeisproductive" />
+
+            <Space
+                android:id="@+id/space"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvFocusModeDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/focus_mode_desc"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toBottomOf="@+id/switchFocusMode" />
+
+            <Switch
+                android:id="@+id/switchFocusMode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/focus_mode"
+                android:textColor="?attr/colorSecondary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvShortBreak" />
+
+            <TextView
+                android:id="@+id/tvKeepScreenOnDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/keep_screen_on_desc"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toBottomOf="@+id/switchKeepScreenOn" />
+
+            <Switch
+                android:id="@+id/switchKeepScreenOn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/keep_screen_on"
+                android:textColor="?attr/colorSecondary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toBottomOf="@+id/tvFocusModeDesc" />
+
+            <TextView
+                android:id="@+id/tvPrivate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/private_mode_desc"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toBottomOf="@+id/switchPrivate" />
+
+            <Switch
+                android:id="@+id/switchPrivate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/private_mode"
+                android:textColor="?attr/colorSecondary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toBottomOf="@+id/tvKeepScreenOnDesc" />
+
+            <com.example.pomfocus.TimerTextView
+                android:id="@+id/tvShortBreakLength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading_hyphens"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toBottomOf="@+id/tvLengths"
+                tools:text="5" />
+
+            <com.example.pomfocus.TimerTextView
+                android:id="@+id/tvFocusLength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading_hyphens"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/tvShortBreakLength"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength"
+                tools:text="25" />
+
+            <com.example.pomfocus.TimerTextView
+                android:id="@+id/tvLongBreakLength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading_hyphens"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toEndOf="@+id/tvShortBreakLength"
+                app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength"
+                tools:text="15" />
+
+            <TextView
+                android:id="@+id/tvFocus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/focus"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@+id/spaceLengths2"
+                app:layout_constraintStart_toEndOf="@+id/spaceLengths1"
+                app:layout_constraintTop_toBottomOf="@+id/tvFocusLength" />
+
+            <TextView
+                android:id="@+id/tvShortBreak"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/short_break"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@+id/spaceLengths3"
+                app:layout_constraintStart_toEndOf="@+id/spaceLengths2"
+                app:layout_constraintTop_toBottomOf="@+id/tvShortBreakLength" />
+
+            <TextView
+                android:id="@+id/tvLongBreak"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/long_break"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@+id/spaceLengths4"
+                app:layout_constraintStart_toEndOf="@+id/spaceLengths3"
+                app:layout_constraintTop_toBottomOf="@+id/tvLongBreakLength" />
+
+            <Space
+                android:id="@+id/spaceLengths2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/tvShortBreakLength"
+                app:layout_constraintStart_toEndOf="@+id/tvFocusLength"
+                app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength" />
+
+            <Space
+                android:id="@+id/spaceLengths3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/tvLongBreakLength"
+                app:layout_constraintStart_toEndOf="@+id/tvShortBreakLength"
+                app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength" />
+
+            <Space
+                android:id="@+id/spaceLengths1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/tvFocusLength"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength" />
+
+            <Space
+                android:id="@+id/spaceLengths4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toEndOf="@+id/tvLongBreakLength"
+                app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength" />
+
+            <TextView
+                android:id="@+id/tvLengths"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/timer_lengths_in_minutes"
+                android:textColor="?attr/colorSecondary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
     <Button
         android:id="@+id/btnLogOut"

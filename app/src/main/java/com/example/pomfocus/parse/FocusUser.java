@@ -16,4 +16,19 @@ public class FocusUser extends ParseUser {
     public static final String KEY_SCREEN = "keepScreenOn";
     public static final String KEY_FRIENDS = "friends";
     public static final String KEY_PRIVATE = "private";
+    public static final String KEY_FOCUS_LENGTH = "focusLength";
+    public static final String KEY_SHORT_BREAK_LENGTH = "shortBreakLength";
+    public static final String KEY_LONG_BREAK_LENGTH = "longBreakLength";
+
+    public static int getFocusLength() {
+        return ParseUser.getCurrentUser().getInt(KEY_FOCUS_LENGTH);
+    }
+
+    public static int getShortBreakLength() {
+        return ParseUser.getCurrentUser().getInt(KEY_SHORT_BREAK_LENGTH);
+    }
+
+    public static int getLongBreakLength() {
+        return ParseUser.getCurrentUser().getInt(KEY_LONG_BREAK_LENGTH);
+    }
 }

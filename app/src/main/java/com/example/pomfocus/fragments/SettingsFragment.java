@@ -12,12 +12,15 @@ import androidx.fragment.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.example.pomfocus.TimerTextView;
 import com.example.pomfocus.fragments.profile.ProfilePublicInfoFragment;
 import com.example.pomfocus.parse.FocusUser;
 import com.example.pomfocus.LoginActivity;
@@ -58,6 +61,7 @@ public class SettingsFragment extends Fragment {
 
         displayProfileInfo();
         setUpSwitches();
+        setUpGestureRecognizers();
 
         mBinding.ivAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +91,30 @@ public class SettingsFragment extends Fragment {
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = ParseUser.getCurrentUser().getParseFile(FocusUser.KEY_AVATAR);
         ProfilePublicInfoFragment.displayAvatar(mBinding.ivAvatar, avatar);
+
+        mBinding.tvFocusLength.setText(String.valueOf(FocusUser.getFocusLength()));
+        mBinding.tvShortBreakLength.setText(String.valueOf(FocusUser.getShortBreakLength()));
+        mBinding.tvLongBreakLength.setText(String.valueOf(FocusUser.getLongBreakLength()));
+    }
+
+    private void setUpGestureRecognizers() {
+        final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                return !TimerFragment.sCurrentlyWorking;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                if(!TimerFragment.sCurrentlyWorking) {
+                    mBinding.tvFocusLength.performClick();
+                }
+            }
+        });
+
+        TimerTextView.setUpTouchListener(mBinding.tvFocusLength, gestureDetector);
+        TimerTextView.setUpTouchListener(mBinding.tvShortBreakLength, gestureDetector);
+        TimerTextView.setUpTouchListener(mBinding.tvLongBreakLength, gestureDetector);
     }
 
     private void setUpSwitches() {

@@ -2,7 +2,9 @@ package com.example.pomfocus;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -39,4 +41,15 @@ public class TimerTextView extends AppCompatTextView {
         return true;
     }
 
+    public static void setUpTouchListener(final TimerTextView timerTextView, final GestureDetector gestureDetector) {
+        timerTextView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(gestureDetector.onTouchEvent(motionEvent)) {
+                    timerTextView.performClick();
+                }
+                return true;
+            }
+        });
+    }
 }

@@ -53,4 +53,5 @@
     <string name="min">min</string>
     <string name="private_mode_desc">In private mode, users will only be able to see your achievement progress, streaks, and focus totals if you are friends.</string>
     <string name="private_mode">Private Mode</string>
+    <string name="timer_lengths_in_minutes">Timer Lengths in Minutes</string>
 </resources>

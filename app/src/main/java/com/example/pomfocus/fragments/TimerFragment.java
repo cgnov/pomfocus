@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.example.pomfocus.FocusTimer;
+import com.example.pomfocus.TimerTextView;
 import com.example.pomfocus.parse.FocusUser;
 import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.databinding.FragmentTimerBinding;
@@ -98,15 +99,7 @@ public class TimerFragment extends Fragment {
             }
         });
 
-        mBinding.tvTimeLeft.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(gestureDetector.onTouchEvent(motionEvent)) {
-                    mBinding.tvTimeLeft.performClick();
-                }
-                return true;
-            }
-        });
+        TimerTextView.setUpTouchListener(mBinding.tvTimeLeft, gestureDetector);
     }
 
     @Override
