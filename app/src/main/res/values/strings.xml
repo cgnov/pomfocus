@@ -49,4 +49,5 @@
     <string name="add_new_friend">Add New Friend</string>
     <string name="enter_name_or_handle">Enter name or handle</string>
     <string name="search">Search</string>
+    <string name="check_pending_requests">Check Pending Requests</string>
 </resources>

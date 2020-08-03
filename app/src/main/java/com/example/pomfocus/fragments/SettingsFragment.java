@@ -92,12 +92,6 @@ public class SettingsFragment extends Fragment {
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = ParseUser.getCurrentUser().getParseFile(FocusUser.KEY_AVATAR);
         ProfilePublicInfoFragment.displayAvatar(mBinding.ivAvatar, avatar);
-
-        // Set up RecyclerView with friend requests
-        mBinding.rvRequests.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new RequestAdapter(getContext());
-        queryRequests();
-        mBinding.rvRequests.setAdapter(mAdapter);
     }
 
     private void setUpSwitches() {
@@ -119,28 +113,6 @@ public class SettingsFragment extends Fragment {
                 ParseUser user = ParseUser.getCurrentUser();
                 user.put(FocusUser.KEY_FOCUS, b);
                 user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving focusMode preference"));
-            }
-        });
-    }
-
-    private void queryRequests() {
-        ParseQuery<FriendRequest> query = ParseQuery.getQuery(FriendRequest.class);
-        query.whereEqualTo(FriendRequest.KEY_TO, FriendRequest.makePointer(ParseUser.getCurrentUser()));
-        query.whereEqualTo(FriendRequest.KEY_STATUS, -1);
-        query.include(FriendRequest.KEY_FROM);
-        query.findInBackground(new FindCallback<FriendRequest>() {
-            @Override
-            public void done(List<FriendRequest> requests, ParseException e) {
-                if (e != null) {
-                    Log.i(TAG, "Error getting requests", e);
-                } else {
-                    if (requests.size() != 0) {
-                        mBinding.rvRequests.setVisibility(View.VISIBLE);
-                        mAdapter.addAll(requests);
-                    } else {
-                        mBinding.tvNoRequestsPending.setVisibility(View.VISIBLE);
-                    }
-                }
             }
         });
     }

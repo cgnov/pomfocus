@@ -59,6 +59,18 @@ public class FriendsFragment extends Fragment {
             }
         });
 
+        mBinding.btnCheckPending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                assert getFragmentManager() != null;
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.flContainer, new FriendRequestsFragment())
+                        .addToBackStack(TAG)
+                        .commit();
+            }
+        });
+
         mBinding.btnAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
