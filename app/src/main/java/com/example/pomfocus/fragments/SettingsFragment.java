@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -21,23 +20,19 @@ import android.widget.Toast;
 
 import com.example.pomfocus.fragments.profile.ProfilePublicInfoFragment;
 import com.example.pomfocus.parse.FocusUser;
-import com.example.pomfocus.parse.FriendRequest;
 import com.example.pomfocus.LoginActivity;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.adapters.RequestAdapter;
 import com.example.pomfocus.databinding.FragmentSettingsBinding;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.List;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -113,6 +108,15 @@ public class SettingsFragment extends Fragment {
                 ParseUser user = ParseUser.getCurrentUser();
                 user.put(FocusUser.KEY_FOCUS, b);
                 user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving focusMode preference"));
+            }
+        });
+
+        mBinding.switchPrivate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                ParseUser user = ParseUser.getCurrentUser();
+                user.put(FocusUser.KEY_PRIVATE, b);
+                user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving private mode preference"));
             }
         });
     }
