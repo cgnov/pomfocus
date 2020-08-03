@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 if(fragment != null) {
+                    fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 }
                 return true;

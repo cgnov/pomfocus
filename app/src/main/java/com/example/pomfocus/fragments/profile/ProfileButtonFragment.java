@@ -5,11 +5,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileButtonBinding;
 import com.example.pomfocus.fragments.FriendsFragment;
@@ -39,9 +41,9 @@ public class ProfileButtonFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 assert getFragmentManager() != null;
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flContainer, new SettingsFragment())
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                ParseApp.addSlideTransition(fragmentTransaction);
+                fragmentTransaction.replace(R.id.flContainer, new SettingsFragment())
                         .addToBackStack(TAG)
                         .commit();
             }
@@ -51,9 +53,9 @@ public class ProfileButtonFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 assert getFragmentManager() != null;
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flContainer, new HistoryFragment())
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                ParseApp.addSlideTransition(fragmentTransaction);
+                fragmentTransaction.replace(R.id.flContainer, new HistoryFragment())
                         .addToBackStack(TAG)
                         .commit();
             }
@@ -63,9 +65,9 @@ public class ProfileButtonFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 assert getFragmentManager() != null;
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flContainer, new FriendsFragment())
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                ParseApp.addSlideTransition(fragmentTransaction);
+                fragmentTransaction.replace(R.id.flContainer, new FriendsFragment())
                         .addToBackStack(TAG)
                         .commit();
             }

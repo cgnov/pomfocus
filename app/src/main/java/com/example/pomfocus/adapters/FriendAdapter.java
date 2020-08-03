@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.ItemFriendBinding;
 import com.example.pomfocus.fragments.profile.ProfileFragment;
@@ -71,10 +72,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
                     // User clicked on user in leaderboard, slide to relevant profile view
                     Fragment profileFragment = new ProfileFragment(friend, true);
                     FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.setCustomAnimations(R.anim.fragment_slide_left_enter,
-                            R.anim.fragment_slide_left_exit,
-                            R.anim.fragment_slide_right_enter,
-                            R.anim.fragment_slide_right_exit);
+                    ParseApp.addSlideTransition(fragmentTransaction);
                     fragmentTransaction.replace(R.id.flContainer, profileFragment)
                             .addToBackStack(TAG)
                             .commit();

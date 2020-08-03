@@ -8,6 +8,7 @@ import android.util.TypedValue;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pomfocus.parse.Focus;
 import com.example.pomfocus.parse.FriendRequest;
@@ -62,5 +63,12 @@ public class ParseApp extends Application {
 
     public static String currentUsername() {
         return ParseUser.getCurrentUser().getUsername();
+    }
+
+    public static void addSlideTransition(FragmentTransaction fragmentTransaction) {
+        fragmentTransaction.setCustomAnimations(R.anim.fragment_slide_left_enter,
+                R.anim.fragment_slide_left_exit,
+                R.anim.fragment_slide_right_enter,
+                R.anim.fragment_slide_right_exit);
     }
 }

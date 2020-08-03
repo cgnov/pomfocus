@@ -82,10 +82,7 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
                     Fragment profileFragment;
                     profileFragment = new ProfileFragment(focusUser);
                     FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.setCustomAnimations(R.anim.fragment_slide_left_enter,
-                            R.anim.fragment_slide_left_exit,
-                            R.anim.fragment_slide_right_enter,
-                            R.anim.fragment_slide_right_exit);
+                    ParseApp.addSlideTransition(fragmentTransaction);
                     fragmentTransaction.replace(R.id.flContainer, profileFragment)
                             .addToBackStack(TAG)
                             .commit();

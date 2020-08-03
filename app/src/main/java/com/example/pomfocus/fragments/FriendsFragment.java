@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.parse.FocusUser;
 import com.example.pomfocus.adapters.FriendAdapter;
 import com.example.pomfocus.R;
@@ -63,9 +65,9 @@ public class FriendsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 assert getFragmentManager() != null;
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flContainer, new FriendRequestsFragment())
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                ParseApp.addSlideTransition(fragmentTransaction);
+                fragmentTransaction.replace(R.id.flContainer, new FriendRequestsFragment())
                         .addToBackStack(TAG)
                         .commit();
             }
@@ -75,9 +77,9 @@ public class FriendsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 assert getFragmentManager() != null;
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flContainer, new SearchFragment())
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                ParseApp.addSlideTransition(fragmentTransaction);
+                fragmentTransaction.replace(R.id.flContainer, new SearchFragment())
                         .addToBackStack(TAG)
                         .commit();
             }
