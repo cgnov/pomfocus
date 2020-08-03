@@ -1,4 +1,4 @@
-package com.example.pomfocus;
+package com.example.pomfocus.parse;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

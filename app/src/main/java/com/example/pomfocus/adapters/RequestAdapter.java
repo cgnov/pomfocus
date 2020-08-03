@@ -1,4 +1,4 @@
-package com.example.pomfocus;
+package com.example.pomfocus.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,8 +9,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pomfocus.ParseApp;
+import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.ItemRequestBinding;
-import com.example.pomfocus.fragments.ProfileFragment;
+import com.example.pomfocus.fragments.profile.ProfilePublicInfoFragment;
+import com.example.pomfocus.parse.FocusUser;
+import com.example.pomfocus.parse.FriendRequest;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -69,7 +73,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                 ParseUser sender = request.getParseUser("fromUser");
                 assert sender != null;
                 mBind.tvName.setText(sender.getUsername());
-                ProfileFragment.displayAvatar(mBind.ivAvatar, sender.getParseFile(FocusUser.KEY_AVATAR));
+                ProfilePublicInfoFragment.displayAvatar(mBind.ivAvatar, sender.getParseFile(FocusUser.KEY_AVATAR));
                 setUpResponseClickListeners(request, sender);
             }
         }
@@ -78,7 +82,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
             mBind.btnAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    request.setAccepted();
+                    request.setStatus(FriendRequest.ACCEPTED);
                     request.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {

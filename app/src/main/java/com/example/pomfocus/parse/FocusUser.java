@@ -1,4 +1,4 @@
-package com.example.pomfocus;
+package com.example.pomfocus.parse;
 
 import com.parse.ParseClassName;
 import com.parse.ParseUser;
@@ -15,4 +15,5 @@ public class FocusUser extends ParseUser {
     public static final String KEY_FOCUS = "focusMode";
     public static final String KEY_SCREEN = "keepScreenOn";
     public static final String KEY_FRIENDS = "friends";
+    public static final String KEY_PRIVATE = "private";
 }

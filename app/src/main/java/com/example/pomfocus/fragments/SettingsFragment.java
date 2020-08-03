@@ -19,12 +19,13 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
-import com.example.pomfocus.FocusUser;
-import com.example.pomfocus.FriendRequest;
+import com.example.pomfocus.fragments.profile.ProfilePublicInfoFragment;
+import com.example.pomfocus.parse.FocusUser;
+import com.example.pomfocus.parse.FriendRequest;
 import com.example.pomfocus.LoginActivity;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
-import com.example.pomfocus.RequestAdapter;
+import com.example.pomfocus.adapters.RequestAdapter;
 import com.example.pomfocus.databinding.FragmentSettingsBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -36,7 +37,6 @@ import com.parse.SaveCallback;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -91,7 +91,7 @@ public class SettingsFragment extends Fragment {
 
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = ParseUser.getCurrentUser().getParseFile(FocusUser.KEY_AVATAR);
-        ProfileFragment.displayAvatar(mBinding.ivAvatar, avatar);
+        ProfilePublicInfoFragment.displayAvatar(mBinding.ivAvatar, avatar);
 
         // Set up RecyclerView with friend requests
         mBinding.rvRequests.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -125,8 +125,8 @@ public class SettingsFragment extends Fragment {
 
     private void queryRequests() {
         ParseQuery<FriendRequest> query = ParseQuery.getQuery(FriendRequest.class);
-        query.whereEqualTo(FriendRequest.KEY_TO, ParseUser.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId()));
-        query.whereEqualTo(FriendRequest.KEY_ACCEPTED, false);
+        query.whereEqualTo(FriendRequest.KEY_TO, FriendRequest.makePointer(ParseUser.getCurrentUser()));
+        query.whereEqualTo(FriendRequest.KEY_STATUS, -1);
         query.include(FriendRequest.KEY_FROM);
         query.findInBackground(new FindCallback<FriendRequest>() {
             @Override
@@ -199,7 +199,7 @@ public class SettingsFragment extends Fragment {
                             Toast.makeText(getActivity(), "Unable to save profile picture", Toast.LENGTH_SHORT).show();
                         } else {
                             mBinding.pbAvatar.setVisibility(View.GONE);
-                            ProfileFragment.displayAvatar(mBinding.ivAvatar, newAvatar);
+                            ProfilePublicInfoFragment.displayAvatar(mBinding.ivAvatar, newAvatar);
                         }
                     }
                 });

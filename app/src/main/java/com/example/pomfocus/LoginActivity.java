@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.pomfocus.databinding.ActivityLoginBinding;
+import com.example.pomfocus.parse.FocusUser;
 import com.facebook.Profile;
 import com.parse.LogInCallback;
 import com.parse.ParseException;

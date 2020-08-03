@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,7 +15,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.example.pomfocus.FocusTimer;
-import com.example.pomfocus.FocusUser;
+import com.example.pomfocus.parse.FocusUser;
 import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.databinding.FragmentTimerBinding;
 import com.parse.ParseUser;

@@ -1,4 +1,4 @@
-package com.example.pomfocus;
+package com.example.pomfocus.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,8 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pomfocus.ParseApp;
+import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.ItemFocusUserBinding;
-import com.example.pomfocus.fragments.ProfileFragment;
+import com.example.pomfocus.fragments.profile.ProfileFragment;
+import com.example.pomfocus.fragments.profile.ProfilePublicInfoFragment;
+import com.example.pomfocus.parse.FocusUser;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -75,7 +79,8 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
                 @Override
                 public void onClick(View view) {
                     // User clicked on user in leaderboard, slide to relevant profile view
-                    Fragment profileFragment = new ProfileFragment(focusUser);
+                    Fragment profileFragment;
+                    profileFragment = new ProfileFragment(focusUser);
                     FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.anim.fragment_slide_left_enter,
                             R.anim.fragment_slide_left_exit,
@@ -87,7 +92,7 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
                 }
             });
             mBind.tvName.setText(focusUser.getString(FocusUser.KEY_NAME));
-            ProfileFragment.displayAvatar(mBind.ivAvatar, focusUser.getParseFile(FocusUser.KEY_AVATAR));
+            ProfilePublicInfoFragment.displayAvatar(mBind.ivAvatar, focusUser.getParseFile(FocusUser.KEY_AVATAR));
             mBind.tvTotal.setText(String.valueOf(focusUser.getLong(FocusUser.KEY_TOTAL)));
             mBind.tvRank.setText(String.valueOf(focusUser.getInt(FocusUser.KEY_RANK)+1));
             if(focusUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {

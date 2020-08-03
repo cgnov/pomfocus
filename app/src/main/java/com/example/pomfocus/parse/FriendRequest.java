@@ -1,4 +1,4 @@
-package com.example.pomfocus;
+package com.example.pomfocus.parse;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
@@ -8,7 +8,8 @@ import com.parse.ParseUser;
 public class FriendRequest extends ParseObject {
     public static final String KEY_FROM = "fromUser";
     public static final String KEY_TO = "toUser";
-    public static final String KEY_ACCEPTED = "accepted";
+    public static final String KEY_STATUS = "status";
+    public static final int PENDING = -1, ACCEPTED = 0, PROCESSED = 1;
 
     public void setFrom(ParseUser fromUser) {
         put(KEY_FROM, makePointer(fromUser));
@@ -22,11 +23,19 @@ public class FriendRequest extends ParseObject {
         return (ParseUser) ParseUser.createWithoutData("_User", user.getObjectId());
     }
 
-    public void setAccepted() {
-        put(KEY_ACCEPTED, true);
+    public void setStatus(int status) {
+        put(KEY_STATUS, status);
     }
 
-    public boolean getAccepted() {
-        return getBoolean(KEY_ACCEPTED);
+    public int getStatus() {
+        return getInt(KEY_STATUS);
+    }
+
+    public ParseUser getFromUser() {
+        return getParseUser(KEY_FROM);
+    }
+
+    public String getFromUsername() {
+        return getFromUser().getUsername();
     }
 }

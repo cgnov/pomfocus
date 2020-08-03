@@ -1,4 +1,4 @@
-package com.example.pomfocus;
+package com.example.pomfocus.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,47 +11,49 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.ItemFriendBinding;
-import com.example.pomfocus.fragments.ProfileFragment;
+import com.example.pomfocus.fragments.profile.ProfileFragment;
+import com.example.pomfocus.fragments.profile.ProfilePublicInfoFragment;
+import com.example.pomfocus.parse.FocusUser;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
+public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder> {
 
     private static final String TAG = "FriendAdapter";
     private final Context mContext;
-    private final List<ParseUser> mResults;
+    private final List<ParseUser> mFriends = new ArrayList<>();
     private static AppCompatActivity mActivity;
 
-    public SearchResultAdapter(Context context, List<ParseUser> results) {
+    public FriendAdapter(Context context) {
         mContext = context;
-        mResults = results;
     }
 
     @NonNull
     @Override
-    public SearchResultAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FriendAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_friend, parent, false);
         mActivity = (AppCompatActivity) view.getContext();
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchResultAdapter.ViewHolder holder, int position) {
-        ParseUser result = mResults.get(position);
-        holder.bind(result);
+    public void onBindViewHolder(@NonNull FriendAdapter.ViewHolder holder, int position) {
+        ParseUser friend = mFriends.get(position);
+        holder.bind(friend);
     }
 
-    public void addAll(List<ParseUser> results) {
-        mResults.clear();
-        mResults.addAll(results);
+    public void addAll(List<ParseUser> friends) {
+        mFriends.addAll(friends);
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mResults.size();
+        return mFriends.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,12 +64,12 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             mBind = ItemFriendBinding.bind(itemView);
         }
 
-        public void bind(final ParseUser result) {
+        public void bind(final ParseUser friend) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     // User clicked on user in leaderboard, slide to relevant profile view
-                    Fragment profileFragment = new ProfileFragment(result);
+                    Fragment profileFragment = new ProfileFragment(friend, true);
                     FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.anim.fragment_slide_left_enter,
                             R.anim.fragment_slide_left_exit,
@@ -78,9 +80,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                             .commit();
                 }
             });
-            mBind.tvName.setText(result.getString(FocusUser.KEY_NAME));
-            mBind.tvHandle.setText(String.format("@%s", result.getUsername()));
-            ProfileFragment.displayAvatar(mBind.ivAvatar, result.getParseFile(FocusUser.KEY_AVATAR));
+            mBind.tvName.setText(friend.getString(FocusUser.KEY_NAME));
+            mBind.tvHandle.setText(String.format("@%s", friend.getUsername()));
+            ProfilePublicInfoFragment.displayAvatar(mBind.ivAvatar, friend.getParseFile(FocusUser.KEY_AVATAR));
         }
     }
 }

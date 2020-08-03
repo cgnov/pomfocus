@@ -1,0 +1,98 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.example.pomfocus.MainActivity">
+
+    <ImageView
+        android:id="@+id/ivStreak"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/streak_icon"
+        android:src="@drawable/streak_24"
+        android:tint="?attr/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvStreak"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="bottom"
+        android:singleLine="true"
+        android:text="@string/loading_hyphens"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvStreakCaption"
+        app:layout_constraintEnd_toStartOf="@+id/divider"
+        app:layout_constraintStart_toEndOf="@+id/ivStreak"
+        app:layout_constraintTop_toTopOf="@+id/ivStreak"
+        tools:text="7" />
+
+    <ImageView
+        android:id="@+id/ivTotal"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/total_time_icon"
+        android:src="@drawable/total_time_24"
+        android:tint="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/ivStreak"
+        app:layout_constraintStart_toEndOf="@+id/divider"
+        app:layout_constraintTop_toTopOf="@+id/ivStreak" />
+
+    <TextView
+        android:id="@+id/tvTotal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="bottom"
+        android:singleLine="true"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTotalTimeCaption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivTotal"
+        app:layout_constraintTop_toTopOf="@+id/ivStreak"
+        tools:text="15" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTotalTimeCaption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvTotal" />
+
+    <TextView
+        android:id="@+id/tvStreakCaption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="@string/streak"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivStreak"
+        app:layout_constraintEnd_toStartOf="@+id/divider"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvStreak" />
+
+    <TextView
+        android:id="@+id/tvTotalTimeCaption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="@string/minutes_focused"
+        app:layout_constraintBottom_toBottomOf="@+id/ivTotal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvTotal" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

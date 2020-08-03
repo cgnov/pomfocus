@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pomfocus.Focus;
-import com.example.pomfocus.HistoryAdapter;
+import com.example.pomfocus.parse.Focus;
+import com.example.pomfocus.adapters.HistoryAdapter;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentHistoryBinding;

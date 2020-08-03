@@ -7,14 +7,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
-import com.example.pomfocus.FocusUser;
-import com.example.pomfocus.SearchResultAdapter;
+import com.example.pomfocus.parse.FocusUser;
+import com.example.pomfocus.adapters.SearchResultAdapter;
 import com.example.pomfocus.databinding.FragmentSearchBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;

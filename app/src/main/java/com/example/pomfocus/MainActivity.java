@@ -11,8 +11,9 @@ import android.view.MenuItem;
 
 import com.example.pomfocus.databinding.ActivityMainBinding;
 import com.example.pomfocus.fragments.LeaderboardFragment;
-import com.example.pomfocus.fragments.ProfileFragment;
+import com.example.pomfocus.fragments.profile.ProfileFragment;
 import com.example.pomfocus.fragments.TimerFragment;
+import com.example.pomfocus.parse.FocusUser;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 

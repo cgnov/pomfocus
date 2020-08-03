@@ -1,4 +1,4 @@
-package com.example.pomfocus;
+package com.example.pomfocus.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.ItemFocusBinding;
+import com.example.pomfocus.parse.Focus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pomfocus.FocusUser;
-import com.example.pomfocus.FriendAdapter;
+import com.example.pomfocus.parse.FocusUser;
+import com.example.pomfocus.adapters.FriendAdapter;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentFriendsBinding;
 import com.parse.FindCallback;
@@ -24,7 +24,6 @@ import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FriendsFragment extends Fragment {

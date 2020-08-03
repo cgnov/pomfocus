@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.pomfocus.FocusUser;
-import com.example.pomfocus.FocusUserAdapter;
+import com.example.pomfocus.parse.FocusUser;
+import com.example.pomfocus.adapters.FocusUserAdapter;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentLeaderboardBinding;
 import com.google.android.material.tabs.TabLayout;

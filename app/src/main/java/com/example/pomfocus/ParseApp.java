@@ -9,9 +9,12 @@ import android.util.TypedValue;
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 
+import com.example.pomfocus.parse.Focus;
+import com.example.pomfocus.parse.FriendRequest;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.facebook.ParseFacebookUtils;
 
@@ -55,5 +58,9 @@ public class ParseApp extends Application {
                 }
             }
         };
+    }
+
+    public static String currentUsername() {
+        return ParseUser.getCurrentUser().getUsername();
     }
 }

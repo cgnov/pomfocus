@@ -1,4 +1,4 @@
-package com.example.pomfocus;
+package com.example.pomfocus.parse;
 
 public class Achievement {
     public final String title;

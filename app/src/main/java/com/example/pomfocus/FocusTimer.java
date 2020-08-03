@@ -16,6 +16,8 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.pomfocus.databinding.FragmentTimerBinding;
 import com.example.pomfocus.fragments.TimerFragment;
+import com.example.pomfocus.parse.Focus;
+import com.example.pomfocus.parse.FocusUser;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;

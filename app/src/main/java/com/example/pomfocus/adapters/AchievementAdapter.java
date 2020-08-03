@@ -1,4 +1,4 @@
-package com.example.pomfocus;
+package com.example.pomfocus.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.ItemAchievementBinding;
+import com.example.pomfocus.parse.Achievement;
 
 import java.util.ArrayList;
 import java.util.List;
