@@ -53,7 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/total_history"
+        android:text="@string/total_focus_log"
         android:textAlignment="center"
         android:textColor="?attr/colorPrimary"
         android:textSize="24sp"

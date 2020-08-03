@@ -149,7 +149,7 @@ public class HistoryFragment extends Fragment {
 
     private void styleBarChart() {
         mBinding.bcThisWeek.setFitBars(true); // Automates bar width to fit screen
-        mBinding.bcThisWeek.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE); // Moves labels tighter to chart
+        mBinding.bcThisWeek.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         mBinding.bcThisWeek.setDoubleTapToZoomEnabled(false);
         mBinding.bcThisWeek.setScaleXEnabled(false);
 
