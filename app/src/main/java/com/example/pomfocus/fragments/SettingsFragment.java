@@ -101,6 +101,9 @@ public class SettingsFragment extends Fragment {
         final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+                if (TimerFragment.sCurrentlyWorking) {
+                    Toast.makeText(getContext(), "Cannot edit timer lengths while timer is running", Toast.LENGTH_SHORT).show();
+                }
                 return !TimerFragment.sCurrentlyWorking;
             }
 
@@ -108,6 +111,8 @@ public class SettingsFragment extends Fragment {
             public void onLongPress(MotionEvent e) {
                 if(!TimerFragment.sCurrentlyWorking) {
                     mBinding.tvFocusLength.performClick();
+                } else {
+                    Toast.makeText(getContext(), "Cannot edit timer lengths while timer is running", Toast.LENGTH_SHORT).show();
                 }
             }
         });

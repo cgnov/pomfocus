@@ -80,6 +80,7 @@
             android:backgroundTint="?attr/colorPrimary"
             android:onClick="logInUser"
             android:text="@string/log_in"
+            android:textColor="@android:color/white"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,6 +93,7 @@
             android:backgroundTint="?attr/colorPrimary"
             android:onClick="signUpUser"
             android:text="@string/sign_up"
+            android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnLogin" />

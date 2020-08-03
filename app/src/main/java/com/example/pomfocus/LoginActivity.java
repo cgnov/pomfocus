@@ -95,6 +95,8 @@ public class LoginActivity extends AppCompatActivity {
         Log.i(TAG, "Attempting to login user " + username);
         if(username.isEmpty() || password.isEmpty()) {
             Toast.makeText(LoginActivity.this, "Make sure to fill in both username and password", Toast.LENGTH_LONG).show();
+            mBinding.btnLogin.setText(getString(R.string.log_in));
+            mBinding.btnLogin.setEnabled(true);
             return;
         }
 

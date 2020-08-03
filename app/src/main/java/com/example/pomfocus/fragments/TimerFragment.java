@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.pomfocus.FocusTimer;
 import com.example.pomfocus.TimerTextView;
@@ -88,6 +89,9 @@ public class TimerFragment extends Fragment {
         final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+                if (sCurrentlyWorking) {
+                    Toast.makeText(getContext(), "Cannot edit timer lengths while timer is running", Toast.LENGTH_SHORT).show();
+                }
                 return !sCurrentlyWorking;
             }
 
@@ -95,6 +99,8 @@ public class TimerFragment extends Fragment {
             public void onLongPress(MotionEvent e) {
                 if(!sCurrentlyWorking) {
                     mBinding.tvTimeLeft.performClick();
+                } else {
+                    Toast.makeText(getContext(), "Cannot edit timer lengths while timer is running", Toast.LENGTH_SHORT).show();
                 }
             }
         });
