@@ -42,7 +42,7 @@ public class ProfilePublicInfoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mBinding.tvHandle.setText(String.format("%s", mUser.getUsername()));
+        mBinding.tvHandle.setText(String.format("@%s", mUser.getUsername()));
         mBinding.tvName.setText(mUser.getString(FocusUser.KEY_NAME));
 
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
