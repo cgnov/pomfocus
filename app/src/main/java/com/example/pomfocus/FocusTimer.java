@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.MutableContextWrapper;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -68,10 +69,11 @@ public class FocusTimer extends CountDownTimer {
             createFocusObject();
         } else {
             TimerFragment.sPomodoroStage++;
-            TimerFragment.sPomodoroStage %= 4;
+            TimerFragment.sPomodoroStage %= (TimerFragment.LONG_BREAK_STAGE + 1);
         }
         TimerFragment.sBreakIsNext = !TimerFragment.sBreakIsNext;
         mBinding.tvTimeLeft.setText(TimerFragment.getNextFull());
+        TimerFragment.setStartButtonText(mContext, mBinding);
 
         sendTimerCompleteNotification();
     }
@@ -80,7 +82,7 @@ public class FocusTimer extends CountDownTimer {
         String nextUp = (TimerFragment.sBreakIsNext)
                 ? "take a break"
                 : "get to work";
-        if (TimerFragment.sBreakIsNext && (TimerFragment.sPomodoroStage == 4)) {
+        if (TimerFragment.sBreakIsNext && (TimerFragment.sPomodoroStage == TimerFragment.LONG_BREAK_STAGE)) {
             nextUp = "take a long break";
         }
 

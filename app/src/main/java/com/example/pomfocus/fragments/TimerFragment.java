@@ -1,5 +1,6 @@
 package com.example.pomfocus.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,8 +17,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.pomfocus.FocusTimer;
+import com.example.pomfocus.R;
 import com.example.pomfocus.TimerTextView;
-import com.example.pomfocus.parse.Focus;
 import com.example.pomfocus.parse.FocusUser;
 import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.databinding.FragmentTimerBinding;
@@ -34,6 +35,7 @@ public class TimerFragment extends Fragment {
     public static boolean sBreakIsNext = false;
     public static boolean sCurrentlyWorking = false;
     public static int sPomodoroStage = 0;
+    public static final int LONG_BREAK_STAGE = 3;
     private FragmentTimerBinding mBinding;
     public FocusTimer mTimer;
     public NotificationManagerCompat mNotificationManager;
@@ -65,10 +67,23 @@ public class TimerFragment extends Fragment {
         } else {
             mBinding.tvTimeLeft.setText(getNextFull());
             mBinding.ccTimerVisual.onChangeTime(100);
+            setStartButtonText(Objects.requireNonNull(getContext()), mBinding);
         }
 
         setStartButtonOnClickListener();
         setGestureDetectors();
+    }
+
+    public static void setStartButtonText(Context context, FragmentTimerBinding binding) {
+        String startButtonText = context.getString(R.string.start);
+        if (!sBreakIsNext) {
+            startButtonText += " " + context.getString(R.string.focus);
+        } else if (sPomodoroStage == LONG_BREAK_STAGE) {
+            startButtonText += " " + context.getString(R.string.long_break);
+        } else {
+            startButtonText += " " + context.getString(R.string.short_break);
+        }
+        binding.btnStart.setText(startButtonText);
     }
 
     private void setStartButtonOnClickListener() {
@@ -146,5 +161,6 @@ public class TimerFragment extends Fragment {
         mTimer.cancel();
         sCurrentlyWorking = false;
         ((MainActivity) Objects.requireNonNull(getActivity())).displayTimerFragment();
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 }

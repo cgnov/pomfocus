@@ -17,9 +17,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.TimerTextView;
 import com.example.pomfocus.fragments.profile.ProfilePublicInfoFragment;
 import com.example.pomfocus.parse.FocusUser;
@@ -132,6 +134,11 @@ public class SettingsFragment extends Fragment {
                 ParseUser user = ParseUser.getCurrentUser();
                 user.put(FocusUser.KEY_SCREEN, b);
                 user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving keepScreenOn preference"));
+                if (b && TimerFragment.sCurrentlyWorking) {
+                    Objects.requireNonNull(getActivity()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                } else if (!b && !TimerFragment.sCurrentlyWorking) {
+                    Objects.requireNonNull(getActivity()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
             }
         });
 
