@@ -58,6 +58,8 @@ public class ProfileRequestFragment extends Fragment {
             setUpCancelButton();
         } else if (mStatus == FriendRequest.PENDING) {
             setUpRespondButton();
+        } else {
+            setUpFriendsButton();
         }
         Log.i(TAG, String.valueOf(mStatus));
     }
@@ -118,5 +120,10 @@ public class ProfileRequestFragment extends Fragment {
                         .commit();
             }
         });
+    }
+
+    private void setUpFriendsButton() {
+        mBinding.btnFriendRequest.setText(getString(R.string.friends));
+        mBinding.btnFriendRequest.setEnabled(false);
     }
 }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,8 @@ public class ProfileAchievementsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Log.i(TAG, "onViewCreated, mDataAvailable: " + mDataAvailable);
+
         mAdapter = new AchievementAdapter(getContext());
         mBinding.rvAchievements.setAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -65,6 +68,7 @@ public class ProfileAchievementsFragment extends Fragment {
     }
 
     public void onDataAvailable() {
+        Log.i(TAG, "onDataAvailable, mDataAvailable: " + mDataAvailable);
         if (mAdapter != null) {
             mAdapter.add(new Achievement("Weekend Warrior", "Minutes focused on weekends", mWeekendTotal, MINUTE_LIMITS));
             mAdapter.add(new Achievement("Doesn't Give Up", "Streaks started", mNumStreaks, NUM_STREAK_LIMITS));
@@ -84,6 +88,7 @@ public class ProfileAchievementsFragment extends Fragment {
     }
 
     public void countTotals(List<Focus> focuses, boolean personal) {
+        Log.i(TAG, "countTotals");
         final Calendar focusTime = Calendar.getInstance();
         final Calendar toCheck = Calendar.getInstance();
         final Calendar matchDate = Calendar.getInstance();

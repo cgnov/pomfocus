@@ -62,23 +62,26 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Log.i(TAG, "onViewCreated, mFocuses==null: " + (mFocuses==null) + ", mProfileSnapshot==null: " + (mProfileSnapshotFragment==null));
         displayRelevantFragments();
-        if (mFocuses == null && mProfileSnapshotFragment != null) {
-            findFullFocusHistory();
-        } else if (mFocuses != null && mProfileSnapshotFragment != null) {
-            displayInfo();
-        }
     }
 
     private void displayRelevantFragments() {
         assert getFragmentManager() != null;
-        getFragmentManager().beginTransaction().replace(R.id.flPublicInfo, new ProfilePublicInfoFragment(mUser)).commit();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.flPublicInfo, new ProfilePublicInfoFragment(mUser))
+                .commit();
         if (mUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
             displayFriendPrivileges();
-            getFragmentManager().beginTransaction().replace(R.id.flButtons, new ProfileButtonFragment()).commit();
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.flButtons, new ProfileButtonFragment())
+                    .commit();
         } else {
             if (mConfirmedFriend) {
                 displayFriendPrivileges();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.flRequest, new ProfileRequestFragment(mUser, FriendRequest.PROCESSED, null))
+                        .commit();
             } else {
                 checkFriendStatus();
             }
@@ -91,11 +94,17 @@ public class ProfileFragment extends Fragment {
         getFragmentManager().beginTransaction().replace(R.id.flSnapshot, mProfileSnapshotFragment).commit();
         mProfileAchievementsFragment = new ProfileAchievementsFragment();
         getFragmentManager().beginTransaction().replace(R.id.flAchievements, mProfileAchievementsFragment).commit();
-        findFullFocusHistory();
+
+        if (mFocuses == null) {
+            findFullFocusHistory();
+        } else {
+            displayInfo();
+        }
     }
 
     private void findFullFocusHistory() {
         Log.i(TAG, "Querying full focus history from Parse for user " + mUser.getUsername());
+        mFocuses = new ArrayList<>();
         ParseQuery<Focus> fullHistoryQuery = ParseQuery.getQuery(Focus.class);
         fullHistoryQuery.whereEqualTo(Focus.KEY_CREATOR, mUser);
         fullHistoryQuery.addDescendingOrder(Focus.KEY_CREATED_AT);
@@ -105,6 +114,7 @@ public class ProfileFragment extends Fragment {
             public void done(List<Focus> focuses, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue getting focus history", e);
+                    mFocuses = null;
                 } else {
                     mFocuses = focuses;
                     countCurrentStreaks();
@@ -142,9 +152,10 @@ public class ProfileFragment extends Fragment {
     }
 
     public void displayInfo() {
+        Log.i(TAG, "displayInfo");
         mProfileSnapshotFragment.setStreak(mFullStreak);
         if (mProfileAchievementsFragment != null) {
-            mProfileAchievementsFragment.countTotals(mFocuses, mUser.getUsername().equals(ParseUser.getCurrentUser().getUsername()));
+            mProfileAchievementsFragment.countTotals(mFocuses, mUser.getUsername().equals(ParseApp.currentUsername()));
         }
     }
 
@@ -201,16 +212,16 @@ public class ProfileFragment extends Fragment {
         if ((status == FriendRequest.PROCESSED) || (status == FriendRequest.ACCEPTED)) {
             displayFriendPrivileges();
         } else {
-            displayNotFriends(status, request);
+            displayNotFriends();
         }
-    }
-
-    private void displayNotFriends(int status, FriendRequest request) {
         assert getFragmentManager() != null;
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.flRequest, new ProfileRequestFragment(mUser, status, request))
                 .commit();
+    }
+
+    private void displayNotFriends() {
         if (mUser.getBoolean(FocusUser.KEY_PRIVATE)) {
             Toast.makeText(getContext(), "This user is private. Become friends to see their focus details and achievements", Toast.LENGTH_LONG).show();
         } else {
