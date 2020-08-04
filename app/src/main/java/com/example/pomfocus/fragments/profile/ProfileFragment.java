@@ -34,7 +34,6 @@ public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
     public ParseUser mUser;
-    private FragmentProfileBinding mBinding;
     private List<Focus> mFocuses;
     private int mFullStreak = 0, mWorkweekStreak = 0;
     private boolean mConfirmedFriend = false;
@@ -54,8 +53,8 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Implement view binding
-        mBinding = FragmentProfileBinding.inflate(getLayoutInflater(), container, false);
-        return mBinding.getRoot();
+        FragmentProfileBinding binding = FragmentProfileBinding.inflate(getLayoutInflater(), container, false);
+        return binding.getRoot();
     }
 
     @Override
