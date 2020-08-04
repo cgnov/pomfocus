@@ -214,6 +214,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goMainActivity() {
+        FocusTimer.MIN_PER_FOCUS = ParseUser.getCurrentUser().getInt(FocusUser.KEY_FOCUS_LENGTH);
+        FocusTimer.MIN_PER_BREAK = ParseUser.getCurrentUser().getInt(FocusUser.KEY_SHORT_BREAK_LENGTH);
+        FocusTimer.MIN_PER_LONG_BREAK = ParseUser.getCurrentUser().getInt(FocusUser.KEY_LONG_BREAK_LENGTH);
         Intent i = new Intent(this, MainActivity.class);
         this.startActivity(i);
         finish();

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.pomfocus.FocusTimer;
 import com.example.pomfocus.TimerTextView;
+import com.example.pomfocus.parse.Focus;
 import com.example.pomfocus.parse.FocusUser;
 import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.databinding.FragmentTimerBinding;
@@ -118,11 +119,11 @@ public class TimerFragment extends Fragment {
 
     public static int getNextLength() {
         if(!sBreakIsNext) {
-            return FocusTimer.MINUTES_PER_POMODORO;
+            return FocusTimer.MIN_PER_FOCUS;
         } else if(sPomodoroStage == FocusTimer.SHORT_BREAKS_PER_LONG_BREAK){
-            return FocusTimer.MINUTES_PER_LONG_BREAK;
+            return FocusTimer.MIN_PER_LONG_BREAK;
         } else {
-            return FocusTimer.MINUTES_PER_BREAK;
+            return FocusTimer.MIN_PER_BREAK;
         }
     }
 

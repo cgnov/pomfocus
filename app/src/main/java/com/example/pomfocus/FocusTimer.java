@@ -24,7 +24,6 @@ import com.parse.SaveCallback;
 
 import java.util.Locale;
 
-@SuppressWarnings("CanBeFinal")
 public class FocusTimer extends CountDownTimer {
 
     private static final String TAG = "FocusTimer";
@@ -33,9 +32,7 @@ public class FocusTimer extends CountDownTimer {
     public static final int SECONDS_PER_MINUTE = 60;
     public static final int MILLIS_PER_MINUTE = MILLIS_PER_SECOND * SECONDS_PER_MINUTE;
     public static final int SHORT_BREAKS_PER_LONG_BREAK = 3;
-    public static int MINUTES_PER_POMODORO = 25; // Not final because user can change these values
-    public static int MINUTES_PER_BREAK = 5;
-    public static int MINUTES_PER_LONG_BREAK = 15;
+    public static int MIN_PER_FOCUS, MIN_PER_BREAK, MIN_PER_LONG_BREAK;
     public static final int NOTIFICATION_ID = 0; // Always use the same id because one notification at a time
     public final Context mContext;
     public FragmentTimerBinding mBinding; // Not final because change in TimerFragment
@@ -117,7 +114,7 @@ public class FocusTimer extends CountDownTimer {
     public void createFocusObject() {
         final Focus focus = new Focus();
         focus.setCreator(ParseUser.getCurrentUser());
-        focus.put(Focus.KEY_LENGTH, FocusTimer.MINUTES_PER_POMODORO);
+        focus.put(Focus.KEY_LENGTH, FocusTimer.MIN_PER_FOCUS);
         focus.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -133,7 +130,7 @@ public class FocusTimer extends CountDownTimer {
 
     public void increaseTotalTime() {
         ParseUser user = ParseUser.getCurrentUser();
-        user.increment(FocusUser.KEY_TOTAL, FocusTimer.MINUTES_PER_POMODORO);
+        user.increment(FocusUser.KEY_TOTAL, FocusTimer.MIN_PER_FOCUS);
         user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving total time"));
     }
 }
