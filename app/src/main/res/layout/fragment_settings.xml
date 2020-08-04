@@ -167,37 +167,40 @@
 
             <com.example.pomfocus.TimerTextView
                 android:id="@+id/tvShortBreakLength"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/loading_hyphens"
+                android:textAlignment="center"
                 android:textSize="36sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
-                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintEnd_toStartOf="@+id/spaceF"
+                app:layout_constraintStart_toEndOf="@+id/spaceE"
                 app:layout_constraintTop_toBottomOf="@+id/tvLengths"
                 tools:text="5" />
 
             <com.example.pomfocus.TimerTextView
                 android:id="@+id/tvFocusLength"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/loading_hyphens"
+                android:textAlignment="center"
                 android:textSize="36sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/tvShortBreakLength"
-                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintEnd_toStartOf="@+id/spaceE"
+                app:layout_constraintStart_toEndOf="@+id/spaceD"
                 app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength"
                 tools:text="25" />
 
             <com.example.pomfocus.TimerTextView
                 android:id="@+id/tvLongBreakLength"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/loading_hyphens"
+                android:textAlignment="center"
                 android:textSize="36sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
-                app:layout_constraintStart_toEndOf="@+id/tvShortBreakLength"
+                app:layout_constraintEnd_toStartOf="@+id/spaceG"
+                app:layout_constraintStart_toEndOf="@+id/spaceF"
                 app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength"
                 tools:text="15" />
 
@@ -207,8 +210,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/focus"
                 android:textAlignment="center"
-                app:layout_constraintEnd_toStartOf="@+id/spaceLengths2"
-                app:layout_constraintStart_toEndOf="@+id/spaceLengths1"
+                app:layout_constraintEnd_toEndOf="@+id/tvFocusLength"
+                app:layout_constraintStart_toStartOf="@+id/tvFocusLength"
                 app:layout_constraintTop_toBottomOf="@+id/tvFocusLength" />
 
             <TextView
@@ -217,8 +220,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/short_break"
                 android:textAlignment="center"
-                app:layout_constraintEnd_toStartOf="@+id/spaceLengths3"
-                app:layout_constraintStart_toEndOf="@+id/spaceLengths2"
+                app:layout_constraintEnd_toEndOf="@+id/tvShortBreakLength"
+                app:layout_constraintStart_toStartOf="@+id/tvShortBreakLength"
                 app:layout_constraintTop_toBottomOf="@+id/tvShortBreakLength" />
 
             <TextView
@@ -227,41 +230,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/long_break"
                 android:textAlignment="center"
-                app:layout_constraintEnd_toStartOf="@+id/spaceLengths4"
-                app:layout_constraintStart_toEndOf="@+id/spaceLengths3"
-                app:layout_constraintTop_toBottomOf="@+id/tvLongBreakLength" />
-
-            <Space
-                android:id="@+id/spaceLengths2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@+id/tvShortBreakLength"
-                app:layout_constraintStart_toEndOf="@+id/tvFocusLength"
-                app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength" />
-
-            <Space
-                android:id="@+id/spaceLengths3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@+id/tvLongBreakLength"
+                app:layout_constraintEnd_toEndOf="@+id/tvLongBreakLength"
                 app:layout_constraintStart_toEndOf="@+id/tvShortBreakLength"
-                app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength" />
-
-            <Space
-                android:id="@+id/spaceLengths1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@+id/tvFocusLength"
-                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
-                app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength" />
-
-            <Space
-                android:id="@+id/spaceLengths4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
-                app:layout_constraintStart_toEndOf="@+id/tvLongBreakLength"
-                app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength" />
+                app:layout_constraintTop_toBottomOf="@+id/tvLongBreakLength" />
 
             <TextView
                 android:id="@+id/tvLengths"
@@ -277,6 +248,62 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+
+            <Space
+                android:id="@+id/spaceA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toBottomOf="@+id/tvLengths" />
+
+            <Space
+                android:id="@+id/spaceB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/spaceA"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toTopOf="@+id/tvShortBreakLength" />
+
+            <Space
+                android:id="@+id/spaceC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toEndOf="@+id/spaceA"
+                app:layout_constraintTop_toBottomOf="@+id/tvLengths" />
+
+            <Space
+                android:id="@+id/spaceD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/spaceB"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toBottomOf="@+id/tvLengths" />
+
+            <Space
+                android:id="@+id/spaceE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/spaceA"
+                app:layout_constraintStart_toEndOf="@+id/spaceB"
+                app:layout_constraintTop_toBottomOf="@+id/tvLengths" />
+
+            <Space
+                android:id="@+id/spaceF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/spaceC"
+                app:layout_constraintStart_toEndOf="@+id/spaceA"
+                app:layout_constraintTop_toBottomOf="@+id/tvLengths" />
+
+            <Space
+                android:id="@+id/spaceG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toEndOf="@+id/spaceC"
+                app:layout_constraintTop_toBottomOf="@+id/tvLengths" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
