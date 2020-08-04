@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.parse.FocusUser;
@@ -53,8 +54,10 @@ public class FriendsFragment extends Fragment {
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> friends, ParseException e) {
+                mBinding.pbFriends.setVisibility(View.GONE);
                 if (e != null) {
                     Log.e(TAG, "Error accessing friends");
+                    Toast.makeText(getContext(), "Problem accessing friends", Toast.LENGTH_SHORT).show();
                 } else {
                     adapter.addAll(friends);
                 }

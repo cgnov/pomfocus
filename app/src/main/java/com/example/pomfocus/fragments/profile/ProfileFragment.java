@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.pomfocus.ParseApp;
+import com.example.pomfocus.databinding.FragmentProfileAchievementsBinding;
 import com.example.pomfocus.fragments.profile.blocks.ProfileAchievementsFragment;
 import com.example.pomfocus.fragments.profile.blocks.ProfileButtonFragment;
 import com.example.pomfocus.fragments.profile.blocks.ProfilePublicInfoFragment;
@@ -44,6 +45,7 @@ public class ProfileFragment extends Fragment {
     private boolean mConfirmedFriend = false;
     private ProfileSnapshotFragment mProfileSnapshotFragment = null;
     private ProfileAchievementsFragment mProfileAchievementsFragment = null;
+    private FragmentProfileBinding mBinding;
 
     public ProfileFragment(ParseUser user) {
         this.mUser = user;
@@ -58,8 +60,8 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Implement view binding
-        FragmentProfileBinding binding = FragmentProfileBinding.inflate(getLayoutInflater(), container, false);
-        return binding.getRoot();
+        mBinding = FragmentProfileBinding.inflate(getLayoutInflater(), container, false);
+        return mBinding.getRoot();
     }
 
     @Override
@@ -92,6 +94,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void displayFriendPrivileges() {
+        mBinding.pbProfile.setVisibility(View.GONE);
         mProfileSnapshotFragment = new ProfileSnapshotFragment(mUser.getInt(FocusUser.KEY_TOTAL));
         getChildFragmentManager().beginTransaction().replace(R.id.flSnapshot, mProfileSnapshotFragment).commit();
         mProfileAchievementsFragment = new ProfileAchievementsFragment();
@@ -224,6 +227,7 @@ public class ProfileFragment extends Fragment {
 
     private void displayNotFriends() {
         if (mUser.getBoolean(FocusUser.KEY_PRIVATE)) {
+            mBinding.pbProfile.setVisibility(View.GONE);
             Toast.makeText(getContext(), "This user is private. Become friends to see their focus details and achievements", Toast.LENGTH_LONG).show();
         } else {
             displayFriendPrivileges();

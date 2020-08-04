@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.pomfocus.adapters.RequestAdapter;
 import com.example.pomfocus.databinding.FragmentFriendRequestsBinding;
@@ -56,8 +57,10 @@ public class FriendRequestsFragment extends Fragment {
         query.findInBackground(new FindCallback<FriendRequest>() {
             @Override
             public void done(List<FriendRequest> requests, ParseException e) {
+                mBinding.pbRequests.setVisibility(View.GONE);
                 if (e != null) {
                     Log.i(TAG, "Error getting requests", e);
+                    Toast.makeText(getContext(), "Problem getting friend requests", Toast.LENGTH_SHORT).show();
                 } else {
                     if (requests.size() != 0) {
                         mBinding.rvRequests.setVisibility(View.VISIBLE);

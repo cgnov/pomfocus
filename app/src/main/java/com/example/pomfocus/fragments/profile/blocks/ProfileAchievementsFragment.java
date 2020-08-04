@@ -83,6 +83,7 @@ public class ProfileAchievementsFragment extends Fragment {
             mAdapter.add(new Achievement("Intense Months", "Months with over sixty hours focused", mSixtyHourMonths, NUM_STREAK_LIMITS));
 
             mAdapter.notifyDataSetChanged();
+            mBinding.pbAchievements.setVisibility(View.GONE);
         } else {
             mDataAvailable = true;
         }

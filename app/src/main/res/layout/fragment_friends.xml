@@ -39,4 +39,14 @@
         app:layout_constraintEnd_toEndOf="@+id/btnAddFriend"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/btnAddFriend" />
+
+    <ProgressBar
+        android:id="@+id/pbFriends"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/rvFriends"
+        app:layout_constraintEnd_toEndOf="@+id/rvFriends"
+        app:layout_constraintStart_toStartOf="@+id/rvFriends"
+        app:layout_constraintTop_toTopOf="@+id/rvFriends" />
 </androidx.constraintlayout.widget.ConstraintLayout>
