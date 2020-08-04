@@ -8,11 +8,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.ItemAchievementBinding;
-import com.example.pomfocus.parse.Achievement;
+import com.example.pomfocus.fragments.profile.MilestonesDialogFragment;
+import com.example.pomfocus.Achievement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,10 +60,18 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
             mBind = ItemAchievementBinding.bind(itemView);
         }
 
-        public void bind(Achievement achievement) {
-            mBind.tvTitle.setText(achievement.title);
-            mBind.tvDescription.setText(achievement.description);
-            setLevels(achievement.progress, achievement.limits, mBind.progressBar, mBind.tvLevel, mBind.tvProgress);
+        public void bind(final Achievement achievement) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FragmentManager fragmentManager = ((AppCompatActivity)view.getContext()).getSupportFragmentManager();
+                    MilestonesDialogFragment milestonesDialogFragment = new MilestonesDialogFragment(achievement);
+                    milestonesDialogFragment.show(fragmentManager, TAG);
+                }
+            });
+            mBind.tvTitle.setText(achievement.mTitle);
+            mBind.tvDescription.setText(achievement.mDescription);
+            setLevels(achievement.mProgress, achievement.mLimits, mBind.progressBar, mBind.tvLevel, mBind.tvProgress);
         }
 
         // Sets achievement ProgressBar and TextView values based on level limits

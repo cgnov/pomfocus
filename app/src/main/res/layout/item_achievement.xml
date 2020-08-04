@@ -18,27 +18,28 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLevel" />
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textAlignment="textStart"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/tvDescription"
-        app:layout_constraintTop_toTopOf="@+id/tvLevel"
+        app:layout_constraintBottom_toBottomOf="@+id/tvLevelTitle"
+        app:layout_constraintStart_toEndOf="@+id/space2"
+        app:layout_constraintTop_toTopOf="@+id/tvLevelTitle"
         tools:text="Title" />
 
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
-        app:layout_constraintStart_toEndOf="@+id/tvLevel"
+        app:layout_constraintStart_toStartOf="@+id/tvTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
         tools:text="Achievement description" />
 
@@ -57,12 +58,32 @@
         android:id="@+id/tvLevel"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/loading_hyphens"
-        android:textAlignment="textEnd"
+        android:textAlignment="center"
         android:textSize="36sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/space2"
+        app:layout_constraintStart_toStartOf="@+id/space2"
+        app:layout_constraintTop_toTopOf="@+id/tvLevelTitle" />
+
+    <TextView
+        android:id="@+id/tvLevelTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/level"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/space2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/space2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Space
+        android:id="@+id/space2"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,9 +5,10 @@
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorPrimary">@color/red7</item>
         <item name="colorAccent">@color/red7</item>
-        <item name="android:windowBackground">@color/grey10</item>
-        <item name="backgroundColor">@color/grey8</item>
         <item name="android:navigationBarColor">@color/grey10</item>
+        <item name="android:windowBackground">@color/grey10</item>
+        <item name="colorSecondaryVariant">@color/grey10</item>
+        <item name="backgroundColor">@color/grey8</item>
         <item name="colorSecondary">@color/grey2</item>
 
     </style>

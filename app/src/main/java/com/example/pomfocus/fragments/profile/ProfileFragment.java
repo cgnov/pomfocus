@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.pomfocus.ParseApp;
-import com.example.pomfocus.databinding.FragmentProfileAchievementsBinding;
 import com.example.pomfocus.fragments.profile.blocks.ProfileAchievementsFragment;
 import com.example.pomfocus.fragments.profile.blocks.ProfileButtonFragment;
 import com.example.pomfocus.fragments.profile.blocks.ProfilePublicInfoFragment;
@@ -154,6 +153,7 @@ public class ProfileFragment extends Fragment {
             }
             focusIndex++;
         }
+        mProfileAchievementsFragment.mWorkweekStreak = mWorkweekStreak;
     }
 
     public void displayInfo() {

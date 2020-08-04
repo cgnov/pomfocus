@@ -17,7 +17,7 @@ import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.adapters.AchievementAdapter;
 import com.example.pomfocus.databinding.FragmentProfileAchievementsBinding;
 import com.example.pomfocus.fragments.profile.ProfileFragment;
-import com.example.pomfocus.parse.Achievement;
+import com.example.pomfocus.Achievement;
 import com.example.pomfocus.parse.Focus;
 import com.example.pomfocus.parse.FocusUser;
 import com.parse.ParseUser;

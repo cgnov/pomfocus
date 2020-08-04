@@ -27,7 +27,6 @@ import com.parse.ParseUser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
-import java.util.Objects;
 
 public class TimerFragment extends Fragment {
 
