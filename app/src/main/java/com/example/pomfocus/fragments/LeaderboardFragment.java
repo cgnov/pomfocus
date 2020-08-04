@@ -32,7 +32,8 @@ public class LeaderboardFragment extends Fragment {
     
     private static final String TAG = "LeaderboardFragment";
     private static final int NUM_REQUEST = 10;
-    private FocusUserAdapter mAdapter;
+    private FocusUserAdapter mAllAdapter;
+    private FocusUserAdapter mFriendsAdapter;
     private boolean mFriendsOnly;
     private FragmentLeaderboardBinding mBinding;
 
@@ -54,8 +55,9 @@ public class LeaderboardFragment extends Fragment {
 
         // Set up RecyclerView
         mBinding.rvLeaderboards.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new FocusUserAdapter(getContext());
-        mBinding.rvLeaderboards.setAdapter(mAdapter);
+        mAllAdapter = new FocusUserAdapter(getContext());
+        mFriendsAdapter = new FocusUserAdapter(getContext());
+        mBinding.rvLeaderboards.setAdapter(mAllAdapter);
 
         mBinding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -71,6 +73,11 @@ public class LeaderboardFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 assert tab.getText() != null;
                 mFriendsOnly = getString(R.string.friends).equals(tab.getText().toString());
+                if (mAllAdapter.equals(mBinding.rvLeaderboards.getAdapter()) && mFriendsOnly) {
+                    mBinding.rvLeaderboards.setAdapter(mFriendsAdapter);
+                } else if (mFriendsAdapter.equals(mBinding.rvLeaderboards.getAdapter()) && !mFriendsOnly) {
+                    mBinding.rvLeaderboards.setAdapter(mAllAdapter);
+                }
                 queryUsers();
             }
 
@@ -87,7 +94,8 @@ public class LeaderboardFragment extends Fragment {
     }
 
     private void queryUsers() {
-        mAdapter.clear();
+        mAllAdapter.clear();
+        mFriendsAdapter.clear();
         mBinding.pbLeaderboard.setVisibility(View.VISIBLE);
         if (mFriendsOnly) {
             queryFriends();
@@ -116,7 +124,7 @@ public class LeaderboardFragment extends Fragment {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);
                 } else {
-                    mAdapter.addAll(topFriends);
+                    mFriendsAdapter.addAll(topFriends);
                     mBinding.swipeContainer.setRefreshing(false);
                     mBinding.pbLeaderboard.setVisibility(View.GONE);
                 }
@@ -134,7 +142,7 @@ public class LeaderboardFragment extends Fragment {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);
                 } else {
-                    mAdapter.addAll(topFocusUsers);
+                    mAllAdapter.addAll(topFocusUsers);
                     mBinding.swipeContainer.setRefreshing(false);
                     mBinding.pbLeaderboard.setVisibility(View.GONE);
                 }
