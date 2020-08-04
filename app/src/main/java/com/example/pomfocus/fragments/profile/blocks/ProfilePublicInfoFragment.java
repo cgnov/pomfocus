@@ -1,4 +1,4 @@
-package com.example.pomfocus.fragments.profile;
+package com.example.pomfocus.fragments.profile.blocks;
 
 import android.os.Bundle;
 

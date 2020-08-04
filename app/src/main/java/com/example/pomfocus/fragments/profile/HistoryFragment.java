@@ -1,4 +1,4 @@
-package com.example.pomfocus.fragments;
+package com.example.pomfocus.fragments.profile;
 
 import android.os.Bundle;
 
@@ -106,17 +106,20 @@ public class HistoryFragment extends Fragment {
         Calendar focusDate = Calendar.getInstance();
         Calendar matchDate = Calendar.getInstance();
         matchDate.setTime(new Date());
+        Calendar oneWeekAgo = Calendar.getInstance();
+        oneWeekAgo.add(Calendar.DAY_OF_YEAR, 1 - DAYS_IN_WEEK);
 
         List<BarEntry> points = new ArrayList<>();
         int sum = 0;
         String[] values = new String[DAYS_IN_WEEK];
-        int pos = values.length -1;
+        int pos = values.length - 1;
         for(int i = 0; i<thisWeekFocuses.size(); i++) {
             focusDate.setTime(thisWeekFocuses.get(i).getCreatedAt());
 
             // No more focuses on given date, add info to bar chart and prep for previous day
             while(matchDate.get(Calendar.DAY_OF_YEAR) != focusDate.get(Calendar.DAY_OF_YEAR)) {
                 points.add(new BarEntry(pos, sum));
+                Log.i(TAG, "adding point");
                 values[pos] = MONTHS[matchDate.get(Calendar.MONTH)] + " " + matchDate.get(Calendar.DAY_OF_MONTH);
                 pos--;
                 sum = 0;
@@ -125,9 +128,14 @@ public class HistoryFragment extends Fragment {
 
             sum += thisWeekFocuses.get(i).getInt(Focus.KEY_LENGTH);
         }
-        // Add info involving oldest focus
-        points.add(new BarEntry(pos, sum));
-        values[pos] = MONTHS[matchDate.get(Calendar.MONTH)] + " " + matchDate.get(Calendar.DAY_OF_MONTH);
+        // Finish out week
+        while (pos >= 0) {
+            points.add(new BarEntry(pos, sum));
+            values[pos] = MONTHS[matchDate.get(Calendar.MONTH)] + " " + matchDate.get(Calendar.DAY_OF_MONTH);
+            matchDate.add(Calendar.DAY_OF_YEAR, -1);
+            pos--;
+            sum = 0;
+        }
 
         addDataToBarChart(points, values);
         styleBarChart();

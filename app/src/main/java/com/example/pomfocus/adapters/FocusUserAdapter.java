@@ -15,7 +15,7 @@ import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.ItemFocusUserBinding;
 import com.example.pomfocus.fragments.profile.ProfileFragment;
-import com.example.pomfocus.fragments.profile.ProfilePublicInfoFragment;
+import com.example.pomfocus.fragments.profile.blocks.ProfilePublicInfoFragment;
 import com.example.pomfocus.parse.FocusUser;
 import com.parse.ParseUser;
 

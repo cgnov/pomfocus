@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.ItemRequestBinding;
-import com.example.pomfocus.fragments.profile.ProfilePublicInfoFragment;
+import com.example.pomfocus.fragments.profile.blocks.ProfilePublicInfoFragment;
 import com.example.pomfocus.parse.FocusUser;
 import com.example.pomfocus.parse.FriendRequest;
 import com.parse.DeleteCallback;

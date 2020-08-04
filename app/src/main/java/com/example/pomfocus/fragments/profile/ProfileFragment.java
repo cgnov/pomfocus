@@ -13,6 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.pomfocus.ParseApp;
+import com.example.pomfocus.fragments.profile.blocks.ProfileAchievementsFragment;
+import com.example.pomfocus.fragments.profile.blocks.ProfileButtonFragment;
+import com.example.pomfocus.fragments.profile.blocks.ProfilePublicInfoFragment;
+import com.example.pomfocus.fragments.profile.blocks.ProfileRequestFragment;
+import com.example.pomfocus.fragments.profile.blocks.ProfileSnapshotFragment;
 import com.example.pomfocus.parse.FriendRequest;
 import com.example.pomfocus.parse.Focus;
 import com.example.pomfocus.parse.FocusUser;

@@ -1,4 +1,4 @@
-package com.example.pomfocus.fragments.profile;
+package com.example.pomfocus.fragments.profile.blocks;
 
 import android.os.Bundle;
 
@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileButtonBinding;
-import com.example.pomfocus.fragments.friends.FriendsFragment;
-import com.example.pomfocus.fragments.HistoryFragment;
-import com.example.pomfocus.fragments.SettingsFragment;
+import com.example.pomfocus.fragments.profile.HistoryFragment;
+import com.example.pomfocus.fragments.profile.SettingsFragment;
+import com.example.pomfocus.fragments.profile.friends.FriendsFragment;
 
 import org.jetbrains.annotations.NotNull;
 

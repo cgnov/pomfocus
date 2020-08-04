@@ -1,4 +1,4 @@
-package com.example.pomfocus.fragments.profile;
+package com.example.pomfocus.fragments.profile.blocks;
 
 import android.os.Bundle;
 
@@ -16,7 +16,8 @@ import android.widget.Toast;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileRequestBinding;
-import com.example.pomfocus.fragments.SettingsFragment;
+import com.example.pomfocus.fragments.profile.ProfileFragment;
+import com.example.pomfocus.fragments.profile.SettingsFragment;
 import com.example.pomfocus.parse.FriendRequest;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;

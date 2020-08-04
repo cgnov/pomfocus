@@ -1,4 +1,4 @@
-package com.example.pomfocus.fragments.profile;
+package com.example.pomfocus.fragments.profile.blocks;
 
 import android.os.Bundle;
 
@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.adapters.AchievementAdapter;
 import com.example.pomfocus.databinding.FragmentProfileAchievementsBinding;
+import com.example.pomfocus.fragments.profile.ProfileFragment;
 import com.example.pomfocus.parse.Achievement;
 import com.example.pomfocus.parse.Focus;
 import com.example.pomfocus.parse.FocusUser;

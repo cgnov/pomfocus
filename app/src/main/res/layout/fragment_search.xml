@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pomfocus.fragments.friends.SearchFragment">
+    tools:context=".fragments.profile.friends.SearchFragment">
 
     <EditText
         android:id="@+id/etSearch"

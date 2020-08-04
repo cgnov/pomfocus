@@ -1,4 +1,4 @@
-package com.example.pomfocus.fragments;
+package com.example.pomfocus.fragments.profile;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -22,7 +22,8 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.pomfocus.TimerTextView;
-import com.example.pomfocus.fragments.profile.ProfilePublicInfoFragment;
+import com.example.pomfocus.fragments.TimerFragment;
+import com.example.pomfocus.fragments.profile.blocks.ProfilePublicInfoFragment;
 import com.example.pomfocus.parse.FocusUser;
 import com.example.pomfocus.LoginActivity;
 import com.example.pomfocus.ParseApp;
