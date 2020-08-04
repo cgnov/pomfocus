@@ -53,7 +53,7 @@ public class TimerFragment extends Fragment {
         if(mTimer != null) {
             mTimer.mBinding = mBinding;
         }
-        mNotificationManager = NotificationManagerCompat.from(Objects.requireNonNull(getContext()));
+        mNotificationManager = NotificationManagerCompat.from(requireContext());
         return mBinding.getRoot();
     }
 
@@ -67,7 +67,7 @@ public class TimerFragment extends Fragment {
         } else {
             mBinding.tvTimeLeft.setText(getNextFull());
             mBinding.ccTimerVisual.onChangeTime(100);
-            setStartButtonText(Objects.requireNonNull(getContext()), mBinding);
+            setStartButtonText(requireContext(), mBinding);
         }
 
         setStartButtonOnClickListener();
@@ -160,7 +160,7 @@ public class TimerFragment extends Fragment {
     public void cancelTimer() {
         mTimer.cancel();
         sCurrentlyWorking = false;
-        ((MainActivity) Objects.requireNonNull(getActivity())).displayTimerFragment();
-        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        ((MainActivity) requireActivity()).displayTimerFragment();
+        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 }

@@ -112,8 +112,7 @@ public class ProfileRequestFragment extends Fragment {
         mBinding.btnFriendRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                assert getFragmentManager() != null;
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                 ParseApp.addSlideTransition(fragmentTransaction);
                 fragmentTransaction.replace(R.id.flContainer, new SettingsFragment())
                         .addToBackStack(ProfileFragment.TAG)

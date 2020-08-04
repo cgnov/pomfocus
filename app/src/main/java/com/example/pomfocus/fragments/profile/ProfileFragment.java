@@ -66,19 +66,18 @@ public class ProfileFragment extends Fragment {
     }
 
     private void displayRelevantFragments() {
-        assert getFragmentManager() != null;
-        getFragmentManager().beginTransaction()
+        getChildFragmentManager().beginTransaction()
                 .replace(R.id.flPublicInfo, new ProfilePublicInfoFragment(mUser))
                 .commit();
         if (mUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
             displayFriendPrivileges();
-            getFragmentManager().beginTransaction()
+            getChildFragmentManager().beginTransaction()
                     .replace(R.id.flButtons, new ProfileButtonFragment())
                     .commit();
         } else {
             if (mConfirmedFriend) {
                 displayFriendPrivileges();
-                getFragmentManager().beginTransaction()
+                getChildFragmentManager().beginTransaction()
                         .replace(R.id.flRequest, new ProfileRequestFragment(mUser, FriendRequest.PROCESSED, null))
                         .commit();
             } else {
@@ -88,11 +87,10 @@ public class ProfileFragment extends Fragment {
     }
 
     private void displayFriendPrivileges() {
-        assert getFragmentManager() != null;
         mProfileSnapshotFragment = new ProfileSnapshotFragment(mUser.getInt(FocusUser.KEY_TOTAL));
-        getFragmentManager().beginTransaction().replace(R.id.flSnapshot, mProfileSnapshotFragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.flSnapshot, mProfileSnapshotFragment).commit();
         mProfileAchievementsFragment = new ProfileAchievementsFragment();
-        getFragmentManager().beginTransaction().replace(R.id.flAchievements, mProfileAchievementsFragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.flAchievements, mProfileAchievementsFragment).commit();
 
         if (mFocuses == null) {
             findFullFocusHistory();
@@ -213,8 +211,7 @@ public class ProfileFragment extends Fragment {
         } else {
             displayNotFriends();
         }
-        assert getFragmentManager() != null;
-        getFragmentManager()
+        getChildFragmentManager()
                 .beginTransaction()
                 .replace(R.id.flRequest, new ProfileRequestFragment(mUser, status, request))
                 .commit();

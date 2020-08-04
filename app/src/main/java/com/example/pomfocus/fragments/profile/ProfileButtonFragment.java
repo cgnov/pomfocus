@@ -40,8 +40,7 @@ public class ProfileButtonFragment extends Fragment {
         mBinding.btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                assert getFragmentManager() != null;
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                 ParseApp.addSlideTransition(fragmentTransaction);
                 fragmentTransaction.replace(R.id.flContainer, new SettingsFragment())
                         .addToBackStack(TAG)
@@ -52,8 +51,7 @@ public class ProfileButtonFragment extends Fragment {
         mBinding.btnSeeHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                assert getFragmentManager() != null;
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                 ParseApp.addSlideTransition(fragmentTransaction);
                 fragmentTransaction.replace(R.id.flContainer, new HistoryFragment())
                         .addToBackStack(TAG)
@@ -64,8 +62,7 @@ public class ProfileButtonFragment extends Fragment {
         mBinding.btnFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                assert getFragmentManager() != null;
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                 ParseApp.addSlideTransition(fragmentTransaction);
                 fragmentTransaction.replace(R.id.flContainer, new FriendsFragment())
                         .addToBackStack(TAG)

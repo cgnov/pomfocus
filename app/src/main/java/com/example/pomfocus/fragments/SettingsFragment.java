@@ -21,14 +21,12 @@ import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
-import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.TimerTextView;
 import com.example.pomfocus.fragments.profile.ProfilePublicInfoFragment;
 import com.example.pomfocus.parse.FocusUser;
 import com.example.pomfocus.LoginActivity;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
-import com.example.pomfocus.adapters.RequestAdapter;
 import com.example.pomfocus.databinding.FragmentSettingsBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -38,7 +36,6 @@ import com.parse.SaveCallback;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -47,7 +44,6 @@ public class SettingsFragment extends Fragment {
     private static final String TAG = "SettingsFragment";
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private File mPhotoFile;
-    private RequestAdapter mAdapter;
     private FragmentSettingsBinding mBinding;
 
     @Override
@@ -81,7 +77,7 @@ public class SettingsFragment extends Fragment {
                 ParseUser.logOut();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
-                Objects.requireNonNull(getActivity()).finish();
+                requireActivity().finish();
             }
         });
     }
@@ -135,9 +131,9 @@ public class SettingsFragment extends Fragment {
                 user.put(FocusUser.KEY_SCREEN, b);
                 user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving keepScreenOn preference"));
                 if (b && TimerFragment.sCurrentlyWorking) {
-                    Objects.requireNonNull(getActivity()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                    requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 } else if (!b && !TimerFragment.sCurrentlyWorking) {
-                    Objects.requireNonNull(getActivity()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                    requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 }
             }
         });
@@ -168,13 +164,13 @@ public class SettingsFragment extends Fragment {
 
         // wrap File object into a content provider (required for API >= 24)
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(Objects.requireNonNull(getContext()), "com.codepath.fileprovider.pomfocus", mPhotoFile);
+        Uri fileProvider = FileProvider.getUriForFile(requireContext(), "com.codepath.fileprovider.pomfocus", mPhotoFile);
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // Ensures that there is a valid camera on the phone (prevents crash from lack of camera)
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+        if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
             // Start the image capture intent to take photo
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         }
@@ -183,7 +179,7 @@ public class SettingsFragment extends Fragment {
     // Returns the File for a photo stored on disk given the fileName
     private File getPhotoFileUri(String fileName) {
         // Get safe storage directory for photos
-        File mediaStorageDir = new File(Objects.requireNonNull(getContext()).getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
+        File mediaStorageDir = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
