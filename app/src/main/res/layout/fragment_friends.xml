@@ -20,6 +20,9 @@
         android:id="@+id/btnAddFriend"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/add_new_friend"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,6 +36,7 @@
         android:text="@string/check_pending_requests"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/btnAddFriend"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/btnAddFriend"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/btnAddFriend" />
 </androidx.constraintlayout.widget.ConstraintLayout>
