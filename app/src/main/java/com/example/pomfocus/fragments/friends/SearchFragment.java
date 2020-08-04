@@ -1,4 +1,4 @@
-package com.example.pomfocus.fragments;
+package com.example.pomfocus.fragments.friends;
 
 import android.os.Bundle;
 
@@ -66,7 +66,7 @@ public class SearchFragment extends Fragment {
         queryName.whereStartsWith(FocusUser.KEY_NAME_LOWERCASE, searchString);
 
         ParseQuery<ParseUser> queryHandle = ParseQuery.getQuery(ParseUser.class);
-        queryHandle.whereContains(FocusUser.KEY_HANDLE, searchString);
+        queryHandle.whereStartsWith(FocusUser.KEY_HANDLE, searchString);
 
         List<ParseQuery<ParseUser>> queries = new ArrayList<>();
         queries.add(queryName);

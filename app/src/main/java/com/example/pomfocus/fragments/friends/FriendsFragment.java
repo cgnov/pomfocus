@@ -1,4 +1,4 @@
-package com.example.pomfocus.fragments;
+package com.example.pomfocus.fragments.friends;
 
 import android.os.Bundle;
 
@@ -64,8 +64,7 @@ public class FriendsFragment extends Fragment {
         mBinding.btnCheckPending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                assert getFragmentManager() != null;
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 ParseApp.addSlideTransition(fragmentTransaction);
                 fragmentTransaction.replace(R.id.flContainer, new FriendRequestsFragment())
                         .addToBackStack(TAG)
@@ -76,8 +75,7 @@ public class FriendsFragment extends Fragment {
         mBinding.btnAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                assert getFragmentManager() != null;
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 ParseApp.addSlideTransition(fragmentTransaction);
                 fragmentTransaction.replace(R.id.flContainer, new SearchFragment())
                         .addToBackStack(TAG)

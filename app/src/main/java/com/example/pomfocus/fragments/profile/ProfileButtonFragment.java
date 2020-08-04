@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileButtonBinding;
-import com.example.pomfocus.fragments.FriendsFragment;
+import com.example.pomfocus.fragments.friends.FriendsFragment;
 import com.example.pomfocus.fragments.HistoryFragment;
 import com.example.pomfocus.fragments.SettingsFragment;
 

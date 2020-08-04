@@ -1,4 +1,4 @@
-package com.example.pomfocus.fragments;
+package com.example.pomfocus.fragments.friends;
 
 import android.os.Bundle;
 
