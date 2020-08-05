@@ -69,6 +69,9 @@ public class LeaderboardFragment extends Fragment {
 
         addTabListener();
         int tabSelected = (mFriendsOnly) ? FRIENDS_INDEX : ALL_INDEX;
+        if (ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_HIDE_FROM_LEADERBOARD)) {
+            tabSelected = FRIENDS_INDEX;
+        }
         mBinding.tabLayout.selectTab(mBinding.tabLayout.getTabAt(tabSelected));
     }
 
@@ -147,6 +150,7 @@ public class LeaderboardFragment extends Fragment {
             mBinding.rvLeaderboards.setAdapter(mAllAdapter);
         }
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
+        query.whereEqualTo(FocusUser.KEY_HIDE_FROM_LEADERBOARD, false);
         query.addDescendingOrder(FocusUser.KEY_TOTAL);
         query.setLimit(NUM_REQUEST);
         query.findInBackground(new FindCallback<ParseUser>() {

@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.pomfocus.TimerTextView;
@@ -46,6 +47,9 @@ public class SettingsFragment extends Fragment {
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private File mPhotoFile;
     private FragmentSettingsBinding mBinding;
+    public static final String[] KEYS = {FocusUser.KEY_FOCUS, FocusUser.KEY_SCREEN,
+            FocusUser.KEY_PRIVATE, FocusUser.KEY_HIDE_FROM_LEADERBOARD};
+    private Switch[] switches;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -57,6 +61,8 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        switches = new Switch[]{mBinding.switchFocusMode, mBinding.switchPrivate, mBinding.switchPrivate, mBinding.switchHide};
 
         displayProfileInfo();
         setUpSwitches();
@@ -122,8 +128,12 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setUpSwitches() {
-        mBinding.switchKeepScreenOn.setChecked(ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_SCREEN));
-        mBinding.switchFocusMode.setChecked(ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_FOCUS));
+        for (int i = 0; i < KEYS.length; i++) {
+            switches[i].setChecked(ParseUser.getCurrentUser().getBoolean(KEYS[i]));
+            if (!KEYS[i].equals("keepScreenOn")) {
+                setUpSimpleListener(i);
+            }
+        }
 
         mBinding.switchKeepScreenOn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -138,22 +148,15 @@ public class SettingsFragment extends Fragment {
                 }
             }
         });
+    }
 
-        mBinding.switchFocusMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    private void setUpSimpleListener(final int i) {
+        switches[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 ParseUser user = ParseUser.getCurrentUser();
-                user.put(FocusUser.KEY_FOCUS, b);
-                user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving focusMode preference"));
-            }
-        });
-
-        mBinding.switchPrivate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                ParseUser user = ParseUser.getCurrentUser();
-                user.put(FocusUser.KEY_PRIVATE, b);
-                user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving private mode preference"));
+                user.put(KEYS[i], b);
+                user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving " + KEYS[i] + " preference"));
             }
         });
     }

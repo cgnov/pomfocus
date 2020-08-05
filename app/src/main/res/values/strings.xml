@@ -56,4 +56,6 @@
     <string name="timer_lengths_in_minutes">Timer Lengths in Minutes</string>
     <string name="level">level</string>
     <string name="skip_break">Skip Break</string>
+    <string name="hide_leaderboard_desc">When on, you will not appear on anyone\'s \"All\" leaderboard. You will still appear on your friends\' \"Friends\" leaderboards.</string>
+    <string name="hide_leaderboard">Hide From Leaderboard</string>
 </resources>
