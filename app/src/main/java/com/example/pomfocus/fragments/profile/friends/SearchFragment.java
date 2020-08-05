@@ -66,7 +66,7 @@ public class SearchFragment extends Fragment {
         queryName.whereStartsWith(FocusUser.KEY_NAME_LOWERCASE, searchString);
 
         ParseQuery<ParseUser> queryHandle = ParseQuery.getQuery(ParseUser.class);
-        queryHandle.whereStartsWith(FocusUser.KEY_HANDLE, searchString);
+        queryHandle.whereStartsWith(FocusUser.KEY_USERNAME_LOWERCASE, searchString);
 
         List<ParseQuery<ParseUser>> queries = new ArrayList<>();
         queries.add(queryName);

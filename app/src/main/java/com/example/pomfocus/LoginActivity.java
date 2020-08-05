@@ -56,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
                         } else if (user.isNew()) {
                             Log.d(TAG, "User signed up and logged in through Facebook!");
                             setName();
-                            // TODO (stretch): create set handle page for searchability
                             goMainActivity();
                         } else {
                             Log.d(TAG, "User logged in through Facebook!");
@@ -73,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         String name = String.format("%s %s.", Profile.getCurrentProfile().getFirstName(), Profile.getCurrentProfile().getLastName().substring(0,1));
         user.put(FocusUser.KEY_NAME, name);
         user.put(FocusUser.KEY_NAME_LOWERCASE, name.toLowerCase());
+        user.put(FocusUser.KEY_USERNAME_LOWERCASE, user.getUsername().toLowerCase());
         user.saveInBackground();
     }
 
@@ -140,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
             user.setPassword(password);
             user.put(FocusUser.KEY_NAME, name);
             user.put(FocusUser.KEY_NAME_LOWERCASE, name.toLowerCase());
+            user.put(FocusUser.KEY_USERNAME_LOWERCASE, username.toLowerCase());
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
                     if (e != null) {

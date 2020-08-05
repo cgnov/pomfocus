@@ -8,6 +8,7 @@ public class FocusUser extends ParseUser {
     public static final String TAG = "FocusUser";
     public static final String KEY_NAME = "name";
     public static final String KEY_NAME_LOWERCASE = "lowercaseName";
+    public static final String KEY_USERNAME_LOWERCASE = "lowercaseUsername";
     public static final String KEY_HANDLE = "username";
     public static final String KEY_AVATAR = "avatar";
     public static final String KEY_TOTAL = "totalTime";
