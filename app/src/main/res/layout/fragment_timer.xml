@@ -45,4 +45,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTimeLeft" />
 
+    <Button
+        android:id="@+id/btnSkipBreak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/backgroundColor"
+        android:text="@string/skip_break"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/btnStart"
+        app:layout_constraintStart_toStartOf="@+id/btnStart"
+        app:layout_constraintTop_toBottomOf="@+id/btnStart" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

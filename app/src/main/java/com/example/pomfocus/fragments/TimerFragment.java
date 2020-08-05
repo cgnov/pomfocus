@@ -8,6 +8,11 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
+import android.transition.ChangeBounds;
+import android.transition.Fade;
+import android.transition.Transition;
+import android.transition.TransitionManager;
+import android.transition.TransitionSet;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -60,15 +65,20 @@ public class TimerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if(sCurrentlyWorking) {
+        if (sCurrentlyWorking) {
             mBinding.btnStart.setVisibility(View.GONE);
+            mBinding.btnSkipBreak.setVisibility(View.GONE);
             mBinding.tvTimeLeft.setText("");
         } else {
             mBinding.tvTimeLeft.setText(getNextFull());
             mBinding.ccTimerVisual.onChangeTime(100);
             setStartButtonText(requireContext(), mBinding);
+            if (sBreakIsNext) {
+                mBinding.btnSkipBreak.setVisibility(View.VISIBLE);
+            }
         }
 
+        setSkipButtonOnClickListener();
         setStartButtonOnClickListener();
         setGestureDetectors();
     }
@@ -85,11 +95,39 @@ public class TimerFragment extends Fragment {
         binding.btnStart.setText(startButtonText);
     }
 
+    private void setSkipButtonOnClickListener() {
+        mBinding.btnSkipBreak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Set up changing bounds
+                ChangeBounds changeBounds = new ChangeBounds();
+                changeBounds.addTarget(mBinding.btnStart);
+
+                // Set up fade-out
+                Fade fadeOut = new Fade();
+                fadeOut.setMode(Fade.OUT);
+                fadeOut.addTarget(mBinding.btnSkipBreak);
+                fadeOut.setDuration(300);
+
+                // Add transitions and begin
+                Transition transition = new TransitionSet().addTransition(changeBounds).addTransition(fadeOut);
+                TransitionManager.beginDelayedTransition((ViewGroup) mBinding.btnStart.getParent(), transition);
+
+                TimerFragment.sPomodoroStage++;
+                TimerFragment.sBreakIsNext = !TimerFragment.sBreakIsNext;
+                mBinding.tvTimeLeft.setText(TimerFragment.getNextFull());
+                TimerFragment.setStartButtonText(requireContext(), mBinding);
+                mBinding.btnSkipBreak.setVisibility(View.GONE);
+            }
+        });
+    }
+
     private void setStartButtonOnClickListener() {
         mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mBinding.btnStart.setVisibility(View.GONE);
+                mBinding.btnSkipBreak.setVisibility(View.GONE);
                 if (ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_SCREEN) && (getActivity() != null)) {
                     getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 }

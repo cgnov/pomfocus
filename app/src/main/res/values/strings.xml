@@ -55,4 +55,5 @@
     <string name="private_mode">Private Mode</string>
     <string name="timer_lengths_in_minutes">Timer Lengths in Minutes</string>
     <string name="level">level</string>
+    <string name="skip_break">Skip Break</string>
 </resources>

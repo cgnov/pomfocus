@@ -64,11 +64,12 @@ public class FocusTimer extends CountDownTimer {
             MainActivity.sTimerFragment.getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
         mBinding.btnStart.setVisibility(View.VISIBLE);
-        if (!TimerFragment.sBreakIsNext) {
-            createFocusObject();
-        } else {
+        if (TimerFragment.sBreakIsNext) {
             TimerFragment.sPomodoroStage++;
             TimerFragment.sPomodoroStage %= (TimerFragment.LONG_BREAK_STAGE + 1);
+        } else {
+            createFocusObject();
+            mBinding.btnSkipBreak.setVisibility(View.VISIBLE);
         }
         TimerFragment.sBreakIsNext = !TimerFragment.sBreakIsNext;
         mBinding.tvTimeLeft.setText(TimerFragment.getNextFull());
