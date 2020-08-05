@@ -95,7 +95,7 @@ public class ProfileFragment extends Fragment {
     private void displayFriendPrivileges() {
         mBinding.pbProfile.setVisibility(View.GONE);
         mProfileSnapshotFragment = new ProfileSnapshotFragment(mUser.getInt(FocusUser.KEY_TOTAL));
-        getChildFragmentManager().beginTransaction().replace(R.id.flSnapshot, mProfileSnapshotFragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.flSnapshot, mProfileSnapshotFragment, ProfileSnapshotFragment.TAG).commit();
         mProfileAchievementsFragment = new ProfileAchievementsFragment();
         getChildFragmentManager().beginTransaction().replace(R.id.flAchievements, mProfileAchievementsFragment).commit();
 

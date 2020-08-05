@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ProfileSnapshotFragment extends Fragment {
 
-    private static final String TAG = "ProfileSnapshotFragment";
+    public static final String TAG = "ProfileSnapshotFragment";
     private FragmentProfileSnapshotBinding mBinding;
     private int mTotal;
     private int mStreak = -1;
@@ -49,5 +49,9 @@ public class ProfileSnapshotFragment extends Fragment {
         } else {
             mStreak = streak;
         }
+    }
+
+    public void setTotal(int total) {
+        mBinding.tvTotal.setText(String.valueOf(total));
     }
 }

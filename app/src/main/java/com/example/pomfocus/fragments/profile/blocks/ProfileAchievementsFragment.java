@@ -4,7 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pomfocus.ParseApp;
+import com.example.pomfocus.R;
 import com.example.pomfocus.adapters.AchievementAdapter;
 import com.example.pomfocus.databinding.FragmentProfileAchievementsBinding;
 import com.example.pomfocus.fragments.profile.ProfileFragment;
@@ -177,6 +180,12 @@ public class ProfileAchievementsFragment extends Fragment {
         if (savedTotal != mTotal) {
             ParseUser.getCurrentUser().put(FocusUser.KEY_TOTAL, mTotal);
             ParseUser.getCurrentUser().saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving accurate total time"));
+            assert getParentFragment() != null;
+            ProfileSnapshotFragment profileSnapshotFragment = (ProfileSnapshotFragment) getParentFragment()
+                    .getChildFragmentManager()
+                    .findFragmentById(R.id.flSnapshot);
+            assert profileSnapshotFragment != null;
+            profileSnapshotFragment.setTotal(mTotal);
         }
     }
 }
