@@ -7,11 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.ItemRequestBinding;
+import com.example.pomfocus.fragments.profile.ProfileFragment;
 import com.example.pomfocus.fragments.profile.blocks.ProfilePublicInfoFragment;
 import com.example.pomfocus.parse.FocusUser;
 import com.example.pomfocus.parse.FriendRequest;
@@ -28,6 +34,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     private static final String TAG = "HistoryAdapter";
     private final Context mContext;
     private final List<FriendRequest> mRequests = new ArrayList<>();
+    private FragmentManager mFragmentManager;
 
     public RequestAdapter(Context context) {
         mContext = context;
@@ -37,6 +44,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_request, parent, false);
+        mFragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
         return new ViewHolder(view);
     }
 
@@ -72,10 +80,25 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
             if(request != null) {
                 ParseUser sender = request.getParseUser("fromUser");
                 assert sender != null;
-                mBind.tvName.setText(sender.getUsername());
+                mBind.tvName.setText(sender.getString(FocusUser.KEY_NAME));
                 ProfilePublicInfoFragment.displayAvatar(mBind.ivAvatar, sender.getParseFile(FocusUser.KEY_AVATAR));
+                setUpItemClickListener(sender);
                 setUpResponseClickListeners(request, sender);
             }
+        }
+
+        private void setUpItemClickListener(final ParseUser sender) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Fragment profileFragment = new ProfileFragment(sender);
+                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                    ParseApp.addSlideTransition(fragmentTransaction);
+                    fragmentTransaction.replace(R.id.flContainer, profileFragment)
+                            .addToBackStack(TAG)
+                            .commit();
+                }
+            });
         }
 
         private void setUpResponseClickListeners(final FriendRequest request, final ParseUser sender) {

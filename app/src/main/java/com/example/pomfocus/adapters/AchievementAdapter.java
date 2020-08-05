@@ -25,6 +25,7 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
     private static final String TAG = "FocusUserAdapter";
     private final Context mContext;
     private final List<Achievement> mAchievements = new ArrayList<>();
+    private FragmentManager mFragmentManager;
 
     public AchievementAdapter(Context context) {
         mContext = context;
@@ -34,6 +35,7 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_achievement, parent, false);
+        mFragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
         return new ViewHolder(view);
     }
 
@@ -52,7 +54,7 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
         return mAchievements.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemAchievementBinding mBind;
 
         public ViewHolder(@NonNull final View itemView) {
@@ -64,9 +66,8 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    FragmentManager fragmentManager = ((AppCompatActivity)view.getContext()).getSupportFragmentManager();
                     MilestonesDialogFragment milestonesDialogFragment = new MilestonesDialogFragment(achievement);
-                    milestonesDialogFragment.show(fragmentManager, TAG);
+                    milestonesDialogFragment.show(mFragmentManager, TAG);
                 }
             });
             mBind.tvTitle.setText(achievement.mTitle);

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +28,7 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
     private static final String TAG = "FocusUserAdapter";
     private final Context mContext;
     private final List<ParseUser> mFocusUsers = new ArrayList<>();
-    private AppCompatActivity mActivity;
+    private FragmentManager mFragmentManager;
 
     public FocusUserAdapter(Context context) {
         mContext = context;
@@ -37,7 +38,7 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_focus_user, parent, false);
-        mActivity = (AppCompatActivity) view.getContext();
+        mFragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
         return new ViewHolder(view);
     }
 
@@ -81,7 +82,7 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
                     // User clicked on user in leaderboard, slide to relevant profile view
                     Fragment profileFragment;
                     profileFragment = new ProfileFragment(focusUser);
-                    FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                     ParseApp.addSlideTransition(fragmentTransaction);
                     fragmentTransaction.replace(R.id.flContainer, profileFragment)
                             .addToBackStack(TAG)

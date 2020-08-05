@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +27,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     private static final String TAG = "FriendAdapter";
     private final Context mContext;
     private final List<ParseUser> mResults;
-    private static AppCompatActivity mActivity;
+    private static FragmentManager mFragmentManager;
 
     public SearchResultAdapter(Context context, List<ParseUser> results) {
         mContext = context;
@@ -37,7 +38,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     @Override
     public SearchResultAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_friend, parent, false);
-        mActivity = (AppCompatActivity) view.getContext();
+        mFragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
         return new ViewHolder(view);
     }
 
@@ -72,7 +73,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 public void onClick(View view) {
                     // User clicked on user in leaderboard, slide to relevant profile view
                     Fragment profileFragment = new ProfileFragment(result);
-                    FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                     ParseApp.addSlideTransition(fragmentTransaction);
                     fragmentTransaction.replace(R.id.flContainer, profileFragment)
                             .addToBackStack(TAG)
