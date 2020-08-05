@@ -69,7 +69,9 @@ public class FocusTimer extends CountDownTimer {
             TimerFragment.sPomodoroStage %= (TimerFragment.LONG_BREAK_STAGE + 1);
         } else {
             createFocusObject();
-            mBinding.btnSkipBreak.setVisibility(View.VISIBLE);
+            if (!ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_HIDE_SKIP_BREAK)) {
+                mBinding.btnSkipBreak.setVisibility(View.VISIBLE);
+            }
         }
         TimerFragment.sBreakIsNext = !TimerFragment.sBreakIsNext;
         mBinding.tvTimeLeft.setText(TimerFragment.getNextFull());

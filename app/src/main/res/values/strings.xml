@@ -58,4 +58,6 @@
     <string name="skip_break">Skip Break</string>
     <string name="hide_leaderboard_desc">When on, you will not appear on anyone\'s \"All\" leaderboard. You will still appear on your friends\' \"Friends\" leaderboards.</string>
     <string name="hide_leaderboard">Hide From Leaderboard</string>
+    <string name="hide_skip_desc">Find yourself tempted to skip every break and end up burning yourself out? Turning on this setting will hide the skip button for you!</string>
+    <string name="hide_skip">Hide Skip Break Button</string>
 </resources>

@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.pomfocus.TimerTextView;
 import com.example.pomfocus.fragments.TimerFragment;
 import com.example.pomfocus.fragments.profile.blocks.ProfilePublicInfoFragment;
+import com.example.pomfocus.parse.Focus;
 import com.example.pomfocus.parse.FocusUser;
 import com.example.pomfocus.LoginActivity;
 import com.example.pomfocus.ParseApp;
@@ -47,8 +48,8 @@ public class SettingsFragment extends Fragment {
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private File mPhotoFile;
     private FragmentSettingsBinding mBinding;
-    public static final String[] KEYS = {FocusUser.KEY_FOCUS, FocusUser.KEY_SCREEN,
-            FocusUser.KEY_PRIVATE, FocusUser.KEY_HIDE_FROM_LEADERBOARD};
+    public static final String[] KEYS = {FocusUser.KEY_FOCUS, FocusUser.KEY_SCREEN, FocusUser.KEY_PRIVATE,
+            FocusUser.KEY_HIDE_FROM_LEADERBOARD, FocusUser.KEY_HIDE_SKIP_BREAK};
     private Switch[] switches;
 
     @Override
@@ -62,7 +63,8 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        switches = new Switch[]{mBinding.switchFocusMode, mBinding.switchPrivate, mBinding.switchPrivate, mBinding.switchHide};
+        switches = new Switch[]{mBinding.switchFocusMode, mBinding.switchPrivate, mBinding.switchPrivate,
+                mBinding.switchHideFromLeaderboard, mBinding.switchHideSkip};
 
         displayProfileInfo();
         setUpSwitches();

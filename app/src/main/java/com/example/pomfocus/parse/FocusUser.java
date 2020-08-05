@@ -20,6 +20,7 @@ public class FocusUser extends ParseUser {
     public static final String KEY_SHORT_BREAK_LENGTH = "shortBreakLength";
     public static final String KEY_LONG_BREAK_LENGTH = "longBreakLength";
     public static final String KEY_HIDE_FROM_LEADERBOARD = "hideFromAllLeaderboard";
+    public static final String KEY_HIDE_SKIP_BREAK = "hideSkipBreakButton";
 
     public static int getFocusLength() {
         return ParseUser.getCurrentUser().getInt(KEY_FOCUS_LENGTH);

@@ -167,16 +167,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvKeepScreenOnDesc" />
 
             <TextView
-                android:id="@+id/tvHide"
+                android:id="@+id/tvHideFromLeaderboard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/hide_leaderboard_desc"
                 app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
                 app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
-                app:layout_constraintTop_toBottomOf="@+id/switchHide" />
+                app:layout_constraintTop_toBottomOf="@+id/switchHideFromLeaderboard" />
 
             <Switch
-                android:id="@+id/switchHide"
+                android:id="@+id/switchHideFromLeaderboard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -187,6 +187,28 @@
                 app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
                 app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
                 app:layout_constraintTop_toBottomOf="@+id/tvPrivate" />
+
+            <TextView
+                android:id="@+id/tvHideSkip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/hide_skip_desc"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toBottomOf="@+id/switchHideSkip" />
+
+            <Switch
+                android:id="@+id/switchHideSkip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/hide_skip"
+                android:textColor="?attr/colorSecondary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/switchFocusMode"
+                app:layout_constraintStart_toStartOf="@+id/switchFocusMode"
+                app:layout_constraintTop_toBottomOf="@+id/tvHideFromLeaderboard" />
 
             <com.example.pomfocus.TimerTextView
                 android:id="@+id/tvShortBreakLength"

@@ -73,7 +73,7 @@ public class TimerFragment extends Fragment {
             mBinding.tvTimeLeft.setText(getNextFull());
             mBinding.ccTimerVisual.onChangeTime(100);
             setStartButtonText(requireContext(), mBinding);
-            if (sBreakIsNext) {
+            if (sBreakIsNext && !ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_HIDE_SKIP_BREAK)) {
                 mBinding.btnSkipBreak.setVisibility(View.VISIBLE);
             }
         }
