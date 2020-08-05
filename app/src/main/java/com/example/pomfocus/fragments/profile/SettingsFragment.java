@@ -85,7 +85,7 @@ public class SettingsFragment extends Fragment {
 
     private void displayProfileInfo() {
         mBinding.tvName.setText(ParseUser.getCurrentUser().getString(FocusUser.KEY_NAME));
-        mBinding.tvHandle.setText(ParseUser.getCurrentUser().getUsername());
+        mBinding.tvHandle.setText(String.format("@%s", ParseUser.getCurrentUser().getUsername()));
 
         // If user has uploaded a picture, display that. Otherwise, display generic profile vector asset
         ParseFile avatar = ParseUser.getCurrentUser().getParseFile(FocusUser.KEY_AVATAR);

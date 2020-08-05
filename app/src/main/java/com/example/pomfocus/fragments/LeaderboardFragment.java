@@ -32,6 +32,7 @@ public class LeaderboardFragment extends Fragment {
     
     private static final String TAG = "LeaderboardFragment";
     private static final int NUM_REQUEST = 10;
+    private static final int ALL_INDEX = 0, FRIENDS_INDEX = 1;
     private FocusUserAdapter mAllAdapter;
     private FocusUserAdapter mFriendsAdapter;
     private boolean mFriendsOnly;
@@ -66,34 +67,40 @@ public class LeaderboardFragment extends Fragment {
             }
         });
 
-        queryUsers();
+        addTabListener();
+        int tabSelected = (mFriendsOnly) ? FRIENDS_INDEX : ALL_INDEX;
+        mBinding.tabLayout.selectTab(mBinding.tabLayout.getTabAt(tabSelected));
+    }
 
+    private void addTabListener() {
         mBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                assert tab.getText() != null;
-                mFriendsOnly = getString(R.string.friends).equals(tab.getText().toString());
-                if (mAllAdapter.equals(mBinding.rvLeaderboards.getAdapter()) && mFriendsOnly) {
-                    mBinding.rvLeaderboards.setAdapter(mFriendsAdapter);
-                } else if (mFriendsAdapter.equals(mBinding.rvLeaderboards.getAdapter()) && !mFriendsOnly) {
-                    mBinding.rvLeaderboards.setAdapter(mAllAdapter);
-                }
-                queryUsers();
+                Log.i(TAG, "tabSelected: " + tab.getText());
+                displayRanking(tab);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                Log.i(TAG, "tabUnselected: " + tab.getText());
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                Log.i(TAG, "tabReselected: " + tab.getText());
+                displayRanking(tab);
+            }
 
+            private void displayRanking(TabLayout.Tab tab) {
+                assert tab.getText() != null;
+                mFriendsOnly = getString(R.string.friends).equals(tab.getText().toString());
+                queryUsers();
             }
         });
     }
 
     private void queryUsers() {
+        Log.i(TAG, "queryUsers, mFriendsOnly: " + mFriendsOnly);
         mAllAdapter.clear();
         mFriendsAdapter.clear();
         mBinding.pbLeaderboard.setVisibility(View.VISIBLE);
@@ -105,6 +112,9 @@ public class LeaderboardFragment extends Fragment {
     }
 
     private void queryFriends() {
+        if (mAllAdapter.equals(mBinding.rvLeaderboards.getAdapter()) && mFriendsOnly) {
+            mBinding.rvLeaderboards.setAdapter(mFriendsAdapter);
+        }
         ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation(FocusUser.KEY_FRIENDS);
         ParseQuery<ParseUser> queryFriends = relation.getQuery();
 
@@ -133,6 +143,9 @@ public class LeaderboardFragment extends Fragment {
     }
 
     private void queryAll() {
+        if (mFriendsAdapter.equals(mBinding.rvLeaderboards.getAdapter()) && !mFriendsOnly) {
+            mBinding.rvLeaderboards.setAdapter(mAllAdapter);
+        }
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
         query.addDescendingOrder(FocusUser.KEY_TOTAL);
         query.setLimit(NUM_REQUEST);

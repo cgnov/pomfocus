@@ -18,6 +18,7 @@ import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileRequestBinding;
 import com.example.pomfocus.fragments.profile.ProfileFragment;
 import com.example.pomfocus.fragments.profile.SettingsFragment;
+import com.example.pomfocus.fragments.profile.friends.FriendRequestsFragment;
 import com.example.pomfocus.parse.FriendRequest;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
@@ -70,7 +71,7 @@ public class ProfileRequestFragment extends Fragment {
         mBinding.btnFriendRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FriendRequest friendRequest = new FriendRequest();
+                final FriendRequest friendRequest = new FriendRequest();
                 friendRequest.setStatus(FriendRequest.PENDING);
                 friendRequest.setFrom(ParseUser.getCurrentUser());
                 friendRequest.setTo(mUser);
@@ -81,6 +82,7 @@ public class ProfileRequestFragment extends Fragment {
                             Log.e(TAG, "Error saving new friend request", e);
                             Toast.makeText(getContext(), "Unable to send friend request", Toast.LENGTH_SHORT).show();
                         } else {
+                            mRequest = friendRequest;
                             setUpCancelButton();
                         }
                     }
@@ -113,9 +115,9 @@ public class ProfileRequestFragment extends Fragment {
         mBinding.btnFriendRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 ParseApp.addSlideTransition(fragmentTransaction);
-                fragmentTransaction.replace(R.id.flContainer, new SettingsFragment())
+                fragmentTransaction.replace(R.id.flContainer, new FriendRequestsFragment())
                         .addToBackStack(ProfileFragment.TAG)
                         .commit();
             }

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.pomfocus.FocusTimer;
 import com.example.pomfocus.MainActivity;
@@ -49,19 +50,30 @@ public class EditLengthsDialogFragment extends DialogFragment {
         mBinding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FocusTimer.MIN_PER_FOCUS = Integer.parseInt(mBinding.etPomLength.getText().toString());
-                FocusTimer.MIN_PER_BREAK = Integer.parseInt(mBinding.etShortBreak.getText().toString());
-                FocusTimer.MIN_PER_LONG_BREAK = Integer.parseInt(mBinding.etLongBreak.getText().toString());
-                dismiss();
-                if(!TimerFragment.sCurrentlyWorking) {
-                    MainActivity.sTimerFragment.refresh();
+                int newFocusLength = Integer.parseInt(mBinding.etPomLength.getText().toString());
+                int newShortBreak = Integer.parseInt(mBinding.etShortBreak.getText().toString());
+                int newLongBreak = Integer.parseInt(mBinding.etLongBreak.getText().toString());
+                if ((newFocusLength == 0) || (newShortBreak == 0) || (newLongBreak == 0)) {
+                    Toast.makeText(getContext(), "Timer lengths cannot be set to 0", Toast.LENGTH_SHORT).show();
+                } else {
+                    saveNewLengths(newFocusLength, newShortBreak, newLongBreak);
+                    dismiss();
                 }
-                ParseUser user = ParseUser.getCurrentUser();
-                user.put(FocusUser.KEY_FOCUS_LENGTH, FocusTimer.MIN_PER_FOCUS);
-                user.put(FocusUser.KEY_SHORT_BREAK_LENGTH, FocusTimer.MIN_PER_BREAK);
-                user.put(FocusUser.KEY_LONG_BREAK_LENGTH, FocusTimer.MIN_PER_LONG_BREAK);
-                user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving length preferences"));
             }
         });
+    }
+
+    private void saveNewLengths(int focus, int shortBreak, int longBreak) {
+        FocusTimer.MIN_PER_FOCUS = Integer.parseInt(mBinding.etPomLength.getText().toString());
+        FocusTimer.MIN_PER_BREAK = Integer.parseInt(mBinding.etShortBreak.getText().toString());
+        FocusTimer.MIN_PER_LONG_BREAK = Integer.parseInt(mBinding.etLongBreak.getText().toString());
+        if(!TimerFragment.sCurrentlyWorking) {
+            MainActivity.sTimerFragment.refresh();
+        }
+        ParseUser user = ParseUser.getCurrentUser();
+        user.put(FocusUser.KEY_FOCUS_LENGTH, FocusTimer.MIN_PER_FOCUS);
+        user.put(FocusUser.KEY_SHORT_BREAK_LENGTH, FocusTimer.MIN_PER_BREAK);
+        user.put(FocusUser.KEY_LONG_BREAK_LENGTH, FocusTimer.MIN_PER_LONG_BREAK);
+        user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving length preferences"));
     }
 }
