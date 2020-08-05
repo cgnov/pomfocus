@@ -2,10 +2,14 @@ package com.example.pomfocus;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -42,6 +46,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
         if ((sTimerFragment.mTimer != null) && ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_FOCUS)) {
+            Context context = sTimerFragment.mTimer.mContext;
+            Intent i = new Intent(context, MainActivity.class);
+            i.putExtra("fromNotification", true);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, FocusTimer.CHANNEL_ID)
+                    .setSmallIcon(R.drawable.timer_24)
+                    .setContentTitle("Oh no, you closed the app during focus mode!")
+                    .setContentText("Restart your timer by tapping here")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true);
+
+            MainActivity.sTimerFragment.mNotificationManager.notify(FocusTimer.NOTIFICATION_ID, builder.build());
             sTimerFragment.cancelTimer();
         }
     }
