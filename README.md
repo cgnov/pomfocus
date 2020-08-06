@@ -8,10 +8,9 @@
 
 ## Overview
 ### Description
-Pomodoro Focus combines the pomodoro method and gamification to make productivity easy. Automated timers and push notifications keep you on track, and you can compete with yourself or with friends to accomplish your goals.
+Pomodoro Focus combines the pomodoro technique and gamification to make productivity easy. Automated timers and push notifications keep you on track, and you can compete with yourself or with friends to accomplish your goals.
 
 ### App Evaluation
-[Evaluation of your app across the following attributes]
 - **Category:** Productivity
 - **Mobile:** Push notifications are essential for this app. In addition, the mobile format allows for better aiding in non-computer-based productivity.
 - **Story:** This app makes productivity bite-sized and attractive with streaks, achievements, and competition among friends.
@@ -25,38 +24,38 @@ Pomodoro Focus combines the pomodoro method and gamification to make productivit
 
 **Required Must-have Stories**
 
-* Allow signup
-* Allow logging in and out
-* Allow user to start 25- and 5-minute timers and be notified through push notification upon completion
-* Store user's 25-minute timer completion
-* Allow completion comparison with at least one other person, such as with leaderboards
+* [x] Allow signup
+* [x] Allow logging in and out
+* [x] Allow user to start 25- and 5-minute timers and be notified through push notification upon completion
+* [x] Store user's 25-minute timer completion
+* [x] Allow completion comparison with at least one other person, such as with leaderboards
 
 **Optional Nice-to-have Stories**
 
-* Add friends
-    * Allow user to compare completion rate in friends-only leaderboard
-    * Search users to add friend
-    * Ask to be notified when friend is working (push notification that says: "Jane started focusing, join in!")
-* Profile view
-    * Display name/handle, photo, streaks/achievements if relevant, and number of pomodoros completed
-* Focus time
-    * Allow user to set days and times that they work (won't get notifications from the app outside of those days/times)
-* Streaks/Achievements
+* [x] Add friends
+    * [x] Allow user to compare completion rate in friends-only leaderboard
+    * [x] Search users to add friend
+    * [ ] Ask to be notified when friend is working (push notification that says: "Jane started focusing, join in!")
+* [x] Profile view
+    * [x] Display name/handle, photo, streaks/achievements if relevant, and number of pomodoros completed
+* [ ] Focus time
+    * [ ] Allow user to set days and times that they work (won't get notifications from the app outside of those days/times)
+* [x] Streaks/Achievements
     * Notify user 1 hour before end of their day to maintain streak
-    * Milestone achievements
-        * 3 days in a row, 7 days in a row
-        * 4 pomodoros in a day, 8, 12, 16
-        * Restarted streak achievement (discourage missing two days in a row)
-        * 30 days since first pomodoro (push notif reminder to attract users who still have app downloaded but haven't been using recently)
-    * Leaderboard achievements
-        * Get to top 5, etc
-* Break recommendations (drink some water, walk around a bit)
-* Task-based reminders
-    * Allow user to put in tasks that are attainable in half an hour (ask what they want to work on, then what they can get done in less than half an hour)
-    * When sending reminder for beginning of day, say something like "Start out your day by ____" (ex: "Start out your day by clearing your floor of food and clothing")
-    * Allow user to put tasks into categories and only be reminded of those categories on certain days/times (weekdays could be Work, weekends could be Leisure)
-* Allow user to enable calming focus music during 25-minute timer
-* Focus mode (break timer when close app, send warning notification)
+    * [x] Milestone achievements
+        * [x] 3 days in a row, 7 days in a row
+        * [x] 4 pomodoros in a day, 8, 12, 16
+        * [x] Restarted streak achievement (discourage missing two days in a row)
+        * [ ] 30 days since first pomodoro (push notif reminder to attract users who still have app downloaded but haven't been using recently)
+    * [ ] Leaderboard achievements
+        * [ ] Get to top 5, etc
+* [ ] Break recommendations (drink some water, walk around a bit)
+* [ ] Task-based reminders
+    * [ ] Allow user to put in tasks that are attainable in half an hour (ask what they want to work on, then what they can get done in less than half an hour)
+    * [ ] When sending reminder for beginning of day, say something like "Start out your day by ____" (ex: "Start out your day by clearing your floor of food and clothing")
+    * [ ] Allow user to put tasks into categories and only be reminded of those categories on certain days/times (weekdays could be Work, weekends could be Leisure)
+* [ ] Allow user to enable calming focus music during 25-minute timer
+* [x] Focus mode (break timer when close app, send warning notification)
 
 
 ### 2. Screen Archetypes
@@ -99,10 +98,6 @@ Pomodoro Focus combines the pomodoro method and gamification to make productivit
 
 ## Wireframe
 <img src="PomFocus Wireframe.jpg" width=600>
-
-### [BONUS] Digital Wireframes & Mockups
-
-### [BONUS] Interactive Prototype
 
 ## Schema 
 
@@ -147,22 +142,6 @@ Pomodoro Focus combines the pomodoro method and gamification to make productivit
    * (Create/POST) Create new Focus object (will likely happen in background of app)
 * Leaderboard
    * (Read/GET) Query top focusers
-   ```
-   final ParseQuery<User> query = ParseQuery.getQuery(User.class);
-   query.addDescendingOrder(User.KEY_FOCUS);
-   query.setLimit(10);
-   query.findInBackground(new FindCallback<Post>() {
-      @Override
-      public void done(List<User> users, ParseException e) {
-          if (e != null) {
-              Log.e(TAG, "Issue with getting top focusers", e);
-          } else {
-              // Users have been successfully queried
-              adapter.addAll(users);
-          }
-      }
-   });
-   ```
    * (Read/GET) Query focus summary info where current user is creator if current user isn't top focuser
 * Personal profile screen
    * (Read/GET) Query logged in user object (show handle, name, streak, achievements, friends, etc.)
@@ -170,21 +149,6 @@ Pomodoro Focus combines the pomodoro method and gamification to make productivit
    * (Update/PUT) Accept pending friend requests, create friendship
    * (Read/GET) Query users matching user-inputted handle string, send to profile screen
    * (Read/GET) Query focus information where current user is creator by category (would need Category model)
-   ```
-   final ParseQuery<Category> query = ParseQuery.getQuery(Category.class);
-      query.equalTo(Category.KEY_USER, ParseUser.getCurrentUser());
-      query.findInBackground(new FindCallback<Focus>() {
-         @Override
-         public void done(List<Category> categories, ParseException e) {
-             if (e != null) {
-                 Log.e(TAG, "Issue with getting user's categories", e);
-             } else {
-                 // Categories have been successfully queried
-                 adapter.addAll(categories);
-             }
-         }
-      });
-   ```
 * Other profile screen
    * (Read/GET) Query relevant user object
    * (Read/GET) Query focus summary info (number of focuses) where this user is creator
