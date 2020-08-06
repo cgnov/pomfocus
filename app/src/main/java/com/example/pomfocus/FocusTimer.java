@@ -36,6 +36,7 @@ public class FocusTimer extends CountDownTimer {
     public static final int NOTIFICATION_ID = 0; // Always use the same id because one notification at a time
     public final Context mContext;
     public FragmentTimerBinding mBinding; // Not final because change in TimerFragment
+    private boolean mSaved = false;
 
     public FocusTimer(long millisInFuture, long countDownInterval, Context context, FragmentTimerBinding binding) {
         super(millisInFuture, countDownInterval);
@@ -69,7 +70,11 @@ public class FocusTimer extends CountDownTimer {
             TimerFragment.sPomodoroStage++;
             TimerFragment.sPomodoroStage %= (TimerFragment.LONG_BREAK_STAGE + 1);
         } else {
-            createFocusObject();
+            Log.i(TAG, "Focus complete, mSaved: " + mSaved);
+            if (!mSaved) {
+                mSaved = true;
+                createFocusObject();
+            }
             if (!ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_HIDE_SKIP_BREAK)) {
                 mBinding.btnSkipBreak.setVisibility(View.VISIBLE);
             }
