@@ -66,8 +66,7 @@ public class TimerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (sCurrentlyWorking) {
-            mBinding.btnStart.setVisibility(View.GONE);
-            mBinding.btnSkipBreak.setVisibility(View.GONE);
+            displayTimerRunningButtons();
             mBinding.tvTimeLeft.setText("");
         } else {
             mBinding.tvTimeLeft.setText(getNextFull());
@@ -80,7 +79,14 @@ public class TimerFragment extends Fragment {
 
         setSkipButtonOnClickListener();
         setStartButtonOnClickListener();
+        setCancelButtonOnClickListener();
         setGestureDetectors();
+    }
+
+    private void displayTimerRunningButtons() {
+        mBinding.btnStart.setVisibility(View.GONE);
+        mBinding.btnSkipBreak.setVisibility(View.GONE);
+        mBinding.btnCancel.setVisibility(View.VISIBLE);
     }
 
     public static void setStartButtonText(Context context, FragmentTimerBinding binding) {
@@ -126,14 +132,22 @@ public class TimerFragment extends Fragment {
         mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mBinding.btnStart.setVisibility(View.GONE);
-                mBinding.btnSkipBreak.setVisibility(View.GONE);
+                displayTimerRunningButtons();
                 if (ParseUser.getCurrentUser().getBoolean(FocusUser.KEY_SCREEN) && (getActivity() != null)) {
                     getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 }
                 mTimer = new FocusTimer(getNextLength()*FocusTimer.MILLIS_PER_MINUTE, FocusTimer.MILLIS_PER_SECOND, getContext(), mBinding);
                 mTimer.start();
                 sCurrentlyWorking = true;
+            }
+        });
+    }
+
+    private void setCancelButtonOnClickListener() {
+        mBinding.btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelTimer();
             }
         });
     }

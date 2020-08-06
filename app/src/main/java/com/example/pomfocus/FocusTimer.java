@@ -64,6 +64,7 @@ public class FocusTimer extends CountDownTimer {
             MainActivity.sTimerFragment.getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
         mBinding.btnStart.setVisibility(View.VISIBLE);
+        mBinding.btnCancel.setVisibility(View.GONE);
         if (TimerFragment.sBreakIsNext) {
             TimerFragment.sPomodoroStage++;
             TimerFragment.sPomodoroStage %= (TimerFragment.LONG_BREAK_STAGE + 1);

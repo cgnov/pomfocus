@@ -61,4 +61,5 @@
     <string name="hide_skip_desc">Find yourself tempted to skip every break and end up burning yourself out? Turning on this setting will hide the skip button for you!</string>
     <string name="hide_skip">Hide Skip Break Button</string>
     <string name="timer_lengths_desc">To change timer lengths, double tap or long press the numbers above.</string>
+    <string name="cancel_timer">Cancel Timer</string>
 </resources>

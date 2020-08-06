@@ -43,7 +43,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/ccTimerVisual"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeLeft" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeLeft"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/btnSkipBreak"
@@ -55,5 +56,18 @@
         app:layout_constraintEnd_toEndOf="@+id/btnStart"
         app:layout_constraintStart_toStartOf="@+id/btnStart"
         app:layout_constraintTop_toBottomOf="@+id/btnStart" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="?attr/backgroundColor"
+        android:text="@string/cancel_timer"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/ccTimerVisual"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeLeft" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
