@@ -1,6 +1,7 @@
 package com.example.pomfocus.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
     private final Context mContext;
     private final List<ParseUser> mFocusUsers = new ArrayList<>();
     private FragmentManager mFragmentManager;
+    private int mNextRank = 0, mLastMax = Integer.MAX_VALUE, mTied = 1;
 
     public FocusUserAdapter(Context context) {
         mContext = context;
@@ -45,10 +47,11 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ParseUser focusUser;
-        focusUser = mFocusUsers.get(position);
-        focusUser.put(FocusUser.KEY_RANK, position);
-        holder.bind(focusUser);
+//        ParseUser focusUser;
+//        focusUser = mFocusUsers.get(position);
+//        focusUser.put(FocusUser.KEY_RANK, position);
+//        holder.bind(focusUser);
+        holder.bind(mFocusUsers.get(position));
     }
 
     @Override
@@ -58,12 +61,25 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
 
     // Clean all elements of the recycler (used for SwipeRefresh)
     public void clear() {
+        mNextRank = 0;
+        mTied = 1;
+        mLastMax = Integer.MAX_VALUE;
         mFocusUsers.clear();
         notifyDataSetChanged();
     }
 
     // Add list of posts (used for SwipeRefresh)
     public void addAll(List<ParseUser> list) {
+        for (ParseUser user : list) {
+            if (user.getInt(FocusUser.KEY_TOTAL) < mLastMax) {
+                mNextRank += mTied;
+                mTied = 1;
+                mLastMax = user.getInt(FocusUser.KEY_TOTAL);
+            } else {
+                mTied++;
+            }
+            user.put(FocusUser.KEY_RANK, mNextRank);
+        }
         mFocusUsers.addAll(list);
         notifyDataSetChanged();
     }
@@ -93,7 +109,7 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
             mBind.tvName.setText(focusUser.getString(FocusUser.KEY_NAME));
             ProfilePublicInfoFragment.displayAvatar(mBind.ivAvatar, focusUser.getParseFile(FocusUser.KEY_AVATAR));
             mBind.tvTotal.setText(String.format(Locale.getDefault(), "%d min", focusUser.getLong(FocusUser.KEY_TOTAL)));
-            mBind.tvRank.setText(String.valueOf(focusUser.getInt(FocusUser.KEY_RANK)+1));
+            mBind.tvRank.setText(String.valueOf(focusUser.getInt(FocusUser.KEY_RANK)));
             if(focusUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
                 itemView.setBackgroundColor(ParseApp.getAttrColor(mContext, R.attr.backgroundColor));
             }
