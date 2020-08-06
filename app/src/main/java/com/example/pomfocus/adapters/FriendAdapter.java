@@ -44,8 +44,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull FriendAdapter.ViewHolder holder, int position) {
-        ParseUser friend = mFriends.get(position);
-        holder.bind(friend);
+        holder.bind(mFriends.get(position));
     }
 
     public void addAll(List<ParseUser> friends) {
@@ -71,16 +70,15 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
                 @Override
                 public void onClick(View view) {
                     // User clicked on user in leaderboard, slide to relevant profile view
-                    Fragment profileFragment = new ProfileFragment(friend, true);
                     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                     ParseApp.addSlideTransition(fragmentTransaction);
-                    fragmentTransaction.replace(R.id.flContainer, profileFragment)
+                    fragmentTransaction.replace(R.id.flContainer, new ProfileFragment(friend, true))
                             .addToBackStack(TAG)
                             .commit();
                 }
             });
             mBind.tvName.setText(friend.getString(FocusUser.KEY_NAME));
-            mBind.tvHandle.setText(String.format("@%s", friend.getUsername()));
+            ProfilePublicInfoFragment.displayHandle(mBind.tvHandle, friend.getUsername());
             ProfilePublicInfoFragment.displayAvatar(mBind.ivAvatar, friend.getParseFile(FocusUser.KEY_AVATAR));
         }
     }

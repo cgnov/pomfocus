@@ -61,17 +61,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         }
 
         public void bind(final Focus focus) {
-            if(focus != null) {
-                mBind.tvLength.setText(String.valueOf(focus.getInt(Focus.KEY_LENGTH)));
-                mBind.tvDateTime.setText(getSimpleDateTime(focus.getCreatedAt().toString()));
-            }
+            mBind.tvLength.setText(String.valueOf(focus.getInt(Focus.KEY_LENGTH)));
+            mBind.tvDateTime.setText(getReadableDateTime(focus.getCreatedAt().toString()));
         }
     }
 
-    // Takes datetime string like "Mon Apr 01 21:16:23 +0000 2014" and returns  "Thu April 7 9:16 PM"
-    public static String getSimpleDateTime(String oldFormatDate) {
+    // Takes datetime string like "Mon Apr 01 21:16:23 +0000 2014" and returns "Thursday, April 7, 2014 9:16 PM"
+    public static String getReadableDateTime(String oldFormatDate) {
         String oldFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
-        String newFormat = "EEE MMMM dd h:mm aa";
+        String newFormat = "EEEE, MMMM dd, yyyy h:mm aa";
         SimpleDateFormat sf = new SimpleDateFormat(oldFormat, Locale.ENGLISH);
         sf.setLenient(true);
 

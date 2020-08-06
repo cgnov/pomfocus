@@ -31,7 +31,8 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
     private final Context mContext;
     private final List<ParseUser> mFocusUsers = new ArrayList<>();
     private FragmentManager mFragmentManager;
-    private int mNextRank = 0, mLastMax = Integer.MAX_VALUE, mTied = 1;
+    private static final int TIED_DEFAULT = 1, RANK_DEFAULT = 0;
+    private int mNextRank = RANK_DEFAULT, mLastMax = Integer.MAX_VALUE, mTied = TIED_DEFAULT;
 
     public FocusUserAdapter(Context context) {
         mContext = context;
@@ -47,10 +48,6 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        ParseUser focusUser;
-//        focusUser = mFocusUsers.get(position);
-//        focusUser.put(FocusUser.KEY_RANK, position);
-//        holder.bind(focusUser);
         holder.bind(mFocusUsers.get(position));
     }
 
@@ -61,8 +58,8 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
 
     // Clean all elements of the recycler (used for SwipeRefresh)
     public void clear() {
-        mNextRank = 0;
-        mTied = 1;
+        mNextRank = RANK_DEFAULT;
+        mTied = TIED_DEFAULT;
         mLastMax = Integer.MAX_VALUE;
         mFocusUsers.clear();
         notifyDataSetChanged();
@@ -73,7 +70,7 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
         for (ParseUser user : list) {
             if (user.getInt(FocusUser.KEY_TOTAL) < mLastMax) {
                 mNextRank += mTied;
-                mTied = 1;
+                mTied = TIED_DEFAULT;
                 mLastMax = user.getInt(FocusUser.KEY_TOTAL);
             } else {
                 mTied++;
@@ -97,20 +94,18 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
                 @Override
                 public void onClick(View view) {
                     // User clicked on user in leaderboard, slide to relevant profile view
-                    Fragment profileFragment;
-                    profileFragment = new ProfileFragment(focusUser);
                     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                     ParseApp.addSlideTransition(fragmentTransaction);
-                    fragmentTransaction.replace(R.id.flContainer, profileFragment)
+                    fragmentTransaction.replace(R.id.flContainer, new ProfileFragment(focusUser))
                             .addToBackStack(TAG)
                             .commit();
                 }
             });
-            mBind.tvName.setText(focusUser.getString(FocusUser.KEY_NAME));
-            ProfilePublicInfoFragment.displayAvatar(mBind.ivAvatar, focusUser.getParseFile(FocusUser.KEY_AVATAR));
-            mBind.tvTotal.setText(String.format(Locale.getDefault(), "%d min", focusUser.getLong(FocusUser.KEY_TOTAL)));
             mBind.tvRank.setText(String.valueOf(focusUser.getInt(FocusUser.KEY_RANK)));
-            if(focusUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+            ProfilePublicInfoFragment.displayAvatar(mBind.ivAvatar, focusUser.getParseFile(FocusUser.KEY_AVATAR));
+            mBind.tvName.setText(focusUser.getString(FocusUser.KEY_NAME));
+            mBind.tvTotal.setText(String.format(Locale.getDefault(), "%d min", focusUser.getLong(FocusUser.KEY_TOTAL)));
+            if (focusUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
                 itemView.setBackgroundColor(ParseApp.getAttrColor(mContext, R.attr.backgroundColor));
             }
         }

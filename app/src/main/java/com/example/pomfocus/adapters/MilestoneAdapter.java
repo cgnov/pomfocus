@@ -41,8 +41,7 @@ public class MilestoneAdapter extends RecyclerView.Adapter<MilestoneAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Milestone milestone = mMilestones.get(position);
-        holder.bind(milestone);
+        holder.bind(mMilestones.get(position));
     }
 
     public void add(Milestone milestone) {
@@ -69,13 +68,13 @@ public class MilestoneAdapter extends RecyclerView.Adapter<MilestoneAdapter.View
                 mBind.tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
             } else {
                 mBind.tvTitle.setTextColor(ParseApp.getAttrColor(itemView.getContext(), R.attr.backgroundColor));
-                setColorFilter(mBind.progressBar.getProgressDrawable(), itemView);
+                setBackgroundColorFilter(mBind.progressBar.getProgressDrawable(), itemView);
             }
             mBind.progressBar.setMax(milestone.mMax);
             mBind.progressBar.setProgress(milestone.mProgress);
         }
 
-        private void setColorFilter(Drawable drawable, View itemView) {
+        private void setBackgroundColorFilter(Drawable drawable, View itemView) {
             int color = ParseApp.getAttrColor(itemView.getContext(), R.attr.backgroundColor);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 drawable.setColorFilter(new BlendModeColorFilter(color, BlendMode.SRC_ATOP));

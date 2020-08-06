@@ -44,8 +44,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     @Override
     public void onBindViewHolder(@NonNull SearchResultAdapter.ViewHolder holder, int position) {
-        ParseUser result = mResults.get(position);
-        holder.bind(result);
+        holder.bind(mResults.get(position));
     }
 
     public void addAll(List<ParseUser> results) {
@@ -71,17 +70,16 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // User clicked on user in leaderboard, slide to relevant profile view
-                    Fragment profileFragment = new ProfileFragment(result);
+                    // User clicked on user in search results, slide to relevant profile view
                     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                     ParseApp.addSlideTransition(fragmentTransaction);
-                    fragmentTransaction.replace(R.id.flContainer, profileFragment)
+                    fragmentTransaction.replace(R.id.flContainer, new ProfileFragment(result))
                             .addToBackStack(TAG)
                             .commit();
                 }
             });
             mBind.tvName.setText(result.getString(FocusUser.KEY_NAME));
-            mBind.tvHandle.setText(String.format("@%s", result.getUsername()));
+            ProfilePublicInfoFragment.displayHandle(mBind.tvHandle, result.getUsername());
             ProfilePublicInfoFragment.displayAvatar(mBind.ivAvatar, result.getParseFile(FocusUser.KEY_AVATAR));
         }
     }
