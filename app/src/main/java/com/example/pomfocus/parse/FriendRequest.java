@@ -38,4 +38,12 @@ public class FriendRequest extends ParseObject {
     public String getFromUsername() {
         return getFromUser().getUsername();
     }
+
+    public ParseUser getToUser() {
+        return getParseUser(KEY_TO);
+    }
+
+    public String getToUsername() {
+        return getToUser().getUsername();
+    }
 }

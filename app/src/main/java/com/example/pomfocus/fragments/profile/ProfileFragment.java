@@ -237,7 +237,6 @@ public class ProfileFragment extends Fragment {
     private void processAcceptance(FriendRequest friendRequest) {
         ParseRelation<ParseUser> friends = ParseUser.getCurrentUser().getRelation(FocusUser.KEY_FRIENDS);
         friends.add(FriendRequest.makePointer(friendRequest.getFromUser()));
-        ParseUser.getCurrentUser().put(FocusUser.KEY_FRIENDS, friends);
         ParseUser.getCurrentUser().saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving new accepted friend"));
 
         // Update friend request to have processed and accepted
