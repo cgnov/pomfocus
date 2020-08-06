@@ -34,8 +34,8 @@
     <string name="edit_icon_shadow">Edit icon shadow</string>
     <string name="edit_icon">Edit icon</string>
     <string name="keep_screen_on">Keep Screen On</string>
-    <string name="keep_screen_on_desc">If on, the screen will not turn off whenever the timer is running and the application is open.</string>
-    <string name="focus_mode_desc">In focus mode, the timer automatically cancels when you close the app but not when you put the device on sleep mode.</string>
+    <string name="keep_screen_on_desc">If on, the screen will stay on whenever the timer is running and the application is open.</string>
+    <string name="focus_mode_desc">In focus mode, the timer automatically cancels when you close the app. The timer will continue if the device goes into sleep mode.</string>
     <string name="focus_mode">Focus Mode</string>
     <string name="send_friend_request">Send Friend Request</string>
     <string name="friend_requests">Friend Requests</string>
@@ -51,7 +51,7 @@
     <string name="search">Search</string>
     <string name="check_pending_requests">Check Pending Requests</string>
     <string name="min">min</string>
-    <string name="private_mode_desc">In private mode, users will only be able to see your achievement progress, streaks, and focus totals if you are friends.</string>
+    <string name="private_mode_desc">In private mode, users will only be able to see your profile picture, name, and handle. If you accept being friends, they will then be able to see your achievement progress, streaks, and focus totals.</string>
     <string name="private_mode">Private Mode</string>
     <string name="timer_lengths_in_minutes">Timer Lengths in Minutes</string>
     <string name="level">level</string>
@@ -60,4 +60,5 @@
     <string name="hide_leaderboard">Hide From Leaderboard</string>
     <string name="hide_skip_desc">Find yourself tempted to skip every break and end up burning yourself out? Turning on this setting will hide the skip button for you!</string>
     <string name="hide_skip">Hide Skip Break Button</string>
+    <string name="timer_lengths_desc">To change timer lengths, double tap or long press the numbers above.</string>
 </resources>

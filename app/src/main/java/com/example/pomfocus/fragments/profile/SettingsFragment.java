@@ -22,6 +22,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.pomfocus.FocusTimer;
 import com.example.pomfocus.TimerTextView;
 import com.example.pomfocus.fragments.TimerFragment;
 import com.example.pomfocus.fragments.profile.blocks.ProfilePublicInfoFragment;
@@ -46,6 +47,7 @@ public class SettingsFragment extends Fragment {
 
     private static final String TAG = "SettingsFragment";
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    public final static int UPDATE_LENGTHS_REQUEST_CODE = 2462;
     private File mPhotoFile;
     private FragmentSettingsBinding mBinding;
     public static final String[] KEYS = {FocusUser.KEY_FOCUS, FocusUser.KEY_SCREEN, FocusUser.KEY_PRIVATE,
@@ -224,6 +226,10 @@ public class SettingsFragment extends Fragment {
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == UPDATE_LENGTHS_REQUEST_CODE) {
+            mBinding.tvFocusLength.setText(String.valueOf(FocusTimer.MIN_PER_FOCUS));
+            mBinding.tvShortBreakLength.setText(String.valueOf(FocusTimer.MIN_PER_BREAK));
+            mBinding.tvLongBreakLength.setText(String.valueOf(FocusTimer.MIN_PER_LONG_BREAK));
         }
     }
 }

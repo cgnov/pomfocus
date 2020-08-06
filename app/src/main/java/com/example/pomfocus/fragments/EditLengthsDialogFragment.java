@@ -1,10 +1,14 @@
 package com.example.pomfocus.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +19,9 @@ import android.widget.Toast;
 import com.example.pomfocus.FocusTimer;
 import com.example.pomfocus.MainActivity;
 import com.example.pomfocus.ParseApp;
+import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentEditLengthsDialogBinding;
+import com.example.pomfocus.fragments.profile.SettingsFragment;
 import com.example.pomfocus.parse.FocusUser;
 import com.parse.ParseUser;
 
@@ -23,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class EditLengthsDialogFragment extends DialogFragment {
 
-    private static final String TAG = "EditLengthsDialogFragment";
+    private static final String TAG = "EditLengthsFragment";
     private FragmentEditLengthsDialogBinding mBinding;
 
     @Override
@@ -64,9 +70,9 @@ public class EditLengthsDialogFragment extends DialogFragment {
     }
 
     private void saveNewLengths(int focus, int shortBreak, int longBreak) {
-        FocusTimer.MIN_PER_FOCUS = Integer.parseInt(mBinding.etPomLength.getText().toString());
-        FocusTimer.MIN_PER_BREAK = Integer.parseInt(mBinding.etShortBreak.getText().toString());
-        FocusTimer.MIN_PER_LONG_BREAK = Integer.parseInt(mBinding.etLongBreak.getText().toString());
+        FocusTimer.MIN_PER_FOCUS = focus;
+        FocusTimer.MIN_PER_BREAK = shortBreak;
+        FocusTimer.MIN_PER_LONG_BREAK = longBreak;
         if(!TimerFragment.sCurrentlyWorking) {
             MainActivity.sTimerFragment.refresh();
         }
@@ -75,5 +81,8 @@ public class EditLengthsDialogFragment extends DialogFragment {
         user.put(FocusUser.KEY_SHORT_BREAK_LENGTH, FocusTimer.MIN_PER_BREAK);
         user.put(FocusUser.KEY_LONG_BREAK_LENGTH, FocusTimer.MIN_PER_LONG_BREAK);
         user.saveInBackground(ParseApp.makeSaveCallback(TAG, "Error saving length preferences"));
+        Fragment fragment = ((AppCompatActivity)requireContext()).getSupportFragmentManager().findFragmentById(R.id.flContainer);
+        assert fragment != null;
+        fragment.onActivityResult(SettingsFragment.UPDATE_LENGTHS_REQUEST_CODE, 1, null);
     }
 }
