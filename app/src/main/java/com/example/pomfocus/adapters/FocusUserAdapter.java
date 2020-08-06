@@ -22,6 +22,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.ViewHolder> {
 
@@ -91,7 +92,7 @@ public class FocusUserAdapter extends RecyclerView.Adapter<FocusUserAdapter.View
             });
             mBind.tvName.setText(focusUser.getString(FocusUser.KEY_NAME));
             ProfilePublicInfoFragment.displayAvatar(mBind.ivAvatar, focusUser.getParseFile(FocusUser.KEY_AVATAR));
-            mBind.tvTotal.setText(String.valueOf(focusUser.getLong(FocusUser.KEY_TOTAL)));
+            mBind.tvTotal.setText(String.format(Locale.getDefault(), "%d min", focusUser.getLong(FocusUser.KEY_TOTAL)));
             mBind.tvRank.setText(String.valueOf(focusUser.getInt(FocusUser.KEY_RANK)+1));
             if(focusUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
                 itemView.setBackgroundColor(ParseApp.getAttrColor(mContext, R.attr.backgroundColor));
