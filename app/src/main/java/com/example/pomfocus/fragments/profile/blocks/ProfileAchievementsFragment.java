@@ -4,9 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -39,18 +37,17 @@ public class ProfileAchievementsFragment extends Fragment {
     private static final int[] STREAK_LIMITS = {3, 7, 14, 30, 75, 150, 365};
     private static final int[] NUM_STREAK_LIMITS = {1, 2, 3, 5, 7, 10, 15};
     private static final int[] MINUTE_LIMITS = {25, 50, 100, 250, 500, 750, 1000};
-    private static final int MIN_STREAK_LENGTH = 2;
-    public int mWorkweekStreak = 0;
-    public int mTotal = 0, mWeekendTotal = 0, mWorkweekTotal = 0, mEarlyBirdTotal = 0, mNightOwlTotal = 0;
-    public int mFourHourDays = 0, mMaxOneDay = 0, mSixtyHourMonths = 0, mMaxOneMonth = 0;
-    public int mNumStreaks = 0, mMaxStreak;
+    public static final int MIN_STREAK_LENGTH = 2, MINUTES_IN_FOUR_HOURS = 240, MINUTES_IN_SIXTY_HOURS = 3600;
+    public int mDaySum, mMonthSum, mFullStreak, mWorkweekStreak, mNumStreaks, mMaxStreak, mCurrentStreak = -1;
+    public int mTotal, mWeekendTotal, mWorkweekTotal, mEarlyBirdTotal, mNightOwlTotal;
+    public int mFourHourDays, mMaxOneDay, mSixtyHourMonths, mMaxOneMonth;
     private boolean mDataAvailable = false;
+    private final Calendar mFocusTime = Calendar.getInstance(), mToCheck = Calendar.getInstance(), mMatchDate = Calendar.getInstance();
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentProfileAchievementsBinding.inflate(getLayoutInflater(), container, false);
-
         return mBinding.getRoot();
     }
 
@@ -94,62 +91,14 @@ public class ProfileAchievementsFragment extends Fragment {
 
     public void countTotals(List<Focus> focuses, boolean personal) {
         Log.i(TAG, "countTotals");
-        final Calendar focusTime = Calendar.getInstance();
-        final Calendar toCheck = Calendar.getInstance();
-        final Calendar matchDate = Calendar.getInstance();
-
-        int daySum = 0;
-        int monthSum = 0;
-        int fullStreak = 0;
-
         for (Focus focus : focuses) {
-            focusTime.setTime(focus.getCreatedAt());
+            mFocusTime.setTime(focus.getCreatedAt());
             int length = focus.getInt(Focus.KEY_LENGTH);
-            increaseLengths(length, focusTime);
-
-            if(matchDate.get(Calendar.DAY_OF_YEAR) != focusTime.get(Calendar.DAY_OF_YEAR)) {
-                if (daySum > 240) {
-                    mFourHourDays++;
-                }
-                mMaxOneDay = Math.max(mMaxOneDay, daySum);
-                daySum = 0;
-            }
-            if(matchDate.get(Calendar.MONTH) != focusTime.get(Calendar.MONTH)) {
-                if (monthSum > 3600) {
-                    mSixtyHourMonths++;
-                }
-                mMaxOneMonth = Math.max(mMaxOneMonth, monthSum);
-                monthSum = 0;
-            }
-            matchDate.setTime(focusTime.getTime());
-            daySum += length;
-            monthSum += length;
-
-            // Increase/save streaks
-            if (focusTime.get(Calendar.DAY_OF_YEAR) == toCheck.get(Calendar.DAY_OF_YEAR)) {
-                fullStreak++;
-                toCheck.add(Calendar.DAY_OF_YEAR, -1);
-            } else if (focusTime.compareTo(toCheck) < 0) {
-                if(fullStreak >= MIN_STREAK_LENGTH) {
-                    mNumStreaks++;
-                    mMaxStreak = Math.max(mMaxStreak, fullStreak);
-                }
-                fullStreak = 1;
-                toCheck.setTime(focusTime.getTime());
-                toCheck.add(Calendar.DAY_OF_YEAR, -1);
-            }
+            increaseLengths(length);
+            checkDayMonthTotals(length);
+            checkStreaks();
         }
-        if(fullStreak >= MIN_STREAK_LENGTH) {
-            mNumStreaks++;
-        }
-        if (daySum > 240) {
-            mFourHourDays++;
-        }
-        if (monthSum > 3600) {
-            mSixtyHourMonths++;
-        }
-        mMaxOneDay = Math.max(mMaxOneDay, daySum);
-        mMaxOneMonth = Math.max(mMaxOneMonth, monthSum);
+        checkFinalDataPoints();
 
         if (personal) {
             confirmTotalTime();
@@ -157,21 +106,74 @@ public class ProfileAchievementsFragment extends Fragment {
         onDataAvailable();
     }
 
-    private void increaseLengths(int length, Calendar focusTime) {
+    private void increaseLengths(int length) {
         mTotal += length;
 
-        if (ProfileFragment.isWeekend(focusTime)) {
+        if (ProfileFragment.isWeekend(mFocusTime)) {
             mWeekendTotal += length;
         } else {
             mWorkweekTotal += length;
         }
 
-        int hour = focusTime.get(Calendar.HOUR_OF_DAY);
+        int hour = mFocusTime.get(Calendar.HOUR_OF_DAY);
         if (hour < 7 && hour >= 4) {
             mEarlyBirdTotal += length;
         } else if (hour > 22 || hour <= 2) {
             mNightOwlTotal += length;
         }
+    }
+
+    private void checkDayMonthTotals(int length) {
+        if (mMatchDate.get(Calendar.DAY_OF_YEAR) != mFocusTime.get(Calendar.DAY_OF_YEAR)) {
+            if (mDaySum > MINUTES_IN_FOUR_HOURS) {
+                mFourHourDays++;
+            }
+            mMaxOneDay = Math.max(mMaxOneDay, mDaySum);
+            mDaySum = 0;
+        }
+        if (mMatchDate.get(Calendar.MONTH) != mFocusTime.get(Calendar.MONTH)) {
+            if (mMonthSum > MINUTES_IN_SIXTY_HOURS) {
+                mSixtyHourMonths++;
+            }
+            mMaxOneMonth = Math.max(mMaxOneMonth, mMonthSum);
+            mMonthSum = 0;
+        }
+        mMatchDate.setTime(mFocusTime.getTime());
+        mDaySum += length;
+        mMonthSum += length;
+    }
+
+    private void checkStreaks() {
+        // Increase/save streaks
+        if (mFocusTime.get(Calendar.DAY_OF_YEAR) == mToCheck.get(Calendar.DAY_OF_YEAR)) {
+            mFullStreak++;
+            mToCheck.add(Calendar.DAY_OF_YEAR, -1);
+        } else if (mFocusTime.compareTo(mToCheck) < 0) {
+            if (mCurrentStreak == -1) {
+                mCurrentStreak = mFullStreak;
+            }
+            if (mFullStreak >= MIN_STREAK_LENGTH) {
+                mNumStreaks++;
+                mMaxStreak = Math.max(mMaxStreak, mFullStreak);
+            }
+            mFullStreak = 1;
+            mToCheck.setTime(mFocusTime.getTime());
+            mToCheck.add(Calendar.DAY_OF_YEAR, -1);
+        }
+    }
+
+    private void checkFinalDataPoints() {
+        if(mFullStreak >= MIN_STREAK_LENGTH) {
+            mNumStreaks++;
+        }
+        if (mDaySum > MINUTES_IN_FOUR_HOURS) {
+            mFourHourDays++;
+        }
+        if (mMonthSum > MINUTES_IN_SIXTY_HOURS) {
+            mSixtyHourMonths++;
+        }
+        mMaxOneDay = Math.max(mMaxOneDay, mDaySum);
+        mMaxOneMonth = Math.max(mMaxOneMonth, mMonthSum);
     }
 
     // Saves manually calculated total time if not same as automatically incremented value

@@ -15,6 +15,7 @@ import com.example.pomfocus.ParseApp;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileButtonBinding;
 import com.example.pomfocus.fragments.profile.HistoryFragment;
+import com.example.pomfocus.fragments.profile.ProfileFragment;
 import com.example.pomfocus.fragments.profile.SettingsFragment;
 import com.example.pomfocus.fragments.profile.friends.FriendsFragment;
 
@@ -25,6 +26,7 @@ public class ProfileButtonFragment extends Fragment {
 
     private static final String TAG = "ProfileButtonFragment";
     private FragmentProfileButtonBinding mBinding;
+    private boolean mHistoryEnabled = false;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -48,12 +50,15 @@ public class ProfileButtonFragment extends Fragment {
             }
         });
 
+        mBinding.btnSeeHistory.setEnabled(mHistoryEnabled);
         mBinding.btnSeeHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                assert getParentFragment() != null;
+                ProfileFragment profileFragment = (ProfileFragment)getParentFragment();
                 FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 ParseApp.addSlideTransition(fragmentTransaction);
-                fragmentTransaction.replace(R.id.flContainer, new HistoryFragment())
+                fragmentTransaction.replace(R.id.flContainer, new HistoryFragment(profileFragment))
                         .addToBackStack(TAG)
                         .commit();
             }
@@ -69,5 +74,12 @@ public class ProfileButtonFragment extends Fragment {
                         .commit();
             }
         });
+    }
+
+    public void enableHistory() {
+        if (mBinding != null) {
+            mBinding.btnSeeHistory.setEnabled(true);
+        }
+        mHistoryEnabled = true;
     }
 }

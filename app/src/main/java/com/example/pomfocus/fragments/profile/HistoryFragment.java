@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pomfocus.FocusTimer;
+import com.example.pomfocus.fragments.profile.blocks.ProfileAchievementsFragment;
 import com.example.pomfocus.parse.Focus;
 import com.example.pomfocus.adapters.HistoryAdapter;
 import com.example.pomfocus.ParseApp;
@@ -22,10 +24,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -33,14 +31,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class HistoryFragment extends Fragment {
 
     private static final String TAG = "HistoryFragment";
     private static final String[] MONTHS = {"January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"};
-    private static final int DAYS_IN_WEEK = 7;
+    private static final int DAYS_IN_WEEK = 7, MILLIS_IN_DAY = FocusTimer.MILLIS_PER_MINUTE * 60 * 24;
     private FragmentHistoryBinding mBinding;
+    private List<BarEntry> mPoints = new ArrayList<>();
+    private ProfileFragment mProfileFragment;
+
+    public HistoryFragment(ProfileFragment profileFragment) {
+        mProfileFragment = profileFragment;
+    }
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -64,95 +69,67 @@ public class HistoryFragment extends Fragment {
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
 
-        requestThisWeek(cal.getTime());
-        requestAll(adapter);
+        displayBarChart();
+        adapter.addAll(mProfileFragment.mFocuses);
+        mBinding.pbHistory.setVisibility(View.GONE);
     }
 
-    private void requestThisWeek(Date limit) {
-        final ParseQuery<Focus> thisWeekQuery = ParseQuery.getQuery(Focus.class);
-        thisWeekQuery.addDescendingOrder(Focus.KEY_CREATED_AT);
-        thisWeekQuery.whereEqualTo(Focus.KEY_CREATOR, ParseUser.getCurrentUser());
-        thisWeekQuery.whereGreaterThanOrEqualTo(Focus.KEY_CREATED_AT, limit);
-        thisWeekQuery.findInBackground(new FindCallback<Focus>() {
-            @Override
-            public void done(List<Focus> thisWeekFocuses, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting this week focus history", e);
-                } else {
-                    displayBarChart(thisWeekFocuses);
-                }
-            }
-        });
-    }
-
-    private void requestAll(final HistoryAdapter adapter) {
-        final ParseQuery<Focus> olderQuery = ParseQuery.getQuery(Focus.class);
-        olderQuery.addDescendingOrder(Focus.KEY_CREATED_AT);
-        olderQuery.whereEqualTo(Focus.KEY_CREATOR, ParseUser.getCurrentUser());
-        olderQuery.findInBackground(new FindCallback<Focus>() {
-            @Override
-            public void done(List<Focus> olderFocuses, ParseException e) {
-                if(e != null) {
-                    Log.e(TAG, "Issue with getting older focus history", e);
-                } else {
-                    adapter.addAll(olderFocuses);
-                    mBinding.pbHistory.setVisibility(View.GONE);
-                }
-            }
-        });
-    }
-
-    private void displayBarChart(List<Focus> thisWeekFocuses) {
+    private void displayBarChart() {
         Calendar focusDate = Calendar.getInstance();
         Calendar matchDate = Calendar.getInstance();
-        matchDate.setTime(new Date());
         Calendar oneWeekAgo = Calendar.getInstance();
         oneWeekAgo.add(Calendar.DAY_OF_YEAR, 1 - DAYS_IN_WEEK);
-
-        List<BarEntry> points = new ArrayList<>();
         int sum = 0;
-        String[] values = new String[DAYS_IN_WEEK];
-        int pos = values.length - 1;
-        for(int i = 0; i<thisWeekFocuses.size(); i++) {
-            focusDate.setTime(thisWeekFocuses.get(i).getCreatedAt());
+        int pointsAdded = 0;
+        int i = 0;
+        while (matchDate.get(Calendar.DAY_OF_YEAR) >= oneWeekAgo.get(Calendar.DAY_OF_YEAR)) {
+            focusDate.setTime(mProfileFragment.mFocuses.get(i).getCreatedAt());
 
             // No more focuses on given date, add info to bar chart and prep for previous day
-            while(matchDate.get(Calendar.DAY_OF_YEAR) != focusDate.get(Calendar.DAY_OF_YEAR)) {
-                points.add(new BarEntry(pos, sum));
+            if (matchDate.get(Calendar.DAY_OF_YEAR) != focusDate.get(Calendar.DAY_OF_YEAR)) {
+                mPoints.add(new BarEntry(getDay(matchDate), sum));
                 Log.i(TAG, "adding point");
-                values[pos] = MONTHS[matchDate.get(Calendar.MONTH)] + " " + matchDate.get(Calendar.DAY_OF_MONTH);
-                pos--;
                 sum = 0;
+                pointsAdded++;
                 matchDate.add(Calendar.DAY_OF_YEAR, -1);
+            } else {
+                sum += mProfileFragment.mFocuses.get(i).getInt(Focus.KEY_LENGTH);
+                i++;
             }
-
-            sum += thisWeekFocuses.get(i).getInt(Focus.KEY_LENGTH);
         }
         // Finish out week
-        while (pos >= 0) {
-            points.add(new BarEntry(pos, sum));
-            values[pos] = MONTHS[matchDate.get(Calendar.MONTH)] + " " + matchDate.get(Calendar.DAY_OF_MONTH);
+        while (pointsAdded < 7) {
+
+            mPoints.add(new BarEntry(getDay(matchDate), sum));
             matchDate.add(Calendar.DAY_OF_YEAR, -1);
-            pos--;
+            pointsAdded++;
             sum = 0;
         }
-
-        addDataToBarChart(points, values);
+        addDataToBarChart();
         styleBarChart();
     }
 
-    private void addDataToBarChart(List<BarEntry> points, String[] values) {
+    private long getDay(Calendar calendar) {
+        return calendar.getTimeInMillis() / MILLIS_IN_DAY;
+    }
+
+    private void addDataToBarChart() {
         // Add points to chart
-        BarDataSet set = new BarDataSet(points, "Minutes Spent Focusing");
+        BarDataSet set = new BarDataSet(mPoints, "Minutes Spent Focusing");
         set.setColor(ParseApp.getAttrColor(getContext(), R.attr.colorPrimary));
-        set.setDrawValues(false);
         BarData data = new BarData(set);
         mBinding.bcThisWeek.setData(data);
+        mBinding.bcThisWeek.getXAxis().setValueFormatter(new DateValueFormatter());
+    }
 
-        // Set x-axis labels to date strings
-        IndexAxisValueFormatter valueFormatter = new IndexAxisValueFormatter();
-        valueFormatter.setValues(values);
-        mBinding.bcThisWeek.getXAxis().setValueFormatter(valueFormatter);
+    private static class DateValueFormatter extends IndexAxisValueFormatter {
+        @Override
+        public String getFormattedValue(float value) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(TimeZone.getDefault());
+            calendar.setTimeInMillis((long)(value) * MILLIS_IN_DAY);
+            return MONTHS[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.DAY_OF_MONTH);
+        }
     }
 
     private void styleBarChart() {

@@ -23,6 +23,7 @@ import com.example.pomfocus.parse.Focus;
 import com.example.pomfocus.parse.FocusUser;
 import com.example.pomfocus.R;
 import com.example.pomfocus.databinding.FragmentProfileBinding;
+import com.github.mikephil.charting.data.BarEntry;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -39,11 +40,13 @@ public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
     public ParseUser mUser;
-    private List<Focus> mFocuses;
+    public List<BarEntry> mPoints;
+    public List<Focus> mFocuses;
     private int mFullStreak = 0, mWorkweekStreak = 0;
     private boolean mConfirmedFriend = false;
     private ProfileSnapshotFragment mProfileSnapshotFragment = null;
     private ProfileAchievementsFragment mProfileAchievementsFragment = null;
+    private ProfileButtonFragment mProfileButtonFragment = null;
     private FragmentProfileBinding mBinding;
 
     public ProfileFragment(ParseUser user) {
@@ -76,10 +79,11 @@ public class ProfileFragment extends Fragment {
                 .replace(R.id.flPublicInfo, new ProfilePublicInfoFragment(mUser))
                 .commit();
         if (mUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
-            displayFriendPrivileges();
+            mProfileButtonFragment = new ProfileButtonFragment();
             getChildFragmentManager().beginTransaction()
-                    .replace(R.id.flButtons, new ProfileButtonFragment())
+                    .replace(R.id.flButtons, mProfileButtonFragment)
                     .commit();
+            displayFriendPrivileges();
         } else {
             if (mConfirmedFriend) {
                 displayFriendPrivileges();
@@ -108,7 +112,6 @@ public class ProfileFragment extends Fragment {
 
     private void findFullFocusHistory() {
         Log.i(TAG, "Querying full focus history from Parse for user " + mUser.getUsername());
-        mFocuses = new ArrayList<>();
         ParseQuery<Focus> fullHistoryQuery = ParseQuery.getQuery(Focus.class);
         fullHistoryQuery.whereEqualTo(Focus.KEY_CREATOR, mUser);
         fullHistoryQuery.addDescendingOrder(Focus.KEY_CREATED_AT);
@@ -161,6 +164,9 @@ public class ProfileFragment extends Fragment {
         mProfileSnapshotFragment.setStreak(mFullStreak);
         if (mProfileAchievementsFragment != null) {
             mProfileAchievementsFragment.countTotals(mFocuses, mUser.getUsername().equals(ParseApp.currentUsername()));
+        }
+        if (mProfileButtonFragment != null) {
+            mProfileButtonFragment.enableHistory();
         }
     }
 
