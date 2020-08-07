@@ -82,7 +82,7 @@ public class HistoryFragment extends Fragment {
         int sum = 0;
         int pointsAdded = 0;
         int i = 0;
-        while (matchDate.get(Calendar.DAY_OF_YEAR) >= oneWeekAgo.get(Calendar.DAY_OF_YEAR)) {
+        while ((matchDate.get(Calendar.DAY_OF_YEAR) >= oneWeekAgo.get(Calendar.DAY_OF_YEAR)) && (i < mProfileFragment.mFocuses.size())) {
             focusDate.setTime(mProfileFragment.mFocuses.get(i).getCreatedAt());
 
             // No more focuses on given date, add info to bar chart and prep for previous day
@@ -117,6 +117,8 @@ public class HistoryFragment extends Fragment {
         // Add points to chart
         BarDataSet set = new BarDataSet(mPoints, "Minutes Spent Focusing");
         set.setColor(ParseApp.getAttrColor(getContext(), R.attr.colorPrimary));
+//        set.setDrawValues(false);
+        set.setValueTextColor(getResources().getColor(android.R.color.white));
         BarData data = new BarData(set);
         mBinding.bcThisWeek.setData(data);
         mBinding.bcThisWeek.getXAxis().setValueFormatter(new DateValueFormatter());
